@@ -45,8 +45,6 @@ export function PickBar({ request }: { request: PickRequest }) {
     return <DestinationBar request={request} hidden={reader} />;
   }
 
-
-
   return (
     <>
       <div aria-hidden className="h-24 w-full shrink-0" />

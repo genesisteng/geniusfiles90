@@ -329,7 +329,9 @@ export function CategoryPage({ kind }: { kind: CategoryKind }) {
      devient la destination candidate. */
   useEffect(() => {
     if (pick?.purpose !== "destination") return;
-    setPickLocation(openFolder ? { rootId: openFolder.rootId, segments: openFolder.segments } : null);
+    setPickLocation(
+      openFolder ? { rootId: openFolder.rootId, segments: openFolder.segments } : null,
+    );
   }, [pick?.purpose, openFolder]);
 
   /* Onglet actif + dossier ouvert : restaurés à l'ouverture de la catégorie. */
@@ -655,8 +657,6 @@ export function CategoryPage({ kind }: { kind: CategoryKind }) {
     [doTransfer],
   );
 
-
-
   const doRename = useCallback(
     async (entry: FileEntry, parent: PathRef, newName: string) => {
       const r = await renameEntry(parent, entry, newName);
@@ -720,7 +720,7 @@ export function CategoryPage({ kind }: { kind: CategoryKind }) {
           break;
       }
     },
-    [dialog, doShare, navigate],
+    [dialog, doShare, navigate, startTransferFlow],
   );
 
   const onViewerAction = useCallback(

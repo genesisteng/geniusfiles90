@@ -77,7 +77,6 @@ let stack: PickScreen[] = [{ kind: "home" }];
 let location: PathRef | null = null;
 let nextId = 1;
 
-
 const listeners = new Set<() => void>();
 function emit() {
   for (const l of listeners) l();
@@ -250,7 +249,6 @@ export function confirmPickDestination(): void {
 export function usePickLocation(): PathRef | null {
   return useSyncExternalStore(subscribe, getPickLocation, () => null);
 }
-
 
 function defaultPickTitle(accept: PickAccept, multi: boolean): string {
   if (accept === "folders")

@@ -436,8 +436,6 @@ export function FilesPage() {
     setPickLocation(path);
   }, [pick?.purpose, path]);
 
-
-
   // La sélection survit à la navigation : on retire seulement ce qui a
   // réellement disparu du dossier rafraîchi.
   useEffect(() => {
@@ -806,8 +804,6 @@ export function FilesPage() {
     },
     [groupsFor, runTransfer],
   );
-
-
 
   const runDelete = useCallback(
     async (entries: FileEntry[]) => {
