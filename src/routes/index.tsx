@@ -1207,14 +1207,10 @@ export function FilesPage() {
           onOpen={openEntry}
           onQuickOpen={quickOpenEntry}
           onLongPress={beginSelection}
-          onMore={(e) => {
-            // Copier / déplacer / renommer / supprimer / partager sont masqués
-            // pendant un parcours de sélection.
-            if (!pick) setDialog({ kind: "actions", entry: e });
-          }}
+          onMore={onEntryMore}
           onRefresh={onRefresh}
           selectionMode={selectionMode || pick !== null}
-          isSelected={(e) => selection.has(selectionKey(path, e.name))}
+          isSelected={isEntrySelected}
           onToggleSelect={toggleSelect}
         />
       ) : (
