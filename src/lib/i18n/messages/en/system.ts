@@ -163,7 +163,6 @@ export default {
   "system.ocrImagesDocumentsNumerises": "OCR (images & scanned documents)",
   "system.ouvertureDirecteDeVosDossiersMarques":
     "Direct access to folders you marked as favourites.",
-  "system.resumeIntelligentDeVideos": "Smart video summary",
   "system.vosActionsPrefereesSurLEcran": "Your favourite actions on the system home screen.",
   "system.native.fileGone": "This file no longer exists.",
   "system.native.storagePermission":
@@ -187,15 +186,6 @@ export default {
   "system.cap.pdfFallback": "Opens in the Universal Viewer",
   "system.cap.ocrFallback": "Visual analysis without OCR",
   "system.cap.image": "Visual analysis & grouping",
-  "system.cap.face": "On-device face recognition",
-  "system.cap.faceFallback": "Grouping by visual similarity",
-  "system.cap.transcription": "Audio transcription",
-  "system.cap.transcriptionFallback": "Metadata and manual listening",
-  "system.cap.videoFallback": "Thumbnails + metadata",
-  "system.cap.translation": "Automatic translation",
-  "system.cap.translationFallback": "On-device language detection",
-  "system.cap.multimodal": "Multimodal search",
-  "system.cap.multimodalFallback": "Content search + local tags",
   "system.ai.unknownError": "Unknown error",
   "system.ai.parentUnreadable": "Can't read the parent folder",
   "system.ai.missingCommandType": "Missing command type",

@@ -167,18 +167,7 @@ export type AnalysisJob = {
 
 /** Capacités déclarées — inspectées par la couche UI/planner. */
 export type Capability = {
-  id:
-    | "text"
-    | "pdf"
-    | "ocr"
-    | "image"
-    | "media_meta"
-    | "face"
-    | "transcription"
-    | "video_summary"
-    | "translation"
-    | "visual_dedup"
-    | "multimodal";
+  id: "text" | "pdf" | "ocr" | "image" | "media_meta" | "visual_dedup";
   label: string;
   available: boolean;
   needsOnline: boolean;

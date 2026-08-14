@@ -5,8 +5,7 @@
  * Aucune modification d'interface n'est effectuée depuis ce fichier :
  * `applier.ts` applique le CSS, `store.ts` persiste, `index.ts` orchestre.
  *
- * Fondations réservées (voir `reserved.ts`) : profils, sync multi-appareils,
- * adaptation par habitudes.
+ * Fondations réservées : profils, sync multi-appareils, adaptation par habitudes.
  */
 
 /** Thème de l'interface : automatique (Android), clair ou sombre. */
@@ -138,7 +137,7 @@ export type PersonalizationPrefs = {
 
   widgets: WidgetInstance[];
 
-  /** Fondations — voir `reserved.ts`. Toujours écrits, jamais utilisés côté UI. */
+  /** Fondations réservées. Toujours écrites, jamais utilisées côté UI. */
   reserved: {
     profileId: string;
     syncEnabled: false;

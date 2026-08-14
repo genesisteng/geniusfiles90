@@ -8,7 +8,7 @@
  * `@/lib/files/operations` — donc l'historique et la Corbeille assurent
  * un « annuler » gratuit.
  *
- * Zone réservée pour extensions futures (voir `reserved.ts`).
+ * Zone réservée pour extensions futures.
  */
 import type { FileEntry, FileKind, PathRef, StorageRootId } from "@/lib/files/types";
 

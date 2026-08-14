@@ -176,7 +176,6 @@ export default {
   "system.ocrImagesDocumentsNumerises": "OCR (images & documents numérisés)",
   "system.ouvertureDirecteDeVosDossiersMarques":
     "Ouverture directe de vos dossiers marqués comme favoris.",
-  "system.resumeIntelligentDeVideos": "Résumé intelligent de vidéos",
   "system.vosActionsPrefereesSurLEcran": "Vos actions préférées sur l'écran d'accueil du système.",
   "system.native.fileGone": "Ce fichier n'existe plus.",
   "system.native.storagePermission":
@@ -200,15 +199,6 @@ export default {
   "system.cap.pdfFallback": "Ouverture dans le Lecteur universel",
   "system.cap.ocrFallback": "Analyse visuelle sans OCR",
   "system.cap.image": "Analyse visuelle & regroupement",
-  "system.cap.face": "Reconnaissance faciale locale",
-  "system.cap.faceFallback": "Regroupement par similarité visuelle",
-  "system.cap.transcription": "Transcription audio",
-  "system.cap.transcriptionFallback": "Métadonnées et écoute manuelle",
-  "system.cap.videoFallback": "Miniatures + métadonnées",
-  "system.cap.translation": "Traduction automatique",
-  "system.cap.translationFallback": "Détection de langue locale",
-  "system.cap.multimodal": "Recherche multimodale",
-  "system.cap.multimodalFallback": "Recherche par contenu + tags locaux",
   "system.ai.unknownError": "Erreur inconnue",
   "system.ai.parentUnreadable": "Impossible de lire le dossier parent",
   "system.ai.missingCommandType": "Type de commande manquant",

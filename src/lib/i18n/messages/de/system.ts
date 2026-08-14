@@ -159,7 +159,6 @@ export default {
   "system.ocrImagesDocumentsNumerises": "OCR (Bilder & gescannte Dokumente)",
   "system.ouvertureDirecteDeVosDossiersMarques":
     "Direkter Zugriff auf deine als Favorit markierten Ordner.",
-  "system.resumeIntelligentDeVideos": "Intelligente Videozusammenfassung",
   "system.vosActionsPrefereesSurLEcran":
     "Deine bevorzugten Aktionen auf dem Startbildschirm des Systems.",
   "system.native.fileGone": "Diese Datei existiert nicht mehr.",
@@ -184,15 +183,6 @@ export default {
   "system.cap.pdfFallback": "Öffnen im Universal-Viewer",
   "system.cap.ocrFallback": "Visuelle Analyse ohne OCR",
   "system.cap.image": "Visuelle Analyse & Gruppierung",
-  "system.cap.face": "Lokale Gesichtserkennung",
-  "system.cap.faceFallback": "Gruppierung nach visueller Ähnlichkeit",
-  "system.cap.transcription": "Audio-Transkription",
-  "system.cap.transcriptionFallback": "Metadaten und manuelles Anhören",
-  "system.cap.videoFallback": "Vorschaubilder + Metadaten",
-  "system.cap.translation": "Automatische Übersetzung",
-  "system.cap.translationFallback": "Lokale Spracherkennung",
-  "system.cap.multimodal": "Multimodale Suche",
-  "system.cap.multimodalFallback": "Inhaltssuche + lokale Tags",
   "system.ai.unknownError": "Unbekannter Fehler",
   "system.ai.parentUnreadable": "Übergeordneter Ordner kann nicht gelesen werden",
   "system.ai.missingCommandType": "Fehlender Befehlstyp",
