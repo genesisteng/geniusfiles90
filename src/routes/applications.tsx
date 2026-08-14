@@ -634,11 +634,10 @@ function RecommendationsBlock({
           </span>
           <div>
             <p className="text-sm font-medium">
-              Jusqu'à {formatSize(stats.reclaimableBytes)} récupérables
+              {t("organize.apps.reco.reclaimable", { size: formatSize(stats.reclaimableBytes) })}
             </p>
             <p className="mt-0.5 text-[11px] text-muted-foreground">
-              En archivant les applications rarement utilisées ou en vidant les caches volumineux.
-              Aucune suppression automatique.
+              {t("organize.apps.reco.reclaimableHint")}
             </p>
           </div>
         </div>
