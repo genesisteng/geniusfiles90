@@ -105,4 +105,13 @@ export default {
   "files.op.movedOne": "Spostato “{name}”",
   "files.op.copiedMany": "Copiati {count} elementi",
   "files.op.movedMany": "Spostati {count} elementi",
+  "files.pickDest.copyTitle": "Copia in…",
+  "files.pickDest.moveTitle": "Sposta in…",
+  "files.pickDest.aria": "Scegli destinazione",
+  "files.pickDest.current": "Destinazione: {name}",
+  "files.pickDest.prompt": "Apri una memoria o una categoria",
+  "files.pickDest.copyHere": "Copia qui",
+  "files.pickDest.moveHere": "Sposta qui",
+  "files.pickDest.subtitleCopy": "Scegli la cartella in cui copiare i tuoi elementi.",
+  "files.pickDest.subtitleMove": "Scegli la cartella in cui spostare i tuoi elementi.",
 } as const;

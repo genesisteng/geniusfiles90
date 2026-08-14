@@ -106,4 +106,13 @@ export default {
   "files.op.movedOne": "Movido «{name}»",
   "files.op.copiedMany": "Copiados {count} elementos",
   "files.op.movedMany": "Movidos {count} elementos",
+  "files.pickDest.copyTitle": "Copiar en…",
+  "files.pickDest.moveTitle": "Mover a…",
+  "files.pickDest.aria": "Elegir destino",
+  "files.pickDest.current": "Destino: {name}",
+  "files.pickDest.prompt": "Abre un almacenamiento o una categoría",
+  "files.pickDest.copyHere": "Copiar aquí",
+  "files.pickDest.moveHere": "Mover aquí",
+  "files.pickDest.subtitleCopy": "Elige la carpeta donde copiar tus elementos.",
+  "files.pickDest.subtitleMove": "Elige la carpeta donde mover tus elementos.",
 } as const;
