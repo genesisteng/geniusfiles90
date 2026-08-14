@@ -45,6 +45,12 @@ export type TrashItem = {
   originalParentExists?: boolean;
   /** Chemin absolu réel du fichier dans la corbeille (Android uniquement). */
   trashPath?: string;
+  /**
+   * Date réelle (ms epoch) de l'élément avant sa mise en corbeille.
+   * Elle est restituée telle quelle à la restauration : un fichier ancien
+   * reste ancien partout dans l'application.
+   */
+  originalMtime?: number;
 };
 
 export type TrashListing = {
@@ -78,6 +84,8 @@ export type MockTrashRecord = {
   isDirectory: boolean;
   size: number;
   deletedAt: number;
+  /** Date réelle de l'élément avant suppression (ms epoch). */
+  originalMtime?: number;
   parentSegments: string[];
   rootId: PathRef["rootId"];
   /** Serialised MockNode so restore can splice it back into fs.ts. */
@@ -145,6 +153,7 @@ function toItem(n: NativeTrashItem, retentionDays: number): TrashItem {
     deletedAt: n.deletedAt,
     msUntilPurge: purgeAt != null ? Math.max(0, purgeAt - Date.now()) : undefined,
     trashPath: n.trashPath,
+    originalMtime: n.mtime && n.mtime > 0 ? n.mtime : undefined,
   };
 }
 
@@ -189,6 +198,7 @@ export async function listTrashItems(): Promise<TrashListing> {
       deletedAt: m.deletedAt,
       msUntilPurge: purgeAt != null ? Math.max(0, purgeAt - Date.now()) : undefined,
       originalParentExists: true,
+      originalMtime: m.originalMtime ?? m.snapshot?.mtime,
     };
   });
   return { items, totalBytes: items.reduce((s, it) => s + (it.size || 0), 0) };
@@ -277,7 +287,10 @@ export async function restoreItems(
     }
     if (!parent.children) parent.children = [];
     // Avoid clash.
+    // Le snapshot conserve la date réelle : on ne l'écrase jamais avec
+    // la date de restauration.
     let node: MockNode = JSON.parse(JSON.stringify(rec.snapshot));
+    node.mtime = rec.snapshot?.mtime ?? rec.originalMtime ?? node.mtime;
     let n = 2;
     while (parent.children.some((c) => c.name === node.name)) {
       const dot = node.name.lastIndexOf(".");

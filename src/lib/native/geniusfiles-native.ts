@@ -80,6 +80,8 @@ export type NativeTrashItem = {
   isDirectory: boolean;
   size: number;
   deletedAt: number;
+  /** Date réelle de dernière modification, mémorisée avant la mise en corbeille. */
+  mtime?: number;
 };
 
 export type NativeTrashListing = {
@@ -89,7 +91,7 @@ export type NativeTrashListing = {
 };
 
 export type NativeRestoreResult = {
-  restored: { id: string; restoredPath: string }[];
+  restored: { id: string; restoredPath: string; mtime?: number }[];
   failed: {
     id: string;
     reason: "MISSING" | "NO_TARGET" | "PARENT_MISSING" | "MOVE_FAILED";
