@@ -14,6 +14,7 @@ import {
   ChevronRight,
   Trash2,
 } from "lucide-react";
+import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
 import { BACK_PRIORITY, useBackHandler } from "@/lib/navigation/back-stack";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -217,9 +218,14 @@ export function SearchPage() {
           latestScanned = n;
           setScanned(n);
         },
-        onDone: () => {
+        onDone: ({ failedProviders }) => {
           setScanning(false);
           setCachedSearch(cacheKey, latestResults, latestScanned);
+          if (failedProviders.length > 0) {
+            toast.warning(translate("search.toast.partial.title"), {
+              description: translate("search.toast.partial.desc"),
+            });
+          }
         },
       });
       runRef.current = ctrl;
