@@ -621,9 +621,7 @@ function RecommendationsBlock({
 }) {
   const t = useT();
   if (stats.unused.length === 0 && stats.heavy.length === 0) {
-    return (
-      <p className="text-[11px] text-muted-foreground">{t("organize.apps.reco.empty")}</p>
-    );
+    return <p className="text-[11px] text-muted-foreground">{t("organize.apps.reco.empty")}</p>;
   }
   return (
     <div className="space-y-4">
