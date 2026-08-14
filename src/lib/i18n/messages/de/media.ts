@@ -142,6 +142,7 @@ export default {
   "media.player.action.setAs": "Festlegen als",
   "media.player.action.delete": "Löschen",
   "media.player.video.loadTimeout": "Das Video braucht zu lange zum Laden.",
+  "media.player.video.openExternal": "Mit anderer App öffnen",
   "media.player.video.unsupportedFormat": "Videoformat vom Player nicht unterstützt.",
   "media.player.video.playbackError": "Fehler beim Abspielen der Datei.",
   "media.player.video.cannotPlay": "Dieses Video kann nicht abgespielt werden.",

@@ -22,6 +22,8 @@ import {
 import type { FileEntry, PathRef } from "@/lib/files/types";
 import { useOverlayZClass } from "@/lib/files/overlay-z";
 import { sourceUrlOf, entryKey, absolutePathOf } from "@/lib/viewer/source";
+import { openWithSystem } from "@/lib/viewer/openWith";
+import { isAndroidNative } from "@/lib/native/geniusfiles-native";
 import { peekThumbnail, resolveThumbnail } from "@/lib/native/thumbnails";
 import { getResume, setResume } from "@/lib/viewer/resume";
 import { SeekController } from "@/lib/player/seek-controller";
@@ -284,6 +286,7 @@ export function VideoPlayer({
     setReady(false);
     setBuffering(true);
     setError(null);
+    recoveryRef.current = 0;
     v.playbackRate = rate;
     try {
       v.load();
@@ -309,21 +312,110 @@ export function VideoPlayer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rKey, reloadNonce, mounted]);
 
+  /**
+   * ---- Récupération de lecture ------------------------------------------
+   *
+   * La WebView Chromium ne décode qu'un sous-ensemble des formats qu'Android
+   * sait lire (MKV/HEVC, AVI, WMV, FLV, certains AC3/DTS…). Avant d'afficher
+   * « Lecture impossible », on épuise donc les voies réellement disponibles :
+   *
+   *   1. un rechargement propre de la source (échecs transitoires du pont
+   *      de fichiers, réseau interrompu, décodeur momentanément occupé) ;
+   *   2. la remise au lecteur système de l'appareil, qui utilise les codecs
+   *      matériels : la plupart des vidéos « incompatibles » se lisent là ;
+   *   3. seulement si tout échoue, un message d'erreur clair.
+   */
+  const recoveryRef = useRef(0);
+
+  /** Ouvre la vidéo dans un lecteur système compatible. */
+  const openExternally = useCallback(async () => {
+    if (!entry || !isAndroidNative()) return false;
+    try {
+      await openWithSystem(parentOfEntry(entry), entry, "view");
+      return true;
+    } catch {
+      return false;
+    }
+  }, [entry, parentOfEntry]);
+
+  const handleFailure = useCallback(
+    async (reason: "timeout" | number | undefined) => {
+      const v = videoRef.current;
+      setBuffering(false);
+      setPlaying(false);
+
+      const unsupported = reason === 4;
+      // Étape 1 — un seul rechargement, sauf format d'emblée non décodable.
+      if (!unsupported && recoveryRef.current === 0 && v) {
+        recoveryRef.current = 1;
+        try {
+          v.load();
+          void v.play().catch(() => {
+            /* l'utilisateur peut relancer */
+          });
+          setBuffering(true);
+          return;
+        } catch {
+          /* on passe au repli natif */
+        }
+      }
+
+      // Étape 2 — lecteur système (codecs matériels de l'appareil).
+      if (recoveryRef.current < 2) {
+        recoveryRef.current = 2;
+        try {
+          v?.pause();
+        } catch {
+          /* ignore */
+        }
+        if (await openExternally()) {
+          onClose();
+          return;
+        }
+      }
+
+      // Étape 3 — échec réel : message clair, sans masquer la cause.
+      setError(
+        unsupported
+          ? t("media.player.video.unsupportedFormat")
+          : reason === 2
+            ? t("media.player.video.playbackError")
+            : reason === "timeout"
+              ? t("media.player.video.loadTimeout")
+              : t("media.player.video.cannotPlay"),
+      );
+    },
+    [openExternally, onClose, t],
+  );
+
   // ---- Chien de garde de chargement --------------------------------------
-  // Un seul minuteur, aucun sondage périodique : l'état « prêt » vient des
-  // événements du moteur, ce minuteur ne borne que l'échec réel.
+  // Le minuteur ne conclut à l'échec que si *rien* n'a progressé : tant que
+  // des octets arrivent (buffered qui grandit), une grosse vidéo 4K sur
+  // carte SD lente continue simplement de charger.
   useEffect(() => {
     if (!src || ready || error) return;
-    const id = window.setTimeout(() => {
+    let lastBuffered = -1;
+    const id = window.setInterval(() => {
       const v = videoRef.current;
       if (!v || v.readyState >= 2) return;
-      setBuffering(false);
-      setError(t("media.player.video.loadTimeout"));
+      const end = v.buffered.length ? v.buffered.end(v.buffered.length - 1) : 0;
+      if (end > lastBuffered) {
+        lastBuffered = end;
+        return;
+      }
+      window.clearInterval(id);
+      void handleFailure("timeout");
     }, 20000);
-    return () => window.clearTimeout(id);
-  }, [src, reloadNonce, ready, error, t]);
+    return () => window.clearInterval(id);
+  }, [src, reloadNonce, ready, error, handleFailure]);
+
+  const handleFailureRef = useRef(handleFailure);
+  useEffect(() => {
+    handleFailureRef.current = handleFailure;
+  }, [handleFailure]);
 
   const retry = useCallback(() => {
+    recoveryRef.current = 0;
     setError(null);
     setReady(false);
     setBuffering(true);
@@ -386,17 +478,11 @@ export function VideoPlayer({
     };
     const onPause = () => setPlaying(false);
     const onError = () => {
-      setBuffering(false);
-      setPlaying(false);
-      const code = v.error?.code;
-      setError(
-        code === 4
-          ? t("media.player.video.unsupportedFormat")
-          : code === 2
-            ? t("media.player.video.playbackError")
-            : t("media.player.video.cannotPlay"),
-      );
+      // Aucune erreur affichée tant qu'une voie de lecture reste possible :
+      // rechargement, puis lecteur système de l'appareil.
+      void handleFailureRef.current(v.error?.code);
     };
+
     const onWaiting = () => setBuffering(true);
     const onEnded = () => {
       setPlaying(false);
@@ -728,7 +814,7 @@ export function VideoPlayer({
             <p className="mt-1 text-[12px] text-[color-mix(in_oklab,var(--pl-fg)_70%,transparent)]">
               {error}
             </p>
-            <div className="mt-4 flex items-center justify-center gap-2">
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
               <button
                 type="button"
                 onClick={retry}
@@ -736,6 +822,19 @@ export function VideoPlayer({
               >
                 {t("media.player.action.retry")}
               </button>
+              {isAndroidNative() ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    void openExternally().then((ok) => {
+                      if (ok) onClose();
+                    });
+                  }}
+                  className="rounded-full bg-[color-mix(in_oklab,var(--pl-fg)_10%,transparent)] px-4 py-2 text-[13px] font-semibold active:scale-95"
+                >
+                  {t("media.player.video.openExternal")}
+                </button>
+              ) : null}
               <button
                 type="button"
                 onClick={onClose}

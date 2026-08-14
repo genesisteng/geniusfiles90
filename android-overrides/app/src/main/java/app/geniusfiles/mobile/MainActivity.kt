@@ -34,7 +34,6 @@ class MainActivity : BridgeActivity() {
         // `window.Capacitor.Plugins.GeniusFilesNative === undefined`
         // and every file listing fails with "Plugin unavailable".
         registerPlugin(GeniusFilesNativePlugin::class.java)
-        registerPlugin(GeniusFilesTransferPlugin::class.java)
         // Biométrie du coffre-fort (AndroidX Biometric). Sans cet
         // enregistrement, `window.Capacitor.Plugins.GeniusFilesBiometric`
         // est absent et l'app annonce « non disponible » à tort.
