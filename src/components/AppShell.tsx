@@ -15,6 +15,7 @@ import { TransferTracker } from "@/components/jobs/TransferTracker";
 import { useReaderMode } from "@/lib/viewer/reader-mode";
 import { useInPickLayer } from "@/components/files/pick-layer-context";
 import { PackageSheetHost } from "@/components/files/PackageSheet";
+import { IncomingFileHost } from "@/components/viewer/IncomingFileHost";
 
 type NavItem = {
   to: string;
@@ -86,6 +87,9 @@ export function AppShell({ children }: { children?: ReactNode }) {
       {/* Fiche paquet Android (APK / AAB / XAPK) : montée une seule fois,
           partagée par tous les écrans qui listent des fichiers. */}
       <PackageSheetHost />
+      {/* « Ouvrir avec… » entrant : fichier confié par une autre
+          application Android, affiché dans la visionneuse universelle. */}
+      {inPick ? null : <IncomingFileHost />}
       {/* Sensation de défilement native : résistance de bord sur le seul
           contenu + tirer pour actualiser (jamais en mode lecture). */}
       {reader || inPick ? null : <ScrollFeel />}
