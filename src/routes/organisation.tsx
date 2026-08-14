@@ -50,7 +50,6 @@ import {
   summarizeActions,
 } from "@/lib/organizer";
 import type {
-import { BACK_PRIORITY, useBackHandler } from "@/lib/navigation/back-stack";
   CollectionMatch,
   OrgPlan,
   OrgPreview,
@@ -59,6 +58,8 @@ import { BACK_PRIORITY, useBackHandler } from "@/lib/navigation/back-stack";
   RenameProposal,
   SmartCollection,
 } from "@/lib/organizer";
+import { BACK_PRIORITY, useBackHandler } from "@/lib/navigation/back-stack";
+
 
 export const Route = createFileRoute("/organisation")({
   head: () => ({
