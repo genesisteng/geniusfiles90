@@ -634,6 +634,22 @@ export function CategoryPage({ kind }: { kind: CategoryKind }) {
     [clearSelection, t],
   );
 
+  /* Copier / Déplacer depuis une catégorie : la destination se choisit
+     dans la navigation habituelle (stockages, dossiers, albums). */
+  const startTransferFlow = useCallback(
+    async (mode: "copy" | "move", items: CategoryFile[]) => {
+      if (items.length === 0) return;
+      const picked = [...items];
+      setDialog({ kind: "none" });
+      const dest = await requestDestination({ mode });
+      if (!dest) return;
+      doTransfer(mode, picked, dest);
+    },
+    [doTransfer],
+  );
+
+
+
   const doRename = useCallback(
     async (entry: FileEntry, parent: PathRef, newName: string) => {
       const r = await renameEntry(parent, entry, newName);
