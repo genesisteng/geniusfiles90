@@ -622,9 +622,7 @@ function RecommendationsBlock({
   const t = useT();
   if (stats.unused.length === 0 && stats.heavy.length === 0) {
     return (
-      <p className="text-[11px] text-muted-foreground">
-        Rien à signaler pour le moment. GeniusFiles surveille l'usage et l'espace occupé.
-      </p>
+      <p className="text-[11px] text-muted-foreground">{t("organize.apps.reco.empty")}</p>
     );
   }
   return (
