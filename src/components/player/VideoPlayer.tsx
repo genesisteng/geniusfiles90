@@ -286,6 +286,7 @@ export function VideoPlayer({
     setReady(false);
     setBuffering(true);
     setError(null);
+    recoveryRef.current = 0;
     v.playbackRate = rate;
     try {
       v.load();
@@ -408,6 +409,11 @@ export function VideoPlayer({
     return () => window.clearInterval(id);
   }, [src, reloadNonce, ready, error, handleFailure]);
 
+  const handleFailureRef = useRef(handleFailure);
+  useEffect(() => {
+    handleFailureRef.current = handleFailure;
+  }, [handleFailure]);
+
   const retry = useCallback(() => {
     recoveryRef.current = 0;
     setError(null);
@@ -477,7 +483,7 @@ export function VideoPlayer({
     const onError = () => {
       // Aucune erreur affichée tant qu'une voie de lecture reste possible :
       // rechargement, puis lecteur système de l'appareil.
-      void handleFailure(v.error?.code);
+      void handleFailureRef.current(v.error?.code);
     };
 
     const onWaiting = () => setBuffering(true);
