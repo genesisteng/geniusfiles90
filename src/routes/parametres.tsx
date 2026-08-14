@@ -307,6 +307,7 @@ function ThemePicker({
  * Sélecteur de langue — chaque langue est écrite dans sa propre langue,
  * afin d'être reconnaissable même quand l'interface est incompréhensible
  * pour l'utilisateur. Le changement est immédiat, sans redémarrage.
+ * L'option automatique indique la langue réellement appliquée.
  */
 function LanguagePicker({
   value,
@@ -316,16 +317,20 @@ function LanguagePicker({
   onChange: (pref: LocalePreference) => void;
 }) {
   const t = useT();
+  const systemLocale = resolveLocale("system");
   return (
     <div
       role="radiogroup"
       aria-label={t("settings.language.label")}
       suppressHydrationWarning
-      className="grid grid-cols-2 gap-1 rounded-2xl border border-border bg-surface-2 p-1"
+      className="flex flex-col gap-1 rounded-2xl border border-border bg-surface-2 p-1"
     >
       {(["system", ...LOCALES] as const).map((code) => {
         const active = code === value;
-        const label = code === "system" ? t("settings.language.system") : LOCALE_LABELS[code];
+        const label =
+          code === "system"
+            ? `${t("settings.language.system")} · ${LOCALE_LABELS[systemLocale]}`
+            : LOCALE_LABELS[code];
         return (
           <button
             key={code}
@@ -336,15 +341,17 @@ function LanguagePicker({
             onClick={() => {
               if (!active) onChange(code);
             }}
-            className={`gf-press flex h-9 min-w-0 items-center justify-center gap-1.5 rounded-xl px-2 text-[12px] font-semibold transition-colors ${
+            className={`gf-press flex h-10 min-w-0 items-center gap-2 rounded-xl px-3 text-[13px] font-semibold transition-colors ${
               active ? "bg-primary text-primary-foreground shadow-soft" : "text-muted-foreground"
             }`}
           >
-            <Languages className="h-3.5 w-3.5" />
-            <span className="truncate">{label}</span>
+            <Languages className="h-4 w-4 shrink-0" />
+            <span className="min-w-0 flex-1 truncate text-left">{label}</span>
+            {active ? <Check className="h-4 w-4 shrink-0" /> : null}
           </button>
         );
       })}
     </div>
   );
 }
+
