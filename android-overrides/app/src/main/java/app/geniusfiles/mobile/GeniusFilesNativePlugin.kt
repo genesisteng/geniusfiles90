@@ -689,6 +689,7 @@ class GeniusFilesNativePlugin : Plugin() {
             if (!src.exists()) { failed.put(p); continue }
             val id = UUID.randomUUID().toString()
             val dst = File(trashDir, id)
+            val srcMtime = src.lastModified()
             try {
                 if (!src.renameTo(dst)) {
                     if (src.isDirectory) copyTree(src, dst) else copyFileImpl(src, dst)
@@ -701,6 +702,7 @@ class GeniusFilesNativePlugin : Plugin() {
                 meta.put("isDirectory", dst.isDirectory)
                 meta.put("size", if (dst.isDirectory) folderSize(dst) else dst.length())
                 meta.put("deletedAt", System.currentTimeMillis())
+                meta.put("mtime", if (srcMtime > 0L) srcMtime else dst.lastModified())
                 index.put(meta)
                 val mv = JSObject()
                 mv.put("id", id); mv.put("originalPath", src.absolutePath); mv.put("trashPath", dst.absolutePath)
@@ -732,6 +734,7 @@ class GeniusFilesNativePlugin : Plugin() {
             val size = m.optLong("size", if (f.isDirectory) folderSize(f) else f.length())
             entry.put("size", size)
             entry.put("deletedAt", m.optLong("deletedAt"))
+            entry.put("mtime", m.optLong("mtime", f.lastModified()))
             total += size
             items.put(entry)
         }
@@ -782,7 +785,13 @@ class GeniusFilesNativePlugin : Plugin() {
                 val fj = JSObject(); fj.put("id", id); fj.put("reason", "MOVE_FAILED"); fj.put("originalPath", target); failed.put(fj)
                 keep.put(m); continue
             }
-            val rj = JSObject(); rj.put("id", id); rj.put("restoredPath", dst.absolutePath); restored.put(rj)
+            // L'element restaure retrouve sa date d'origine : il reste
+            // l'ancien fichier, jamais un fichier cree au moment du retour.
+            val originalMtime = m.optLong("mtime", 0L)
+            if (originalMtime > 0L) try { dst.setLastModified(originalMtime) } catch (_: Throwable) {}
+            val rj = JSObject(); rj.put("id", id); rj.put("restoredPath", dst.absolutePath)
+            rj.put("mtime", if (originalMtime > 0L) originalMtime else dst.lastModified())
+            restored.put(rj)
         }
         writeTrashIndex(keep)
         val out = JSObject(); out.put("restored", restored); out.put("failed", failed); call.resolve(out)
@@ -1409,12 +1418,18 @@ class GeniusFilesNativePlugin : Plugin() {
                 while (pos < size) pos += input.transferTo(pos, size - pos, output)
             }
         }
+        // La date réelle du fichier suit la donnee : une copie de repli ne
+        // doit jamais transformer un fichier ancien en fichier « neuf ».
+        val stamp = src.lastModified()
+        if (stamp > 0L) try { dst.setLastModified(stamp) } catch (_: Throwable) {}
     }
 
     private fun copyTree(src: File, dst: File) {
         if (src.isDirectory) {
             dst.mkdirs()
             src.listFiles()?.forEach { child -> copyTree(child, File(dst, child.name)) }
+            val stamp = src.lastModified()
+            if (stamp > 0L) try { dst.setLastModified(stamp) } catch (_: Throwable) {}
         } else {
             dst.parentFile?.mkdirs()
             copyFileImpl(src, dst)

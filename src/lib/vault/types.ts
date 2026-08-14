@@ -71,6 +71,12 @@ export type VaultItem = {
   kind: FileKind;
   ext?: string;
   addedAt: number;
+  /**
+   * Date réelle du fichier (dernière modification) avant son entrée dans
+   * le coffre-fort. Réappliquée à la restauration : l'élément retrouve
+   * son ancienneté d'origine au lieu de la date de restauration.
+   */
+  originalMtime?: number;
   favorite?: boolean;
 
   /** Original absolute location (native) or mock display path. */

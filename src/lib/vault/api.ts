@@ -280,6 +280,15 @@ export async function addFromPublic(
       }
       const sourceAbs = join(toAbsolutePath(src.parent), src.name);
       const vaultAbs = join(vaultBaseAbs(), ext ? `${id}.${ext}` : id);
+      // Date réelle relevée avant le déplacement : elle sera restituée
+      // telle quelle si l'élément ressort du coffre-fort.
+      let originalMtime: number | undefined;
+      try {
+        const st = await p.stat({ path: sourceAbs });
+        if (st?.mtime && st.mtime > 0) originalMtime = st.mtime;
+      } catch {
+        /* date inconnue : on ne fabrique jamais de valeur */
+      }
       try {
         await p.moveFile({ source: sourceAbs, destination: vaultAbs, overwrite: false });
       } catch (err) {
@@ -296,6 +305,7 @@ export async function addFromPublic(
         kind: kindOf(src.name, src.isDirectory),
         ext,
         addedAt: Date.now(),
+        originalMtime,
         originalPath: sourceAbs,
         originalRootId: src.parent.rootId,
         originalParentSegments: src.parent.segments,
@@ -333,6 +343,7 @@ export async function addFromPublic(
       kind: kindOf(src.name, snapshot.isDirectory),
       ext,
       addedAt: Date.now(),
+      originalMtime: snapshot.mtime,
       originalPath: `/${[...src.parent.segments, src.name].join("/")}`,
       originalRootId: src.parent.rootId,
       originalParentSegments: src.parent.segments,
@@ -440,14 +451,16 @@ export async function restoreItems(
       continue;
     }
     if (!parent.children) parent.children = [];
-    const snapshot = (it.mockSnapshot as MockNode | undefined)
+    const snapshot: MockNode = (it.mockSnapshot as MockNode | undefined)
       ? (JSON.parse(JSON.stringify(it.mockSnapshot)) as MockNode)
       : {
           name: it.name,
           isDirectory: it.isDirectory,
           size: it.size,
-          mtime: it.addedAt,
+          mtime: it.originalMtime,
         };
+    // Jamais la date de restauration : on restitue la date réelle connue.
+    snapshot.mtime = snapshot.mtime ?? it.originalMtime;
     let node = snapshot;
     let n = 2;
     while (parent.children.some((c) => c.name === node.name)) {
@@ -545,7 +558,7 @@ export function toPreviewTarget(item: VaultItem): {
     path: `/${VAULT_DIR_NAME}/${filename}`,
     isDirectory: item.isDirectory,
     size: item.size,
-    mtime: item.addedAt,
+    mtime: item.originalMtime ?? item.addedAt,
     kind: item.kind,
     ext: item.ext,
   };

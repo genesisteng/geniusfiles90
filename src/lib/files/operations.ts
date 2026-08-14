@@ -413,6 +413,7 @@ function mockRemoveBatch(parent: PathRef, names: string[]): void {
     isDirectory: node.isDirectory,
     size: sumMock(node),
     deletedAt: now,
+    originalMtime: node.mtime,
     parentSegments: parent.segments,
     rootId: parent.rootId,
     snapshot: node,
