@@ -350,6 +350,7 @@ export async function createArchive(opts: CreateOptions): Promise<CreateResult> 
         destination: dstAbs,
         level: opts.level,
         overwrite: false,
+        ...(opts.password ? { password: opts.password } : {}),
       });
       dispatchStorageChanged();
       recordOperation({
