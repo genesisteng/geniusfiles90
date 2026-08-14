@@ -217,6 +217,17 @@ async function syncNativeAlarms(): Promise<void> {
 let started = false;
 let timer: ReturnType<typeof setInterval> | null = null;
 let stopSub: (() => void) | null = null;
+let syncTimer: ReturnType<typeof setTimeout> | null = null;
+
+/* Éditer plusieurs automatisations d'affilée ne doit pas reprogrammer les
+   alarmes natives à chaque frappe : on fusionne les demandes rapprochées. */
+function scheduleAlarmSync(delay = 400) {
+  if (syncTimer) clearTimeout(syncTimer);
+  syncTimer = setTimeout(() => {
+    syncTimer = null;
+    void syncNativeAlarms();
+  }, delay);
+}
 
 async function tick() {
   const now = new Date();
