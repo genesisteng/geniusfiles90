@@ -15,7 +15,6 @@ import {
   FileText,
   HardDrive,
   Info,
-  Languages,
   Check,
   Mail,
   MonitorSmartphone,
@@ -58,6 +57,18 @@ import { clearThumbnailCache } from "@/lib/native/thumbnails";
 import { sweepTempFiles } from "@/lib/native/temp-sweep";
 
 const APP_VERSION = "0.1.0";
+
+/** Drapeaux associés à chaque option de langue (système = globe). */
+const LOCALE_FLAGS: Record<LocalePreference, string> = {
+  system: "🌐",
+  fr: "🇫🇷",
+  en: "🇺🇸",
+  es: "🇪🇸",
+  de: "🇩🇪",
+  pt: "🇵🇹",
+  it: "🇮🇹",
+  tr: "🇹🇷",
+};
 
 export const Route = createFileRoute("/parametres")({
   head: () => ({
@@ -346,7 +357,9 @@ function LanguagePicker({
               active ? "bg-primary text-primary-foreground shadow-soft" : "text-muted-foreground"
             }`}
           >
-            <Languages className="h-4 w-4 shrink-0" />
+            <span aria-hidden="true" className="shrink-0 text-base leading-none">
+              {LOCALE_FLAGS[code]}
+            </span>
             <span className="min-w-0 flex-1 truncate text-left">{label}</span>
             {active ? <Check className="h-4 w-4 shrink-0" /> : null}
           </button>
