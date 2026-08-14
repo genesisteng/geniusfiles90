@@ -775,7 +775,7 @@ export function FilesPage() {
       clearSelection();
       invalidateSizes();
     },
-    [path, clearSelection, groupsFor, onRefresh, t],
+    [clearSelection, groupsFor, onRefresh, t],
   );
 
   /**
