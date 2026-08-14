@@ -353,32 +353,74 @@ async function executeAction(action: Action, simulate: boolean): Promise<Executi
             message: t("automations.engine.err.sourceFolder"),
           };
         }
-        // Best-effort: for now signal that organizer must be launched manually.
+        const res = await organizeFolder(action.folder, action.rule);
         return {
           action: action.kind,
           label,
-          status: "ok",
-          filesProcessed: 0,
-          message: t("automations.engine.organizeScheduled", { rule: action.rule }),
+          status: res.errors.length > 0 && res.moved === 0 ? "failed" : "ok",
+          filesProcessed: res.moved,
+          message:
+            res.errors.length > 0
+              ? res.errors.join(" · ")
+              : t("automations.engine.organizeDone", { count: res.moved, rule: action.rule }),
         };
       }
-      case "compress":
-      case "extract": {
+      case "compress": {
+        if (!action.source || !action.destination || action.source.entries.length === 0) {
+          return {
+            action: action.kind,
+            label,
+            status: "failed",
+            filesProcessed: 0,
+            message: t("automations.engine.err.sourceOrDestination"),
+          };
+        }
+        const res = await compressSelection({
+          parent: action.source.parent,
+          entries: action.source.entries,
+          destination: action.destination,
+          archiveName: action.archiveName,
+        });
         return {
           action: action.kind,
           label,
-          status: "failed",
-          filesProcessed: 0,
-          message: t("automations.engine.compressOpenArchives"),
+          status: res.ok ? "ok" : "failed",
+          filesProcessed: res.ok ? action.source.entries.length : 0,
+          message: res.error,
+        };
+      }
+      case "extract": {
+        const entry = action.archive?.entries[0];
+        if (!action.archive || !entry || !action.destination) {
+          return {
+            action: action.kind,
+            label,
+            status: "failed",
+            filesProcessed: 0,
+            message: t("automations.engine.err.sourceOrDestination"),
+          };
+        }
+        const res = await extractSelection({
+          parent: action.archive.parent,
+          entry,
+          destination: action.destination,
+        });
+        return {
+          action: action.kind,
+          label,
+          status: res.ok ? "ok" : "failed",
+          filesProcessed: res.completed ?? 0,
+          message: res.error,
         };
       }
       case "cleaner_scan": {
+        const res = await runCleanerScan();
         return {
           action: action.kind,
           label,
           status: "ok",
-          filesProcessed: 0,
-          message: t("automations.engine.cleanerScanTriggered"),
+          filesProcessed: res.totalItems,
+          message: t("automations.engine.cleanerScanDone", { items: res.totalItems }),
         };
       }
       case "notify": {
