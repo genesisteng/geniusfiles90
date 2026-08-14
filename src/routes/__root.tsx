@@ -204,11 +204,7 @@ var cm=ck("gf_mode");if(cm==="light"||cm==="dark")m=cm;
 var r=null;try{r=localStorage.getItem("gf.prefs.v1")}catch(_){}
 var e=document.documentElement;if(r){var p=JSON.parse(r)||{};var a=p.appearance||{};var t=a.theme;
 if(t==="light"||t==="dark")m=t;
-if(t==="system"&&(s==="light"||s==="dark"))m=s;
-if(a.textSize)e.setAttribute("data-text-size",a.textSize);
-if(a.density)e.setAttribute("data-density",a.density);
-if(a.animations)e.setAttribute("data-animations",a.animations);
-if(a.reduceMotion||a.animations==="none")e.setAttribute("data-reduce-motion","1");}
+if(t==="system"&&(s==="light"||s==="dark"))m=s;}
 e.setAttribute("data-theme",m);
 e.classList.toggle("dark",m==="dark");e.style.colorScheme=m;
 var bg=m==="light"?"#f5f6f8":"#191919";

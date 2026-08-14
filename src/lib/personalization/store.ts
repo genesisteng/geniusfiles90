@@ -102,11 +102,6 @@ export function resetPrefs(): PersonalizationPrefs {
   return loadPrefs();
 }
 
-/** Réinitialisation sélective d'une catégorie. */
-export function resetSection<K extends keyof PersonalizationPrefs>(section: K) {
-  updatePrefs((p) => ({ ...p, [section]: DEFAULT_PREFS[section] }));
-}
-
 export function subscribePrefs(cb: (prefs: PersonalizationPrefs) => void): () => void {
   listeners.add(cb);
   const handler = () => cb(loadPrefs());
