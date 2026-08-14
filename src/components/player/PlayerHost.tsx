@@ -6,7 +6,6 @@ import { parseTrackName } from "./format";
 import { useT } from "@/lib/i18n";
 import { BACK_PRIORITY, useBackHandler } from "@/lib/navigation/back-stack";
 
-
 /**
  * Persistent audio surface mounted once at the AppShell level.
  *
@@ -33,7 +32,6 @@ export function PlayerHost() {
 
   return <>{s.uiOpen ? <AudioPlayer onClose={() => audioStore.closeUI()} /> : <MiniPlayer />}</>;
 }
-
 
 function MiniPlayer() {
   const t = useT();

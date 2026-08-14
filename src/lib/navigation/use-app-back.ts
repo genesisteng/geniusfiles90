@@ -63,7 +63,6 @@ export function resolveBack(router: AnyRouter, pathname: string): void {
   requestAppExit();
 }
 
-
 /**
  * Hook à utiliser pour TOUT bouton Retour de l'interface, afin qu'il se
  * comporte exactement comme le retour système.
