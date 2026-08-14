@@ -709,13 +709,20 @@ export function FilesPage() {
   /* ---------- operations ---------- */
 
   const runTransfer = useCallback(
-    (mode: "copy" | "move", entries: FileEntry[], dest: PathRef) => {
-      if (!path) return;
+    (
+      mode: "copy" | "move",
+      entries: FileEntry[],
+      dest: PathRef,
+      /* Regroupement calculé AVANT le choix de la destination : la
+         sélection d'origine est déjà retombée à ce moment-là. */
+      precomputedGroups?: { parent: PathRef; entries: FileEntry[] }[],
+    ) => {
       const destLabel = dest.segments.length
         ? dest.segments.join(" / ")
         : t("home.transfer.rootLabel");
-      const groups = groupsFor(entries);
+      const groups = precomputedGroups ?? groupsFor(entries);
       if (groups.length === 0) return;
+
       // « 2 dossiers » ≠ « 2 fichiers » : le libellé suit la nature réelle.
       const unit = unitFor(entries);
       // La tâche vit dans le gestionnaire global : masquer la fenêtre,
