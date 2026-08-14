@@ -159,7 +159,6 @@ export default {
   "system.ocrImagesDocumentsNumerises": "OCR (imágenes y documentos escaneados)",
   "system.ouvertureDirecteDeVosDossiersMarques":
     "Acceso directo a tus carpetas marcadas como favoritas.",
-  "system.resumeIntelligentDeVideos": "Resumen inteligente de vídeos",
   "system.vosActionsPrefereesSurLEcran":
     "Tus acciones favoritas en la pantalla de inicio del sistema.",
   "system.native.fileGone": "Este archivo ya no existe.",
@@ -184,15 +183,6 @@ export default {
   "system.cap.pdfFallback": "Apertura en el Visor universal",
   "system.cap.ocrFallback": "Análisis visual sin OCR",
   "system.cap.image": "Análisis visual y agrupación",
-  "system.cap.face": "Reconocimiento facial local",
-  "system.cap.faceFallback": "Agrupación por similitud visual",
-  "system.cap.transcription": "Transcripción de audio",
-  "system.cap.transcriptionFallback": "Metadatos y reproducción manual",
-  "system.cap.videoFallback": "Miniaturas y metadatos",
-  "system.cap.translation": "Traducción automática",
-  "system.cap.translationFallback": "Detección de idioma local",
-  "system.cap.multimodal": "Búsqueda multimodal",
-  "system.cap.multimodalFallback": "Búsqueda por contenido y etiquetas locales",
   "system.ai.unknownError": "Error desconocido",
   "system.ai.parentUnreadable": "No se puede leer la carpeta superior",
   "system.ai.missingCommandType": "Falta el tipo de comando",

@@ -156,7 +156,6 @@ export default {
   "system.ocrImagesDocumentsNumerises": "OCR (immagini e documenti scansionati)",
   "system.ouvertureDirecteDeVosDossiersMarques":
     "Accesso diretto alle cartelle contrassegnate come preferite.",
-  "system.resumeIntelligentDeVideos": "Riepilogo intelligente dei video",
   "system.vosActionsPrefereesSurLEcran":
     "Le tue azioni preferite nella schermata principale del sistema.",
   "system.native.fileGone": "Questo file non esiste più.",
@@ -181,15 +180,6 @@ export default {
   "system.cap.pdfFallback": "Apertura nel Visualizzatore universale",
   "system.cap.ocrFallback": "Analisi visiva senza OCR",
   "system.cap.image": "Analisi visiva e raggruppamento",
-  "system.cap.face": "Riconoscimento facciale locale",
-  "system.cap.faceFallback": "Raggruppamento per somiglianza visiva",
-  "system.cap.transcription": "Trascrizione audio",
-  "system.cap.transcriptionFallback": "Metadati e ascolto manuale",
-  "system.cap.videoFallback": "Miniature + metadati",
-  "system.cap.translation": "Traduzione automatica",
-  "system.cap.translationFallback": "Rilevamento lingua locale",
-  "system.cap.multimodal": "Ricerca multimodale",
-  "system.cap.multimodalFallback": "Ricerca per contenuto + tag locali",
   "system.ai.unknownError": "Errore sconosciuto",
   "system.ai.parentUnreadable": "Impossibile leggere la cartella superiore",
   "system.ai.missingCommandType": "Tipo di comando mancante",
