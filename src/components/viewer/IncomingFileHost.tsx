@@ -56,7 +56,7 @@ export function IncomingFileHost() {
     (entry: NonNullable<IncomingFile>["entry"], a: ViewerAction) => {
       if (!file) return;
       if (a === "openWith" || a === "share") {
-        void openWithSystem(file.parent, entry, a === "share" ? "send" : "view");
+        void openWithSystem(file.parent, entry, file.action === "edit" ? "edit" : "view");
         return;
       }
       /* Le fichier reçu n'appartient pas à l'arborescence de
