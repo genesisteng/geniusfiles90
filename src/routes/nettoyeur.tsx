@@ -58,6 +58,7 @@ import { useRoots } from "@/lib/fs/useRoots";
 import { StorageScopePicker, type StorageScope } from "@/components/common/StorageScopePicker";
 import { resolveScope } from "@/components/common/storage-scope";
 import { useT, t as translate } from "@/lib/i18n";
+import { BACK_PRIORITY, useBackHandler } from "@/lib/navigation/back-stack";
 
 export const Route = createFileRoute("/nettoyeur")({
   head: () => ({
@@ -138,6 +139,16 @@ function CleanerPage() {
   const [progress, setProgress] = useState<CleanupProgress | null>(null);
   const { roots } = useRoots();
   const [scope, setScope] = useState<StorageScope>("internal");
+
+  /* Retour Android : une catégorie ouverte revient à la liste d'analyse. */
+  useBackHandler(
+    openCategory !== null,
+    () => {
+      setOpenCategory(null);
+      return true;
+    },
+    BACK_PRIORITY.page,
+  );
 
   useEffect(() => {
     let mounted = true;

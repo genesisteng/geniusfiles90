@@ -58,6 +58,7 @@ import type {
   RenameProposal,
   SmartCollection,
 } from "@/lib/organizer";
+import { BACK_PRIORITY, useBackHandler } from "@/lib/navigation/back-stack";
 
 export const Route = createFileRoute("/organisation")({
   head: () => ({
@@ -105,6 +106,16 @@ function OrganizationPage() {
   const [collectionLoading, setCollectionLoading] = useState(false);
   const collectionCtrl = useRef<AbortController | null>(null);
   const scanCtrl = useRef<AbortController | null>(null);
+
+  /* Retour Android : une collection ouverte revient à la liste. */
+  useBackHandler(
+    openCollection !== null,
+    () => {
+      setOpenCollection(null);
+      return true;
+    },
+    BACK_PRIORITY.page,
+  );
 
   useEffect(() => subscribeOrganizer(() => setTick((t) => t + 1)), []);
   useEffect(() => {

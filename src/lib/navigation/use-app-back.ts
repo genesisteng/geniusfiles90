@@ -40,27 +40,30 @@ export function resolveBack(router: AnyRouter, pathname: string): void {
   //    ouvert, dialogue, menu, mode sélection, dossier courant…
   if (runRegisteredBackHandlers()) return;
 
-  // 2. Page principale de la navigation : retour direct à l'accueil,
-  //    sans dérouler l'historique écran par écran.
+  // 2. Accueil : plus rien à refermer, plus rien à remonter → sortie.
+  //    On ne redéroule JAMAIS l'historique depuis l'accueil, sinon un
+  //    retour renverrait dans les écrans déjà quittés.
+  if (pathname === "/") {
+    requestAppExit();
+    return;
+  }
+
+  // 3. Page principale de la navigation (Genius Ai, Automatisations,
+  //    Paramètres) : retour direct à l'accueil, en un seul appui, sans
+  //    dérouler l'historique écran par écran.
   if (isMainNavPage(pathname)) {
     router.navigate({ to: "/", replace: true });
     return;
   }
 
-  // 3. Écran précédent réel : jamais un saut arbitraire vers l'accueil.
+  // 4. Écran secondaire : écran précédent réel de la pile.
   if (canGoBackInApp()) {
     router.history.back();
     return;
   }
 
-  // 4. Lien profond hors accueil : l'accueil devient le parent logique.
-  if (pathname !== "/") {
-    router.navigate({ to: "/", replace: true });
-    return;
-  }
-
-  // 5. Accueil, pile vide : confirmation de sortie.
-  requestAppExit();
+  // 5. Lien profond hors accueil : l'accueil devient le parent logique.
+  router.navigate({ to: "/", replace: true });
 }
 
 /**

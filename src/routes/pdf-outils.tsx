@@ -111,6 +111,7 @@ import { useConfirm } from "@/components/common/useConfirm";
 import { confirmCopy, progressLabel } from "@/lib/copy";
 import { PageThumbGrid, PageCountBadge } from "@/components/pdf/PageThumbGrid";
 import { usePdfThumbnails } from "@/components/pdf/usePdfThumbnails";
+import { BACK_PRIORITY, useBackHandler } from "@/lib/navigation/back-stack";
 
 export const Route = createFileRoute("/pdf-outils")({
   head: () => ({
@@ -334,6 +335,17 @@ function extractTools(t: TFunction): Tool[] {
 function PdfToolsPage() {
   const t = useT();
   const [tool, setTool] = useState<ToolId | null>(null);
+
+  /* Retour Android : un outil ouvert se referme d'abord et rend la liste
+     des outils — jamais de sortie de l'écran PDF ni de l'application. */
+  useBackHandler(
+    tool !== null,
+    () => {
+      setTool(null);
+      return true;
+    },
+    BACK_PRIORITY.page,
+  );
 
   return (
     <AppShell>
