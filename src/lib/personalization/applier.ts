@@ -69,40 +69,13 @@ function applyTheme(theme: ResolvedTheme) {
 
 function apply(prefs: PersonalizationPrefs) {
   if (typeof document === "undefined") return;
-  const root = document.documentElement;
-  const { appearance } = prefs;
-
-  applyTheme(resolveTheme(appearance.theme));
-
-  root.setAttribute("data-text-size", appearance.textSize);
-  root.setAttribute("data-density", appearance.density);
-  root.setAttribute("data-animations", appearance.animations);
-  root.setAttribute(
-    "data-reduce-motion",
-    appearance.reduceMotion || appearance.animations === "none" ? "1" : "0",
-  );
-
-  // Preserve OS reduced-motion when user picks "reduced".
-  if (appearance.animations === "reduced" && typeof window !== "undefined") {
-    const prefersReduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduce) root.setAttribute("data-reduce-motion", "1");
-  }
+  applyTheme(resolveTheme(prefs.appearance.theme));
 }
 
 /** Thème effectivement appliqué au document (lecture sûre côté SSR). */
 export function currentTheme(): ResolvedTheme {
   if (typeof document === "undefined") return "dark";
   return document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
-}
-
-/**
- * Applique une prévisualisation temporaire (sans écrire les prefs).
- * Retourne une fonction qui rétablit l'état persisté.
- */
-export function previewAppearance(patch: Partial<PersonalizationPrefs["appearance"]>) {
-  const current = loadPrefs();
-  apply({ ...current, appearance: { ...current.appearance, ...patch } });
-  return () => apply(loadPrefs());
 }
 
 let bootstrapped = false;

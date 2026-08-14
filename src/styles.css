@@ -338,54 +338,26 @@ html[data-theme="light"] {
   --shadow-glow: 0 8px 24px rgb(19 114 240 / 0.18);
 }
 
-/* ---------- Personnalisation ---------- */
+/* ---------- Base d'interface ---------- */
 
-/* Densité (padding vertical global) */
-html[data-density="compact"] {
-  --gf-density: 0.75;
-}
-html[data-density="cozy"] {
-  --gf-density: 1;
-}
-html[data-density="comfortable"] {
-  --gf-density: 1.25;
-}
-
-/* Taille de texte */
-html[data-text-size="sm"] {
-  font-size: 14px;
-}
-html[data-text-size="md"] {
+/* Densité, taille de texte et amplitude d'animation : valeurs uniques.
+   Elles ne sont plus des préférences (aucune UI ne les exposait). */
+html {
   font-size: 15px;
-}
-html[data-text-size="lg"] {
-  font-size: 16.5px;
-}
-html[data-text-size="xl"] {
-  font-size: 18px;
-}
-
-/* Animations */
-html[data-animations="expressive"] {
-  --gf-anim-scale: 1.15;
-}
-html[data-animations="standard"] {
+  --gf-density: 1;
   --gf-anim-scale: 1;
 }
-html[data-animations="reduced"] {
-  --gf-anim-scale: 0.5;
-}
-html[data-animations="none"] {
-  --gf-anim-scale: 0;
-}
 
-html[data-reduce-motion="1"] *,
-html[data-reduce-motion="1"] *::before,
-html[data-reduce-motion="1"] *::after {
-  animation-duration: 0.001ms !important;
-  animation-iteration-count: 1 !important;
-  transition-duration: 0.001ms !important;
-  scroll-behavior: auto !important;
+/* Le mouvement réduit suit uniquement le réglage système Android. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 @layer base {
