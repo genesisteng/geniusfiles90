@@ -544,11 +544,6 @@ export function AddedFilesPage() {
           setSortOrder(o);
           saveSort({ key: k, order: o });
         }}
-        onRefresh={() => {
-          void doRefresh();
-        }}
-        refreshing={refreshing}
-        onSelect={() => sorted[0] && setSelected(new Set([addedId(sorted[0])]))}
         selection={
           selectionMode
             ? {

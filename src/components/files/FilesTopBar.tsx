@@ -1,31 +1,10 @@
-import {
-  ArrowLeft,
-  ArrowDownAZ,
-  ArrowUpAZ,
-  Check,
-  CheckSquare,
-  FolderPlus,
-  LayoutGrid,
-  List,
-  MoreVertical,
-  RefreshCw,
-  Search,
-} from "lucide-react";
+import { ArrowLeft, FolderPlus, LayoutGrid, List, MoreVertical, Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import type { SortKey, SortOrder, ViewMode } from "@/lib/files/types";
 import { SelectionActionRow } from "./SelectionBar";
+import { SortMenu } from "./SortMenu";
 import { useT } from "@/lib/i18n";
-
-function useSortLabel(): Record<SortKey, string> {
-  const t = useT();
-  return {
-    name: t("files.sort.name"),
-    date: t("files.sort.date"),
-    size: t("files.sort.size"),
-    type: t("files.sort.type"),
-  };
-}
 
 type Props = {
   title: string;
@@ -39,11 +18,8 @@ type Props = {
   onSortChange: (key: SortKey, order: SortOrder) => void;
   foldersFirst?: boolean;
   onFoldersFirstChange?: (on: boolean) => void;
-  onRefresh: () => void;
-  refreshing: boolean;
   /** Absent → l'entrée « Nouveau dossier » n'est pas proposée (catégories). */
   onNewFolder?: () => void;
-  onSelect: () => void;
 
   /**
    * Quand défini, **seule** la première ligne est remplacée par la barre de
@@ -79,15 +55,12 @@ export function FilesTopBar({
   onSortChange,
   foldersFirst,
   onFoldersFirstChange,
-  onRefresh,
-  refreshing,
   onNewFolder,
-  onSelect,
   selection,
   children,
 }: Props) {
   const t = useT();
-  const SORT_LABEL = useSortLabel();
+
   const [menu, setMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -150,82 +123,33 @@ export function FilesTopBar({
               <MoreVertical className="h-[20px] w-[20px]" strokeWidth={2.1} />
             </IconButton>
             {menu ? (
-              <div
-                role="menu"
-                className="glass-panel animate-scale-in absolute right-1 top-[calc(100%+4px)] z-40 w-56 origin-top-right overflow-hidden rounded-2xl p-1.5 shadow-elevated"
-              >
-                <MenuLabel>{t("files.sort.by")}</MenuLabel>
-                {(Object.keys(SORT_LABEL) as SortKey[]).map((k) => (
-                  <MenuItem
-                    key={k}
-                    onClick={() => onSortChange(k, sortOrder)}
-                    trailing={k === sortKey ? <Check className="h-4 w-4 text-primary" /> : null}
-                  >
-                    {SORT_LABEL[k]}
-                  </MenuItem>
-                ))}
-                <MenuItem
-                  onClick={() => onSortChange(sortKey, sortOrder === "asc" ? "desc" : "asc")}
-                  trailing={
-                    sortOrder === "asc" ? (
-                      <ArrowUpAZ className="h-4 w-4" />
-                    ) : (
-                      <ArrowDownAZ className="h-4 w-4" />
-                    )
-                  }
-                >
-                  {sortOrder === "asc" ? t("files.sort.ascending") : t("files.sort.descending")}
-                </MenuItem>
-                {onFoldersFirstChange ? (
-                  <>
-                    <Divider />
-                    <MenuItem
-                      onClick={() => onFoldersFirstChange(!foldersFirst)}
-                      trailing={
-                        <span
-                          className={`flex h-[18px] w-8 items-center rounded-full p-0.5 transition-colors ${
-                            foldersFirst ? "bg-primary" : "bg-secondary"
-                          }`}
-                        >
-                          <span
-                            className={`h-[14px] w-[14px] rounded-full bg-surface transition-transform duration-200 ${
-                              foldersFirst ? "translate-x-[14px]" : ""
-                            }`}
-                          />
-                        </span>
-                      }
-                      keepOpen
-                    >
-                      {t("files.sort.foldersFirst")}
-                    </MenuItem>
-                  </>
-                ) : null}
-                <Divider />
+              <div className="animate-scale-in absolute right-1 top-[calc(100%+4px)] z-40 origin-top-right">
                 {onNewFolder ? (
-                  <MenuItem
-                    onClick={onNewFolder}
-                    leading={<FolderPlus className="h-[18px] w-[18px]" />}
-                  >
-                    {t("action.newFolder")}
-                  </MenuItem>
+                  <div className="mb-1.5 w-60 overflow-hidden rounded-2xl border border-border-strong bg-popover p-1.5 shadow-elevated">
+                    <button
+                      type="button"
+                      role="menuitem"
+                      onClick={() => {
+                        setMenu(false);
+                        onNewFolder();
+                      }}
+                      className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-left text-[13.5px] text-foreground transition-colors hover:bg-secondary active:bg-secondary"
+                    >
+                      <FolderPlus className="h-[18px] w-[18px] text-muted-foreground" />
+                      <span className="flex-1 truncate">{t("action.newFolder")}</span>
+                    </button>
+                  </div>
                 ) : null}
-
-                <MenuItem
-                  onClick={onSelect}
-                  leading={<CheckSquare className="h-[18px] w-[18px]" />}
-                >
-                  {t("action.select")}
-                </MenuItem>
-                <MenuItem
-                  onClick={onRefresh}
-                  leading={
-                    <RefreshCw
-                      className={`h-[18px] w-[18px] ${refreshing ? "animate-spin" : ""}`}
-                    />
-                  }
-                >
-                  {t("action.refresh")}
-                </MenuItem>
+                <SortMenu
+                  sortKey={sortKey}
+                  sortOrder={sortOrder}
+                  foldersFirst={foldersFirst}
+                  onFoldersFirstChange={onFoldersFirstChange}
+                  onApply={(k, o) => {
+                    onSortChange(k, o);
+                    setMenu(false);
+                  }}
+                />
               </div>
             ) : null}
           </div>
@@ -234,36 +158,6 @@ export function FilesTopBar({
       {children ? <div className="pl-safe pr-safe">{children}</div> : null}
     </header>
   );
-
-  function MenuItem({
-    children,
-    onClick,
-    leading,
-    trailing,
-    keepOpen,
-  }: {
-    children: React.ReactNode;
-    onClick: () => void;
-    leading?: React.ReactNode;
-    trailing?: React.ReactNode;
-    keepOpen?: boolean;
-  }) {
-    return (
-      <button
-        type="button"
-        role="menuitem"
-        onClick={() => {
-          onClick();
-          if (!keepOpen) setMenu(false);
-        }}
-        className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-[13.5px] text-foreground transition-colors hover:bg-secondary active:bg-secondary"
-      >
-        {leading ? <span className="text-muted-foreground">{leading}</span> : null}
-        <span className="flex-1 truncate">{children}</span>
-        {trailing ? <span className="text-muted-foreground">{trailing}</span> : null}
-      </button>
-    );
-  }
 }
 
 function MenuLabel({ children }: { children: React.ReactNode }) {

@@ -1,7 +1,6 @@
 import {
   ArrowDownAZ,
   ArrowUpAZ,
-  Check,
   LayoutGrid,
   List,
   RefreshCw,
@@ -9,17 +8,8 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { SortKey, SortOrder, ViewMode } from "@/lib/files/types";
+import { SortMenu, useSortLabels } from "./SortMenu";
 import { useT } from "@/lib/i18n";
-
-function useSortLabel(): Record<SortKey, string> {
-  const t = useT();
-  return {
-    name: t("files.sort.name"),
-    date: t("files.sort.date"),
-    size: t("files.sort.size"),
-    type: t("files.sort.type"),
-  };
-}
 
 export function FilesToolbar({
   view,
@@ -45,17 +35,17 @@ export function FilesToolbar({
   count?: number;
 }) {
   const t = useT();
-  const SORT_LABEL = useSortLabel();
+  const SORT_LABEL = useSortLabels();
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!open) return;
-    const onDoc = (e: MouseEvent) => {
+    const onDoc = (e: PointerEvent) => {
       if (!menuRef.current?.contains(e.target as Node)) setOpen(false);
     };
-    document.addEventListener("mousedown", onDoc);
-    return () => document.removeEventListener("mousedown", onDoc);
+    document.addEventListener("pointerdown", onDoc);
+    return () => document.removeEventListener("pointerdown", onDoc);
   }, [open]);
 
   return (
@@ -90,76 +80,17 @@ export function FilesToolbar({
           )}
         </button>
         {open ? (
-          <div
-            role="menu"
-            className="glass-panel absolute right-0 top-[calc(100%+6px)] z-30 w-52 overflow-hidden rounded-xl p-1 shadow-soft"
-          >
-            <p className="px-2.5 pb-1 pt-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-              {t("files.sort.by")}
-            </p>
-            {(Object.keys(SORT_LABEL) as SortKey[]).map((k) => {
-              const active = k === sortKey;
-              return (
-                <button
-                  key={k}
-                  role="menuitem"
-                  onClick={() => onSortChange(k, sortOrder)}
-                  className={`flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-left text-xs transition-colors hover:bg-secondary ${
-                    active ? "text-foreground" : "text-muted-foreground"
-                  }`}
-                >
-                  <span>{SORT_LABEL[k]}</span>
-                  {active ? <Check className="h-3.5 w-3.5 text-primary" /> : null}
-                </button>
-              );
-            })}
-            <div className="my-1 h-px bg-border" />
-            <p className="px-2.5 pb-1 pt-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-              {t("files.sort.order")}
-            </p>
-            <div className="flex gap-1 px-1 pb-1">
-              <button
-                onClick={() => onSortChange(sortKey, "asc")}
-                className={`flex flex-1 items-center justify-center gap-1 rounded-lg py-1.5 text-[11px] transition-colors ${
-                  sortOrder === "asc"
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <ArrowUpAZ className="h-3.5 w-3.5" /> {t("files.sort.ascending")}
-              </button>
-              <button
-                onClick={() => onSortChange(sortKey, "desc")}
-                className={`flex flex-1 items-center justify-center gap-1 rounded-lg py-1.5 text-[11px] transition-colors ${
-                  sortOrder === "desc"
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <ArrowDownAZ className="h-3.5 w-3.5" /> {t("files.sort.descending")}
-              </button>
-            </div>
-            <div className="my-1 h-px bg-border" />
-            <button
-              onClick={() => onFoldersFirstChange(!foldersFirst)}
-              role="menuitemcheckbox"
-              aria-checked={foldersFirst}
-              className="flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-            >
-              <span>{t("files.sort.foldersFirst")}</span>
-              <span
-                className={`flex h-4 w-7 items-center rounded-full p-0.5 transition-colors ${
-                  foldersFirst ? "bg-primary" : "bg-secondary"
-                }`}
-              >
-                <span
-                  className={`h-3 w-3 rounded-full bg-white transition-transform ${
-                    foldersFirst ? "translate-x-3" : ""
-                  }`}
-                />
-              </span>
-            </button>
-          </div>
+          <SortMenu
+            className="absolute right-0 top-[calc(100%+6px)] z-40"
+            sortKey={sortKey}
+            sortOrder={sortOrder}
+            foldersFirst={foldersFirst}
+            onFoldersFirstChange={onFoldersFirstChange}
+            onApply={(k, o) => {
+              onSortChange(k, o);
+              setOpen(false);
+            }}
+          />
         ) : null}
       </div>
 

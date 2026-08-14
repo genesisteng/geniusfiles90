@@ -164,17 +164,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         imageSizes: "176px",
       },
 
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      // Polices officielles auto-hébergées : préchargées en priorité haute
+      // pour que le tout premier texte peint soit déjà en Inter / Space
+      // Grotesk, y compris hors ligne dans l'APK.
       {
-        rel: "preconnect",
-        href: "https://fonts.gstatic.com",
+        rel: "preload",
+        href: "/fonts/inter-400-latin.woff2",
+        as: "font",
+        type: "font/woff2",
         crossOrigin: "anonymous",
       },
-      // The Google Fonts stylesheet is loaded lazily after hydration (see
-      // RootComponent). Injecting it as a render-blocking <link> here would
-      // stall first paint on APK cold-start and fail entirely when the
-      // WebView boots offline. System-font fallbacks render immediately;
-      // Inter/Space Grotesk swap in when the network delivers the sheet.
+      {
+        rel: "preload",
+        href: "/fonts/space-grotesk-500-latin.woff2",
+        as: "font",
+        type: "font/woff2",
+        crossOrigin: "anonymous",
+      },
       { rel: "icon", type: "image/png", href: "/favicon.png" },
     ],
   }),
@@ -297,24 +303,9 @@ function RootComponent() {
     };
   }, []);
 
-  // Load remote webfonts *after* the first paint so they never block
-  // rendering. Uses the classic "print → all" trick so the browser
-  // downloads the sheet at low priority and applies it once ready.
-  useEffect(() => {
-    if (typeof document === "undefined") return;
-    const href =
-      "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap";
-    if (document.querySelector(`link[data-gf="1"]`)) return;
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = href;
-    link.media = "print";
-    link.dataset.gf = "1";
-    link.onload = () => {
-      link.media = "all";
-    };
-    document.head.appendChild(link);
-  }, []);
+  // Les polices officielles (Inter, Space Grotesk) sont auto-hébergées et
+  // déclarées dans src/fonts.css : aucun chargement réseau, aucun risque de
+  // repli sur la police du téléphone.
 
   return (
     <QueryClientProvider client={queryClient}>
