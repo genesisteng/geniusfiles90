@@ -1513,3 +1513,138 @@ body {
 [data-spin] .gf-pull-icon {
   opacity: 0;
 }
+
+/* ------------------------------------------------------------------ */
+/* Messages temporaires (toasts)                                       */
+/*                                                                     */
+/* Sobres, compacts, très arrondis, sans croix : la même carte pour    */
+/* succès, information, avertissement et erreur. Seule une pastille    */
+/* d'accent discrète distingue le type de message.                     */
+/* ------------------------------------------------------------------ */
+.gf-toast {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  width: 100%;
+  padding: 0.6875rem 1rem;
+  border-radius: 1.5rem;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-elevated) 92%, transparent);
+  color: var(--foreground);
+  font-size: 13.5px;
+  line-height: 1.35;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  box-shadow:
+    0 10px 30px -12px rgb(0 0 0 / 0.55),
+    0 1px 0 0 rgb(255 255 255 / 0.04) inset;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* Un toast avec description reprend des coins largement arrondis
+   plutôt qu'une pilule, tout en restant compact. */
+.gf-toast:has([data-description]) {
+  align-items: flex-start;
+  padding: 0.8125rem 1rem;
+}
+
+.gf-toast [data-description] {
+  margin-top: 0.125rem;
+  color: var(--muted-foreground);
+  font-size: 12.5px;
+  font-weight: 400;
+}
+
+.gf-toast [data-icon] {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted-foreground);
+}
+
+.gf-toast[data-type="success"] [data-icon] {
+  color: var(--primary);
+}
+
+.gf-toast[data-type="warning"] [data-icon] {
+  color: #e2b04a;
+}
+
+.gf-toast[data-type="error"] [data-icon] {
+  color: #e97a72;
+}
+
+.gf-toast [data-button] {
+  flex: none;
+  margin-left: 0.25rem;
+  padding: 0.3125rem 0.75rem;
+  border-radius: 9999px;
+  background: var(--surface-3);
+  color: var(--foreground);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.gf-toast [data-button][data-cancel] {
+  background: transparent;
+  color: var(--muted-foreground);
+}
+
+/* Apparition douce et rapide, disparition fluide : aucun rebond,
+   aucun déplacement excessif. */
+@keyframes gf-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes gf-toast-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+}
+
+.gf-toast[data-mounted="true"] {
+  animation: gf-toast-in 180ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.gf-toast[data-removed="true"],
+.gf-toast[data-visible="false"] {
+  animation: gf-toast-out 140ms ease both;
+}
+
+.gf-toast[data-swiping="true"] {
+  animation: none;
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gf-toast[data-mounted="true"],
+  .gf-toast[data-removed="true"],
+  .gf-toast[data-visible="false"] {
+    animation-duration: 1ms;
+  }
+}
+
+/* Sonner positionne chaque message en absolu : sans ses styles par
+   défaut, on ancre nous-mêmes la carte sur le bord du conteneur pour
+   qu'elle reste au-dessus de la barre de navigation. */
+[data-sonner-toaster][data-y-position="bottom"] .gf-toast {
+  bottom: 0;
+}
+
+[data-sonner-toaster][data-y-position="top"] .gf-toast {
+  top: 0;
+}

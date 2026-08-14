@@ -328,14 +328,22 @@ function RootComponent() {
           présentée par-dessus la fonctionnalité appelante, qui reste
           montée et conserve tout son contexte. */}
       <PickLayer />
+      {/* Messages temporaires : sobres, très arrondis, sans croix.
+          Le style complet vit dans `styles.css` (classe `gf-toast`). */}
       <Toaster
         position="bottom-center"
         theme={toastTheme}
-        richColors
-        closeButton
+        richColors={false}
+        closeButton={false}
+        gap={8}
+        duration={3200}
+        visibleToasts={3}
         swipeDirections={["left", "right", "bottom"]}
         offset={96}
+        mobileOffset={{ bottom: 96, left: 16, right: 16 }}
+        toastOptions={{ className: "gf-toast", unstyled: true }}
       />
+
       <SplashOverlay />
     </QueryClientProvider>
   );

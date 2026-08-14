@@ -23,23 +23,43 @@ export function requestAppExit(): void {
   window.dispatchEvent(new Event(EXIT_REQUEST_EVENT));
 }
 
+/**
+ * Pages atteignables directement depuis la barre de navigation
+ * principale. Depuis l'une d'elles, le retour ramène TOUJOURS à
+ * l'accueil (en une seule fois) : l'utilisateur ne reparcourt jamais
+ * l'historique complet des écrans déjà visités.
+ */
+const MAIN_NAV_PAGES = ["/assistant", "/automatisations", "/parametres"];
+
+function isMainNavPage(pathname: string): boolean {
+  return MAIN_NAV_PAGES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+}
+
 export function resolveBack(router: AnyRouter, pathname: string): void {
-  // 1. Surfaces internes de la page (priorité décroissante).
+  // 1. Surfaces internes de la page (priorité décroissante) : lecteur
+  //    ouvert, dialogue, menu, mode sélection, dossier courant…
   if (runRegisteredBackHandlers()) return;
 
-  // 2. Écran précédent réel : jamais un saut vers l'accueil.
+  // 2. Page principale de la navigation : retour direct à l'accueil,
+  //    sans dérouler l'historique écran par écran.
+  if (isMainNavPage(pathname)) {
+    router.navigate({ to: "/", replace: true });
+    return;
+  }
+
+  // 3. Écran précédent réel : jamais un saut arbitraire vers l'accueil.
   if (canGoBackInApp()) {
     router.history.back();
     return;
   }
 
-  // 3. Lien profond hors accueil : l'accueil devient le parent logique.
+  // 4. Lien profond hors accueil : l'accueil devient le parent logique.
   if (pathname !== "/") {
-    router.navigate({ to: "/" });
+    router.navigate({ to: "/", replace: true });
     return;
   }
 
-  // 4. Accueil, pile vide : confirmation de sortie.
+  // 5. Accueil, pile vide : confirmation de sortie.
   requestAppExit();
 }
 

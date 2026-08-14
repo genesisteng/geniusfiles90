@@ -4,6 +4,7 @@ import { AudioPlayer } from "./AudioPlayer";
 import { ArtworkFallback } from "./ArtworkFallback";
 import { parseTrackName } from "./format";
 import { useT } from "@/lib/i18n";
+import { BACK_PRIORITY, useBackHandler } from "@/lib/navigation/back-stack";
 
 /**
  * Persistent audio surface mounted once at the AppShell level.
@@ -16,6 +17,16 @@ import { useT } from "@/lib/i18n";
  */
 export function PlayerHost() {
   const s = useAudioState();
+  // Retour Android : quand le lecteur plein écran est ouvert, le retour
+  // le referme et redonne l'écran précédent — jamais de sortie de l'app.
+  useBackHandler(
+    s.uiOpen,
+    () => {
+      audioStore.closeUI();
+      return true;
+    },
+    BACK_PRIORITY.overlay,
+  );
   const entry = s.queue[s.index];
   if (!entry) return null;
 
