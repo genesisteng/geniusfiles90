@@ -12,9 +12,9 @@
     - READ_MEDIA_* : granular media access (Android 13+).
     - READ/WRITE_EXTERNAL_STORAGE : legacy storage compat (Android ≤ 10).
     - FOREGROUND_SERVICE / POST_NOTIFICATIONS : long-running copy/move ops.
-    - INTERNET / ACCESS_*_STATE / CHANGE_*_STATE / NEARBY_WIFI_DEVICES /
-      ACCESS_FINE_LOCATION : offline P2P transfer plugin.
-    - CAMERA : QR pairing.
+    - INTERNET / ACCESS_NETWORK_STATE : assistant IA.
+    - CAMERA : numérisation de documents.
+
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
