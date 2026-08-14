@@ -23,7 +23,8 @@ export default {
   "vault.log.delete_one": "{name} endgültig gelöscht",
   "vault.log.delete_other": "{count} Elemente endgültig gelöscht",
   "pdf.meta.titlePrefix": "PDF-Werkzeuge",
-  "pdf.meta.description": "PDFs direkt auf dem Gerät zusammenführen, teilen, komprimieren und umwandeln.",
+  "pdf.meta.description":
+    "PDFs direkt auf dem Gerät zusammenführen, teilen, komprimieren und umwandeln.",
   "pdf.analyseEnCours": "Wird analysiert…",
   "pdf.plagesIncorrectes": "Ungültige Seitenbereiche",
   "pdf.formatPlagesExemple": "Erwartetes Format: 1-3, 5, 8-10",

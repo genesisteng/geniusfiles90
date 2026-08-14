@@ -23,7 +23,8 @@ export default {
   "vault.log.delete_one": "{name} eliminato definitivamente",
   "vault.log.delete_other": "{count} elementi eliminati definitivamente",
   "pdf.meta.titlePrefix": "Strumenti PDF",
-  "pdf.meta.description": "Unisci, dividi, comprimi e converti i tuoi PDF direttamente sul dispositivo.",
+  "pdf.meta.description":
+    "Unisci, dividi, comprimi e converti i tuoi PDF direttamente sul dispositivo.",
   "pdf.analyseEnCours": "Analisi in corso…",
   "pdf.plagesIncorrectes": "Intervalli di pagine non validi",
   "pdf.formatPlagesExemple": "Formato previsto: 1-3, 5, 8-10",

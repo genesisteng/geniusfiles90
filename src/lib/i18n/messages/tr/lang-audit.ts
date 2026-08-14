@@ -23,7 +23,8 @@ export default {
   "vault.log.delete_one": "{name} kalıcı olarak silindi",
   "vault.log.delete_other": "{count} öge kalıcı olarak silindi",
   "pdf.meta.titlePrefix": "PDF araçları",
-  "pdf.meta.description": "PDF dosyalarınızı doğrudan cihazınızda birleştirin, bölün, sıkıştırın ve dönüştürün.",
+  "pdf.meta.description":
+    "PDF dosyalarınızı doğrudan cihazınızda birleştirin, bölün, sıkıştırın ve dönüştürün.",
   "pdf.analyseEnCours": "Analiz ediliyor…",
   "pdf.plagesIncorrectes": "Geçersiz sayfa aralıkları",
   "pdf.formatPlagesExemple": "Beklenen biçim: 1-3, 5, 8-10",

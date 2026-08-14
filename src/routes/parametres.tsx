@@ -355,4 +355,3 @@ function LanguagePicker({
     </div>
   );
 }
-

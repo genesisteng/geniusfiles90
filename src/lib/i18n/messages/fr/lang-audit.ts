@@ -23,7 +23,8 @@ export default {
   "vault.log.delete_one": "{name} supprimé définitivement",
   "vault.log.delete_other": "{count} éléments supprimés définitivement",
   "pdf.meta.titlePrefix": "Outils PDF",
-  "pdf.meta.description": "Fusionnez, divisez, compressez et convertissez vos PDF directement sur votre appareil.",
+  "pdf.meta.description":
+    "Fusionnez, divisez, compressez et convertissez vos PDF directement sur votre appareil.",
   "pdf.analyseEnCours": "Analyse en cours…",
   "pdf.plagesIncorrectes": "Plages de pages incorrectes",
   "pdf.formatPlagesExemple": "Format attendu : 1-3, 5, 8-10",
