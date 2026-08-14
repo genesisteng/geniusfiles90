@@ -653,7 +653,16 @@ export function FilesPage() {
     (entry: FileEntry) => {
       if (!path) return;
       if (pick) {
+        /* Choix d'une destination : on ne sélectionne rien — un dossier
+           s'ouvre, un fichier est ignoré. La destination est le dossier
+           affiché, validé depuis la barre du bas. */
+        if (pick.purpose === "destination") {
+          if (entry.isDirectory)
+            navigateTo({ rootId: path.rootId, segments: [...path.segments, entry.name] });
+          return;
+        }
         // Un dossier reste ouvrable quand la fonctionnalité ne veut que des fichiers.
+
         if (entry.isDirectory && pick.accept === "files") {
           navigateTo({ rootId: path.rootId, segments: [...path.segments, entry.name] });
           return;
