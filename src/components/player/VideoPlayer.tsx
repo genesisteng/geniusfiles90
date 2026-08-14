@@ -475,17 +475,11 @@ export function VideoPlayer({
     };
     const onPause = () => setPlaying(false);
     const onError = () => {
-      setBuffering(false);
-      setPlaying(false);
-      const code = v.error?.code;
-      setError(
-        code === 4
-          ? t("media.player.video.unsupportedFormat")
-          : code === 2
-            ? t("media.player.video.playbackError")
-            : t("media.player.video.cannotPlay"),
-      );
+      // Aucune erreur affichée tant qu'une voie de lecture reste possible :
+      // rechargement, puis lecteur système de l'appareil.
+      void handleFailure(v.error?.code);
     };
+
     const onWaiting = () => setBuffering(true);
     const onEnded = () => {
       setPlaying(false);
