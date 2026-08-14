@@ -51,7 +51,6 @@ import {
   resolveLocale,
   useLocalePreference,
   useT,
-  type Locale,
   type LocalePreference,
 } from "@/lib/i18n";
 import { clearThumbnailCache } from "@/lib/native/thumbnails";
