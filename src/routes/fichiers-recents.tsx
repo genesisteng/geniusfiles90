@@ -10,7 +10,7 @@
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { useAppNavigate } from "@/lib/navigation/pick-nav";
-import { confirmPick, usePickRequest } from "@/lib/files/pick-session";
+import { confirmPick, requestDestination, usePickRequest } from "@/lib/files/pick-session";
 import {
   toggleSelection as toggleGlobalSelection,
   useSelection as useGlobalSelection,
