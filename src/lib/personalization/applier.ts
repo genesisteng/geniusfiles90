@@ -78,7 +78,6 @@ export function currentTheme(): ResolvedTheme {
   return document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
 }
 
-
 let bootstrapped = false;
 let personalizationReady: Promise<void> = Promise.resolve();
 
