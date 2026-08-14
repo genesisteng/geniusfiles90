@@ -217,26 +217,50 @@ export async function refreshAddedFiles(force = false): Promise<AddedFile[]> {
  * Surveillance légère du stockage : premier plan, mutations internes et
  * sondage espacé. Retourne la fonction d'arrêt.
  */
+let watchers = 0;
+let stopWatch: (() => void) | null = null;
+
 export function watchAddedFiles(): () => void {
   if (typeof window === "undefined") return () => {};
-  const kick = () => {
+  watchers += 1;
+  if (watchers === 1) {
+    let debounce: number | null = null;
+    /* Une rafale d'événements (mutations disque + retour au premier plan)
+       ne doit déclencher qu'un seul balayage, en fin de rafale. */
+    const kick = () => {
+      if (debounce != null) window.clearTimeout(debounce);
+      debounce = window.setTimeout(() => {
+        debounce = null;
+        void refreshAddedFiles();
+      }, 300);
+    };
     void refreshAddedFiles();
-  };
-  kick();
-  const onVisible = () => {
-    if (document.visibilityState === "visible") kick();
-  };
-  const timer = window.setInterval(() => {
-    if (document.visibilityState === "visible") kick();
-  }, POLL_MS);
-  document.addEventListener("visibilitychange", onVisible);
-  window.addEventListener("focus", kick);
-  window.addEventListener("gf:storage-changed", kick);
+    const onVisible = () => {
+      if (document.visibilityState === "visible") kick();
+    };
+    const timer = window.setInterval(() => {
+      if (document.visibilityState === "visible") kick();
+    }, POLL_MS);
+    document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("focus", kick);
+    window.addEventListener("gf:storage-changed", kick);
+    stopWatch = () => {
+      if (debounce != null) window.clearTimeout(debounce);
+      window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("focus", kick);
+      window.removeEventListener("gf:storage-changed", kick);
+    };
+  }
+  let released = false;
   return () => {
-    window.clearInterval(timer);
-    document.removeEventListener("visibilitychange", onVisible);
-    window.removeEventListener("focus", kick);
-    window.removeEventListener("gf:storage-changed", kick);
+    if (released) return;
+    released = true;
+    watchers = Math.max(0, watchers - 1);
+    if (watchers === 0) {
+      stopWatch?.();
+      stopWatch = null;
+    }
   };
 }
 
