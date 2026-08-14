@@ -13,6 +13,7 @@
  * public listing, so nothing extra is needed to make protected files
  * disappear from Fichiers, Galerie, Recherche or Nettoyeur.
  */
+import { useListScrollMemory } from "@/lib/files/use-list-scroll";
 import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { toast } from "sonner";
