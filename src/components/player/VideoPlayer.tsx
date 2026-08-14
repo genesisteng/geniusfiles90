@@ -22,6 +22,8 @@ import {
 import type { FileEntry, PathRef } from "@/lib/files/types";
 import { useOverlayZClass } from "@/lib/files/overlay-z";
 import { sourceUrlOf, entryKey, absolutePathOf } from "@/lib/viewer/source";
+import { openWithSystem } from "@/lib/viewer/openWith";
+import { isAndroidNative } from "@/lib/native/geniusfiles-native";
 import { peekThumbnail, resolveThumbnail } from "@/lib/native/thumbnails";
 import { getResume, setResume } from "@/lib/viewer/resume";
 import { SeekController } from "@/lib/player/seek-controller";
