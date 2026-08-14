@@ -66,7 +66,6 @@ export function resolveBack(router: AnyRouter, pathname: string): void {
   router.navigate({ to: "/", replace: true });
 }
 
-
 /**
  * Hook à utiliser pour TOUT bouton Retour de l'interface, afin qu'il se
  * comporte exactement comme le retour système.

@@ -60,7 +60,6 @@ import type {
 } from "@/lib/organizer";
 import { BACK_PRIORITY, useBackHandler } from "@/lib/navigation/back-stack";
 
-
 export const Route = createFileRoute("/organisation")({
   head: () => ({
     meta: [
