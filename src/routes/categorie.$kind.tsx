@@ -889,7 +889,7 @@ export function CategoryPage({ kind }: { kind: CategoryKind }) {
       ) : sorted.length === 0 && query.trim() ? (
         <IllustratedEmptyState
           id="search"
-          description={t("files.search.noMatch", { query: query.trim() })}
+          description={t("files.search.noMatchDesc", { query: query.trim() })}
           action={
             <button onClick={() => setQuery("")} className="btn-primary gf-press">
               {t("cleaner.trash.clearSearch.aria")}
@@ -991,7 +991,7 @@ export function CategoryPage({ kind }: { kind: CategoryKind }) {
       <NamePrompt
         open={dialog.kind === "rename"}
         title={t("action.rename")}
-        label={t("files.rename.newName")}
+        label={t("home.rename.nameLabel")}
         initial={dialog.kind === "rename" ? dialog.entry.name : ""}
         cta={t("action.rename")}
         onCancel={() => setDialog({ kind: "none" })}
