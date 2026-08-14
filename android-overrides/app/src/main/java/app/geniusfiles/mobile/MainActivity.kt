@@ -1,5 +1,6 @@
 package app.geniusfiles.mobile
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -38,6 +39,9 @@ class MainActivity : BridgeActivity() {
         // enregistrement, `window.Capacitor.Plugins.GeniusFilesBiometric`
         // est absent et l'app annonce « non disponible » à tort.
         registerPlugin(GeniusFilesBiometricPlugin::class.java)
+        // « Ouvrir avec… » entrant : une autre application peut confier un
+        // fichier à GeniusFiles (ACTION_VIEW / EDIT / SEND).
+        registerPlugin(GeniusFilesIntentPlugin::class.java)
         // Source de vérité unique côté Android : le mode nuit AppCompat est
         // aligné sur le choix persisté AVANT toute inflation. Le thème
         // DayNight, le splash (values-night), `windowLightStatusBar` et les
@@ -68,9 +72,21 @@ class MainActivity : BridgeActivity() {
         }
         super.onCreate(savedInstanceState)
 
+        // L'intent de lancement peut porter un fichier à ouvrir : il est
+        // mémorisé ici et résolu à la demande par la WebView.
+        GeniusFilesIntentPlugin.offer(this, intent)
+
         applySystemBars()
         disableAlgorithmicDarkening()
         disableWebViewOverScroll()
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        // `launchMode=singleTask` : quand l'app tourne déjà, le fichier
+        // arrive ici et non dans onCreate.
+        setIntent(intent)
+        GeniusFilesIntentPlugin.offer(this, intent)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
