@@ -5,7 +5,7 @@
  * éditables. Signaux exploités : docType, keywords, artiste/album/titre
  * pour l'audio, mtime, dimensions image, mots-clés OCR pour captures.
  *
- * Fondation prête pour un fournisseur IA plus riche (voir `reserved.ts`).
+ * Fondation prête pour un fournisseur IA plus riche.
  */
 import { getAnalysis } from "@/lib/analysis";
 import type { FileEntry, PathRef } from "@/lib/files/types";
