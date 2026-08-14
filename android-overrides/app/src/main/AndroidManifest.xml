@@ -76,24 +76,14 @@
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 
 
-    <!-- Offline P2P transfer -->
+    <!-- Réseau : accès Internet pour l'assistant IA uniquement.
+         Aucune fonctionnalité de transfert entre appareils : aucune
+         autorisation Wi-Fi Direct / « Appareils à proximité » n'est
+         demandée par GeniusFiles. -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
-    <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES"
-        android:usesPermissionFlags="neverForLocation"
-        tools:targetApi="tiramisu" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
-        android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"
-        android:maxSdkVersion="32" />
-    <!-- WAKE_LOCK déjà déclaré plus haut (opérations longues). -->
 
-
-    <!-- QR pairing -->
+    <!-- Numérisation de documents (scanner PDF) -->
     <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- Coffre-fort : déverrouillage biométrique (empreinte / visage).
@@ -105,8 +95,7 @@
     <uses-feature android:name="android.hardware.fingerprint" android:required="false" />
     <uses-feature android:name="android.hardware.biometrics" android:required="false" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
-    <uses-feature android:name="android.hardware.wifi" android:required="false" />
-    <uses-feature android:name="android.hardware.wifi.direct" android:required="false" />
+
 
     <application
         android:name="app.geniusfiles.mobile.GeniusFilesApplication"
