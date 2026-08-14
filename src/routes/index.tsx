@@ -1084,7 +1084,7 @@ export function FilesPage() {
           break;
       }
     },
-    [openDetails, runShare, openArchive, openEntry, path, routerNavigate],
+    [openDetails, runShare, openArchive, openEntry, path, routerNavigate, startTransferFlow],
   );
 
   /* ---------- viewer action dispatcher ---------- */
@@ -1125,7 +1125,7 @@ export function FilesPage() {
           break;
       }
     },
-    [openDetails, runShare, path],
+    [openDetails, runShare, path, startTransferFlow],
   );
 
   return (
