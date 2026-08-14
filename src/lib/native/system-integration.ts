@@ -36,11 +36,17 @@ function plugin(): Plugin | null {
   return nativePlugin() as unknown as Plugin | null;
 }
 
-const DEFAULT_SHORTCUTS: ShortcutSpec[] = [
-  { id: "search", label: "Recherche", longLabel: t("system.shortcut.search"), route: "/recherche" },
+/** Raccourcis traduits au moment de l'enregistrement, pas à l'import. */
+const defaultShortcuts = (): ShortcutSpec[] => [
+  {
+    id: "search",
+    label: t("nav.search"),
+    longLabel: t("system.shortcut.search"),
+    route: "/recherche",
+  },
   {
     id: "cleaner",
-    label: "Nettoyeur",
+    label: t("nav.cleaner"),
     longLabel: t("system.shortcut.analyze"),
     route: "/nettoyeur",
   },
@@ -52,7 +58,7 @@ export async function registerDefaultShortcuts(): Promise<void> {
   const p = plugin();
   if (!p?.registerShortcuts) return;
   try {
-    await p.registerShortcuts({ shortcuts: DEFAULT_SHORTCUTS });
+    await p.registerShortcuts({ shortcuts: defaultShortcuts() });
     shortcutsRegistered = true;
   } catch {
     /* silent — retried on next cold start */

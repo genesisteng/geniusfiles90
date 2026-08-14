@@ -6,12 +6,16 @@ import { t } from "@/lib/i18n";
  */
 export type DocTabId = "all" | "word" | "pdf" | "txt" | "other";
 
-export const DOC_TABS: { id: DocTabId; label: string }[] = [
+/**
+ * Onglets traduits à l'appel : la langue peut changer sans rechargement,
+ * une constante figée resterait dans la langue du démarrage.
+ */
+export const docTabs = (): { id: DocTabId; label: string }[] => [
   { id: "all", label: t("organize.apps.filter.all") },
   { id: "word", label: "WORD" },
   { id: "pdf", label: "PDF" },
   { id: "txt", label: "TXT" },
-  { id: "other", label: "Autres" },
+  { id: "other", label: t("ops.categories.other") },
 ];
 
 const WORD = new Set(["doc", "docx", "dot", "dotx", "wps"]);
@@ -36,7 +40,7 @@ function extOf(name: string): string {
 }
 
 export function isDocTab(x: string): x is DocTabId {
-  return DOC_TABS.some((t) => t.id === x);
+  return docTabs().some((tab) => tab.id === x);
 }
 
 export function matchesDocTab(tab: DocTabId, name: string): boolean {

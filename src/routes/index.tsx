@@ -252,8 +252,8 @@ export function FilesPage() {
   const selectionSize = useSelectionSize(selection);
   const selectionSizeLabel = selectionSize.pending
     ? selectionSize.bytes > 0
-      ? `${formatSize(selectionSize.bytes)} • calcul…`
-      : "Calcul…"
+      ? `${formatSize(selectionSize.bytes)} • ${t("state.computing")}`
+      : t("state.computingCap")
     : formatSize(selectionSize.bytes);
   /**
    * Le visionneur vit *à côté* des boîtes de dialogue : renommer, copier ou

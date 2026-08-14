@@ -1923,7 +1923,7 @@ function Presets({ items }: { items: { label: string; apply: () => void }[] }) {
  */
 function EffectActions({
   build,
-  label = "Appliquer",
+  label,
   onApply,
   onPreview,
 }: {
@@ -1934,6 +1934,7 @@ function EffectActions({
 }) {
   // Aperçu temps réel : dès qu'un réglage change, l'effet est appliqué au
   // rendu provisoire (forme d'onde + son en cours), sans bouton « Écouter ».
+  const t = useT();
   const op = build();
   const { id: _id, ...rest } = op as AudioOp & { id: string };
   const signature = JSON.stringify(rest);
@@ -1954,7 +1955,7 @@ function EffectActions({
   return (
     <Row>
       <Action variant="primary" onClick={() => onApply(build())}>
-        <Check className="mr-1 inline h-4 w-4" /> {label}
+        <Check className="mr-1 inline h-4 w-4" /> {label ?? t("action.apply")}
       </Action>
     </Row>
   );

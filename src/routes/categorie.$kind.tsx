@@ -68,7 +68,7 @@ import {
 } from "@/lib/files/operations";
 
 import { CategoryTabs, type CategoryTabId } from "@/components/files/CategoryTabs";
-import { DOC_TABS, isDocTab, matchesDocTab } from "@/lib/files/doc-tabs";
+import { docTabs as documentTabs, isDocTab, matchesDocTab } from "@/lib/files/doc-tabs";
 import { CategoryFolderList, type CategoryFolder } from "@/components/files/CategoryFolderList";
 import { t, useT } from "@/lib/i18n";
 import { groupBySort, type FileGroup } from "@/lib/files/image-groups";
@@ -474,8 +474,8 @@ export function CategoryPage({ kind }: { kind: CategoryKind }) {
   const selectionSize = useSelectionSize(selectionItems);
   const selectionSizeLabel = selectionSize.pending
     ? selectionSize.bytes > 0
-      ? `${formatSize(selectionSize.bytes)} • calcul…`
-      : "Calcul…"
+      ? `${formatSize(selectionSize.bytes)} • ${t("state.computing")}`
+      : t("state.computingCap")
     : formatSize(selectionSize.bytes);
 
   const toggleSelect = useCallback(
@@ -802,7 +802,7 @@ export function CategoryPage({ kind }: { kind: CategoryKind }) {
           <CategoryTabs
             tabs={
               docTabs
-                ? DOC_TABS
+                ? documentTabs()
                 : [
                     { id: "songs", label: mediaTabLabel },
                     { id: "folders", label: folderTabLabel },
@@ -889,7 +889,7 @@ export function CategoryPage({ kind }: { kind: CategoryKind }) {
       ) : sorted.length === 0 && query.trim() ? (
         <IllustratedEmptyState
           id="search"
-          description={`Aucun fichier ne correspond à « ${query.trim()} ». Essayez un autre terme.`}
+          description={t("files.search.noMatchDesc", { query: query.trim() })}
           action={
             <button onClick={() => setQuery("")} className="btn-primary gf-press">
               {t("cleaner.trash.clearSearch.aria")}
@@ -990,10 +990,10 @@ export function CategoryPage({ kind }: { kind: CategoryKind }) {
 
       <NamePrompt
         open={dialog.kind === "rename"}
-        title="Renommer"
-        label="Nouveau nom"
+        title={t("action.rename")}
+        label={t("home.rename.nameLabel")}
         initial={dialog.kind === "rename" ? dialog.entry.name : ""}
-        cta="Renommer"
+        cta={t("action.rename")}
         onCancel={() => setDialog({ kind: "none" })}
         onSubmit={async (name: string) => {
           if (dialog.kind !== "rename") return;

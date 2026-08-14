@@ -7,6 +7,7 @@
  * always emits `gf:storage-changed` after a mutation so the file manager
  * refreshes immediately.
  */
+import { t } from "@/lib/i18n";
 import {
   PDFDocument,
   degrees,
@@ -1425,7 +1426,7 @@ export async function filesToPdf(
     const out = joinPath(destinationDir, `${opts.baseName ?? "images"}.pdf`);
     await imagesToPdf(bufferedImages, out, imageSettings, { signal: opts.signal });
     perFile.push(out);
-    results.push({ source: "(images groupées)", output: out });
+    results.push({ source: t("pdf.images.groupedSource"), output: out });
   }
 
   if (opts.merge && perFile.length > 1) {

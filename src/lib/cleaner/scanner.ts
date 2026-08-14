@@ -666,7 +666,7 @@ export function scanCleanup(
   })().catch((err) => {
     result.issues.push({
       path: result.currentPath ?? "/",
-      reason: err instanceof Error ? err.message : "Analyse interrompue",
+      reason: err instanceof Error ? err.message : t("cleaner.scan.interrupted"),
     });
     materialize();
     for (const key of Object.keys(result.categories) as CleanCategoryKey[]) {

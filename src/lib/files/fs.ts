@@ -46,19 +46,24 @@ type NativeRootDef = StorageRoot & { subdir: string };
  * root (typically /storage/emulated/0). Missing directories are handled
  * gracefully at read time — no crash, just an empty listing.
  */
-const ROOT_DEFS: NativeRootDef[] = [
+/**
+ * Les libellés sont recalculés à chaque appel : la langue de l'application
+ * peut changer à chaud, une constante figée resterait dans la langue
+ * chargée au démarrage.
+ */
+const rootDefs = (): NativeRootDef[] => [
   {
     id: "internal",
-    label: "Stockage interne",
+    label: t("storage.internal"),
     hint: "/storage/emulated/0",
     available: true,
     subdir: "",
   },
   { id: "downloads", label: t("home.category.downloads"), available: true, subdir: "Download" },
-  { id: "pictures", label: "Images", available: true, subdir: "Pictures" },
+  { id: "pictures", label: t("home.category.images"), available: true, subdir: "Pictures" },
   { id: "movies", label: t("home.category.videos"), available: true, subdir: "Movies" },
-  { id: "music", label: "Musique", available: true, subdir: "Music" },
-  { id: "documents", label: "Documents", available: true, subdir: "Documents" },
+  { id: "music", label: t("home.category.audio"), available: true, subdir: "Music" },
+  { id: "documents", label: t("home.category.documents"), available: true, subdir: "Documents" },
 ];
 
 /* ---------- External volumes (SD card / USB OTG) ---------- */
@@ -158,7 +163,7 @@ if (typeof window !== "undefined") {
 
 export function listRoots(): StorageRoot[] {
   const native = isAndroidNative();
-  const roots: StorageRoot[] = ROOT_DEFS.map((r) => ({
+  const roots: StorageRoot[] = rootDefs().map((r) => ({
     id: r.id,
     label: r.label,
     hint: r.hint,
@@ -166,7 +171,12 @@ export function listRoots(): StorageRoot[] {
   }));
   if (externalCache.length === 0) {
     // Placeholder so the UI still shows a "SD card" entry when nothing is mounted.
-    roots.push({ id: "sdcard", label: "Carte SD", hint: t("files.nonInseree"), available: false });
+    roots.push({
+      id: "sdcard",
+      label: t("storage.sdCard"),
+      hint: t("files.nonInseree"),
+      available: false,
+    });
   } else {
     for (const v of externalCache) {
       roots.push({
@@ -223,7 +233,7 @@ export function toAbsolutePath(path: PathRef): string {
       return parts.join("/");
     }
   }
-  const root = ROOT_DEFS.find((r) => r.id === path.rootId);
+  const root = rootDefs().find((r) => r.id === path.rootId);
   const base = "/storage/emulated/0";
   const parts = [base];
   if (root?.subdir) parts.push(root.subdir);
@@ -414,7 +424,7 @@ export async function createFolder(
   if (isAndroidNative()) {
     const { nativePlugin } = await import("@/lib/native/geniusfiles-native");
     const p = nativePlugin();
-    if (!p) return { ok: false, message: "Stockage indisponible." };
+    if (!p) return { ok: false, message: t("system.extra.storageNotAvailable") };
     const abs = `${toAbsolutePath(parent)}/${clean}`;
     try {
       await p.createDirectory({ path: abs });
@@ -444,7 +454,7 @@ export async function createFolder(
  */
 export function prefetchRoots(): void {
   if (!isAndroidNative()) return;
-  for (const r of ROOT_DEFS) {
+  for (const r of rootDefs()) {
     prefetchDirectory(toAbsolutePath({ rootId: r.id, segments: [] }));
   }
   for (const v of externalCache) {
