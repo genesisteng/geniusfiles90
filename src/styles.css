@@ -1,6 +1,7 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import "./fonts.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -398,7 +399,24 @@ html[data-reduce-motion="1"] *::after {
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    /* Typographie maîtrisée : la WebView Android ne doit ni gonfler le
+       texte (font boosting) ni appliquer l'échelle de police système. */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    font-synthesis: none;
   }
+  /* Les contrôles natifs héritent de la police de l'application plutôt
+     que de celle du système : rendu identique sur tous les appareils. */
+  button,
+  input,
+  select,
+  textarea,
+  optgroup {
+    font: inherit;
+    font-family: inherit;
+    letter-spacing: inherit;
+  }
+
   body {
     background-color: var(--color-background);
     background-image: none;

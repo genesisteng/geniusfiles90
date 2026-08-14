@@ -797,13 +797,6 @@ export function CategoryPage({ kind }: { kind: CategoryKind }) {
           setSortOrder(o);
           saveSort({ key: k, order: o });
         }}
-        onRefresh={() => {
-          // Actualisation explicite : l'index se reconstruit en tâche de
-          // fond, la liste affichée n'est jamais vidée.
-          refreshCategory(kind);
-        }}
-        refreshing={false}
-        onSelect={() => sorted[0] && setSelected(new Set([sorted[0].name]))}
         selection={
           selectionMode
             ? {

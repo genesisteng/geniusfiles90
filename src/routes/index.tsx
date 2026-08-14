@@ -1143,14 +1143,11 @@ export function FilesPage() {
           onSortChange={onSortChange}
           foldersFirst={foldersFirst}
           onFoldersFirstChange={onFoldersFirstChange}
-          onRefresh={onRefresh}
-          refreshing={refreshing}
           onNewFolder={
             pick && pick.purpose !== "destination"
               ? undefined
               : () => setDialog({ kind: "newFolder" })
           }
-          onSelect={() => sortedEntries[0] && beginSelection(sortedEntries[0])}
           selection={
             selectionMode
               ? {
