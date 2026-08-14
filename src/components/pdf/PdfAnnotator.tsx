@@ -605,10 +605,10 @@ function ElementInspector({
       <div className="mb-2 flex items-center justify-between">
         <span className="text-[11px] font-medium">
           {el.kind === "text"
-            ? t("pdf.tool.text.label")
+            ? t("pdf.texte")
             : el.kind === "signature"
-              ? t("pdf.signature")
-              : t("pdf.image")}
+              ? t("pdf.signatureDefaultName")
+              : t("files.kind.image")}
         </span>
         <div className="flex gap-1">
           <button
