@@ -15,7 +15,6 @@ import {
   FileText,
   HardDrive,
   Info,
-  Languages,
   Check,
   Mail,
   MonitorSmartphone,
@@ -52,12 +51,25 @@ import {
   resolveLocale,
   useLocalePreference,
   useT,
+  type Locale,
   type LocalePreference,
 } from "@/lib/i18n";
 import { clearThumbnailCache } from "@/lib/native/thumbnails";
 import { sweepTempFiles } from "@/lib/native/temp-sweep";
 
 const APP_VERSION = "0.1.0";
+
+/** Drapeaux associés à chaque option de langue (système = globe). */
+const LOCALE_FLAGS: Record<LocalePreference, string> = {
+  system: "🌐",
+  fr: "🇫🇷",
+  en: "🇺🇸",
+  es: "🇪🇸",
+  de: "🇩🇪",
+  pt: "🇵🇹",
+  it: "🇮🇹",
+  tr: "🇹🇷",
+};
 
 export const Route = createFileRoute("/parametres")({
   head: () => ({
