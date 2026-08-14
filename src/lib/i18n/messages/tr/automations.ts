@@ -242,9 +242,6 @@ export default {
   "automations.engine.err.selectionOrPattern": "Seçim veya şablon eksik",
   "automations.engine.err.locationOrName": "Konum veya ad eksik",
   "automations.engine.err.sourceFolder": "Kaynak klasör eksik",
-  "automations.engine.organizeScheduled": "Düzenleme planlandı (kural {rule})",
-  "automations.engine.compressOpenArchives": "Sıkıştırma: Arşivler aracını açın",
-  "automations.engine.cleanerScanTriggered": "Temizleyici açıldığında tarama başlatıldı",
   "automations.engine.notifyDefaultTitle": "Otomasyon",
   "automations.engine.notifyDefaultBody": "Bildirim",
   "automations.engine.notifyDoneTitle": "✅ {name}",
@@ -329,4 +326,6 @@ export default {
   "automations.history.page.actionFailed": "Başarısız",
   "automations.history.page.actionSkipped": "Atlandı",
   "automations.history.page.actionOk": "Tamam",
+  "automations.engine.organizeDone": "{count} dosya düzenlendi (kural {rule})",
+  "automations.engine.cleanerScanDone": "Tarama bitti: {items} geri kazanılabilir öğe",
 } as const;

@@ -258,9 +258,6 @@ export default {
   "automations.engine.err.selectionOrPattern": "Missing selection or template",
   "automations.engine.err.locationOrName": "Missing location or name",
   "automations.engine.err.sourceFolder": "Missing source folder",
-  "automations.engine.organizeScheduled": "Organization scheduled (rule {rule})",
-  "automations.engine.compressOpenArchives": "Compression: open the Archives tool",
-  "automations.engine.cleanerScanTriggered": "Scan triggered when Cleaner opens",
   "automations.engine.notifyDefaultTitle": "Automation",
   "automations.engine.notifyDefaultBody": "Notification",
   "automations.engine.notifyDoneTitle": "✅ {name}",
@@ -349,4 +346,6 @@ export default {
   "automations.history.page.actionFailed": "Failed",
   "automations.history.page.actionSkipped": "Skipped",
   "automations.history.page.actionOk": "OK",
+  "automations.engine.organizeDone": "{count} file(s) sorted (rule {rule})",
+  "automations.engine.cleanerScanDone": "Scan finished: {items} reclaimable item(s)",
 } as const;

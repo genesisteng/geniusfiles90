@@ -13,6 +13,12 @@ import { getActionCatalog } from "./catalog";
 import { recordExecution } from "./history";
 import { markRunning, markStopped } from "./status";
 import { recordRun } from "./store";
+import {
+  compressSelection,
+  extractSelection,
+  organizeFolder,
+  runCleanerScan,
+} from "./real-actions";
 import { showNotification } from "@/lib/native/notifications";
 import {
   createDirectory,

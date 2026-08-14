@@ -260,10 +260,6 @@ export default {
   "automations.engine.err.selectionOrPattern": "Falta la selección o la plantilla",
   "automations.engine.err.locationOrName": "Falta la ubicación o el nombre",
   "automations.engine.err.sourceFolder": "Falta la carpeta de origen",
-  "automations.engine.organizeScheduled": "Organización programada (regla {rule})",
-  "automations.engine.compressOpenArchives":
-    "Compresión: abre la herramienta de archivos comprimidos",
-  "automations.engine.cleanerScanTriggered": "Análisis activado al abrir el Limpiador",
   "automations.engine.notifyDefaultTitle": "Automatización",
   "automations.engine.notifyDefaultBody": "Notificación",
   "automations.engine.notifyDoneTitle": "✅ {name}",
@@ -352,4 +348,6 @@ export default {
   "automations.history.page.actionFailed": "Fallida",
   "automations.history.page.actionSkipped": "Omitida",
   "automations.history.page.actionOk": "OK",
+  "automations.engine.organizeDone": "{count} archivo(s) ordenado(s) (regla {rule})",
+  "automations.engine.cleanerScanDone": "Análisis terminado: {items} elemento(s) recuperable(s)",
 } as const;

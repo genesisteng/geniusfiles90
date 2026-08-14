@@ -244,9 +244,6 @@ export default {
   "automations.engine.err.selectionOrPattern": "Auswahl oder Muster fehlt",
   "automations.engine.err.locationOrName": "Speicherort oder Name fehlt",
   "automations.engine.err.sourceFolder": "Quellordner fehlt",
-  "automations.engine.organizeScheduled": "Sortierung geplant (Regel {rule})",
-  "automations.engine.compressOpenArchives": "Komprimierung: Öffnen Sie das Archiv-Tool",
-  "automations.engine.cleanerScanTriggered": "Scan beim Öffnen des Cleaners ausgelöst",
   "automations.engine.notifyDefaultTitle": "Automatisierung",
   "automations.engine.notifyDefaultBody": "Benachrichtigung",
   "automations.engine.notifyDoneTitle": "✅ {name}",
@@ -330,4 +327,6 @@ export default {
   "automations.history.page.actionFailed": "Fehlgeschlagen",
   "automations.history.page.actionSkipped": "Übersprungen",
   "automations.history.page.actionOk": "OK",
+  "automations.engine.organizeDone": "{count} Datei(en) sortiert (Regel {rule})",
+  "automations.engine.cleanerScanDone": "Scan beendet: {items} freigebbare(s) Element(e)",
 } as const;
