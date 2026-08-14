@@ -14,11 +14,12 @@ const KEYS = {
 /** Retention in days; -1 means "keep until manual deletion". */
 export type TrashRetentionDays = 7 | 30 | 60 | 90 | -1;
 
-export const TRASH_RETENTION_OPTIONS: { value: TrashRetentionDays; label: string }[] = [
-  { value: 7, label: "7 jours" },
-  { value: 30, label: "30 jours" },
-  { value: 60, label: "60 jours" },
-  { value: 90, label: "90 jours" },
+/** Options traduites à l'appel (la langue est modifiable à chaud). */
+export const trashRetentionOptions = (): { value: TrashRetentionDays; label: string }[] => [
+  { value: 7, label: t("settings.trash.option.days", { count: 7 }) },
+  { value: 30, label: t("settings.trash.option.days", { count: 30 }) },
+  { value: 60, label: t("settings.trash.option.days", { count: 60 }) },
+  { value: 90, label: t("settings.trash.option.days", { count: 90 }) },
   { value: -1, label: t("settings.trash.option.manual") },
 ];
 

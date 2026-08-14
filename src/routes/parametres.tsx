@@ -36,7 +36,7 @@ import {
 } from "@/components/settings/SettingsCard";
 import { SelectRow, Toggle } from "@/components/settings/controls";
 import {
-  TRASH_RETENTION_OPTIONS,
+  trashRetentionOptions,
   loadTrashRetention,
   saveTrashRetention,
   type TrashRetentionDays,
@@ -206,7 +206,7 @@ function SettingsPage() {
                 saveTrashRetention(v as TrashRetentionDays);
                 toast.success(t("settings.trash.updated"));
               }}
-              options={TRASH_RETENTION_OPTIONS.map((o) => ({
+              options={trashRetentionOptions().map((o) => ({
                 value: o.value,
                 label: retentionLabel(o.value),
               }))}
