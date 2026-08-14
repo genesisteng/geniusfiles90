@@ -346,7 +346,9 @@ function LanguagePicker({
               active ? "bg-primary text-primary-foreground shadow-soft" : "text-muted-foreground"
             }`}
           >
-            <Languages className="h-4 w-4 shrink-0" />
+            <span aria-hidden="true" className="shrink-0 text-base leading-none">
+              {LOCALE_FLAGS[code]}
+            </span>
             <span className="min-w-0 flex-1 truncate text-left">{label}</span>
             {active ? <Check className="h-4 w-4 shrink-0" /> : null}
           </button>
