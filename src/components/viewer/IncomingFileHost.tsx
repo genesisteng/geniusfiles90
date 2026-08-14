@@ -53,12 +53,10 @@ export function IncomingFileHost() {
   }, []);
 
   const onAction = useCallback(
-    (entry: typeof file extends null ? never : NonNullable<typeof file>["entry"], a: ViewerAction) => {
+    (entry: NonNullable<IncomingFile>["entry"], a: ViewerAction) => {
       if (!file) return;
       if (a === "openWith" || a === "share") {
-        void openWithSystem(file.parent, entry).then((ok) => {
-          if (!ok) toast.error(t("system.engine.readFailed"));
-        });
+        void openWithSystem(file.parent, entry, a === "share" ? "send" : "view");
         return;
       }
       /* Le fichier reçu n'appartient pas à l'arborescence de
