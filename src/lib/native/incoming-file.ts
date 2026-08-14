@@ -13,7 +13,7 @@
 import { registerPlugin } from "@capacitor/core";
 
 import { isAndroidNative } from "./geniusfiles-native";
-import { kindFromName } from "@/lib/fs/kind";
+import { kindOf } from "@/lib/files/format";
 import type { FileEntry, PathRef, StorageRootId } from "@/lib/files/types";
 
 export type IncomingAction = "view" | "edit";
@@ -78,7 +78,7 @@ export async function consumeIncomingFile(): Promise<IncomingFile | null> {
     isDirectory: false,
     size: typeof res.size === "number" && res.size >= 0 ? res.size : undefined,
     mtime: Date.now(),
-    kind: kindFromName(name, false),
+    kind: kindOf(name, false),
     ext,
   };
   return {
