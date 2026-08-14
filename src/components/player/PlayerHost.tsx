@@ -16,11 +16,22 @@ import { useT } from "@/lib/i18n";
  */
 export function PlayerHost() {
   const s = useAudioState();
+  // Retour Android : quand le lecteur plein écran est ouvert, le retour
+  // le referme et redonne l'écran précédent — jamais de sortie de l'app.
+  useBackHandler(
+    s.uiOpen,
+    () => {
+      audioStore.closeUI();
+      return true;
+    },
+    BACK_PRIORITY.overlay,
+  );
   const entry = s.queue[s.index];
   if (!entry) return null;
 
   return <>{s.uiOpen ? <AudioPlayer onClose={() => audioStore.closeUI()} /> : <MiniPlayer />}</>;
 }
+
 
 function MiniPlayer() {
   const t = useT();
