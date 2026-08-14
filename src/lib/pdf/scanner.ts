@@ -219,17 +219,7 @@ export function warpToQuad(img: Source, quad: Quad): HTMLCanvasElement {
     // Repli : simple recadrage sur la boîte englobante.
     const xs = [quad.tl[0], quad.tr[0], quad.br[0], quad.bl[0]];
     const ys = [quad.tl[1], quad.tr[1], quad.br[1], quad.bl[1]];
-    outCtx.drawImage(
-      srcCanvas,
-      Math.min(...xs),
-      Math.min(...ys),
-      outW,
-      outH,
-      0,
-      0,
-      outW,
-      outH,
-    );
+    outCtx.drawImage(srcCanvas, Math.min(...xs), Math.min(...ys), outW, outH, 0, 0, outW, outH);
     return out;
   }
 
