@@ -429,6 +429,15 @@ export function FilesPage() {
     path ? listing.status === "ready" || listing.status === "empty" : roots.length > 0,
   );
 
+  /* Choix d'une destination : le dossier affiché EST la destination
+     candidate — la barre du bas suit la navigation en direct. */
+  useEffect(() => {
+    if (pick?.purpose !== "destination") return;
+    setPickLocation(path);
+  }, [pick?.purpose, path]);
+
+
+
   // La sélection survit à la navigation : on retire seulement ce qui a
   // réellement disparu du dossier rafraîchi.
   useEffect(() => {
