@@ -22,11 +22,11 @@ const dayStart = (t: number) => {
 };
 
 function dateLabel(mtime?: number): { key: string; label: string } {
-  if (!mtime) return { key: "no-date", label: "Date inconnue" };
+  if (!mtime) return { key: "no-date", label: t("files.group.noDate") };
   const today = dayStart(Date.now());
   const day = dayStart(mtime);
-  if (day === today) return { key: "today", label: "Aujourd'hui" };
-  if (day === today - 86400000) return { key: "yesterday", label: "Hier" };
+  if (day === today) return { key: "today", label: t("time.today") };
+  if (day === today - 86400000) return { key: "yesterday", label: t("time.yesterday") };
   const d = new Date(day);
   const label = `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}/${d.getFullYear()}`;
   return { key: `d-${day}`, label };
@@ -52,19 +52,21 @@ function typeLabel(item: Groupable): { key: string; label: string } {
   return { key: ext, label: ext.toUpperCase() };
 }
 
-const SIZE_BUCKETS: { max: number; label: string }[] = [
+/** Plages de taille — libellés traduits à l'appel, langue modifiable à chaud. */
+const sizeBuckets = (): { max: number; label: string }[] => [
   { max: 100 * 1024, label: t("files.group.sizeUnder100k") },
-  { max: 500 * 1024, label: "100 Ko – 500 Ko" },
-  { max: 1024 * 1024, label: "500 Ko – 1 Mo" },
-  { max: 5 * 1024 * 1024, label: "1 Mo – 5 Mo" },
-  { max: 20 * 1024 * 1024, label: "5 Mo – 20 Mo" },
+  { max: 500 * 1024, label: t("files.group.size100kTo500k") },
+  { max: 1024 * 1024, label: t("files.group.size500kTo1m") },
+  { max: 5 * 1024 * 1024, label: t("files.group.size1mTo5m") },
+  { max: 20 * 1024 * 1024, label: t("files.group.size5mTo20m") },
   { max: Number.POSITIVE_INFINITY, label: t("files.plusDe20Mo") },
 ];
 
 function sizeLabel(size?: number): { key: string; label: string } {
   if (size == null) return { key: "no-size", label: t("files.tailleInconnue") };
-  const i = SIZE_BUCKETS.findIndex((b) => size < b.max);
-  const bucket = SIZE_BUCKETS[i === -1 ? SIZE_BUCKETS.length - 1 : i];
+  const buckets = sizeBuckets();
+  const i = buckets.findIndex((b) => size < b.max);
+  const bucket = buckets[i === -1 ? buckets.length - 1 : i];
   return { key: `s-${bucket.label}`, label: bucket.label };
 }
 
