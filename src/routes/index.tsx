@@ -771,6 +771,28 @@ export function FilesPage() {
     [path, clearSelection, groupsFor, onRefresh, t],
   );
 
+  /**
+   * Copier / Déplacer : l'utilisateur choisit la destination dans la
+   * navigation habituelle de GeniusFiles (accueil, stockages, catégories,
+   * dossiers, albums), puis valide « ici ». Aucun écran de sélection de
+   * dossier séparé n'est affiché.
+   */
+  const startTransferFlow = useCallback(
+    async (mode: "copy" | "move", entries: FileEntry[]) => {
+      if (entries.length === 0) return;
+      const items = [...entries];
+      const groups = groupsFor(items);
+      if (groups.length === 0) return;
+      setDialog({ kind: "none" });
+      const dest = await requestDestination({ mode });
+      if (!dest) return;
+      runTransfer(mode, items, dest, groups);
+    },
+    [groupsFor, runTransfer],
+  );
+
+
+
   const runDelete = useCallback(
     async (entries: FileEntry[]) => {
       const groups = groupsFor(entries);
