@@ -7,6 +7,7 @@
  * always emits `gf:storage-changed` after a mutation so the file manager
  * refreshes immediately.
  */
+import { t } from "@/lib/i18n";
 import {
   PDFDocument,
   degrees,

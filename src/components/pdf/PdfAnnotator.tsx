@@ -604,13 +604,17 @@ function ElementInspector({
     <div className="rounded-lg border border-border bg-surface p-2">
       <div className="mb-2 flex items-center justify-between">
         <span className="text-[11px] font-medium">
-          {el.kind === "text" ? "Texte" : el.kind === "signature" ? "Signature" : "Image"}
+          {el.kind === "text"
+            ? t("pdf.tool.text.label")
+            : el.kind === "signature"
+              ? t("pdf.signature")
+              : t("pdf.image")}
         </span>
         <div className="flex gap-1">
           <button
             onClick={onDuplicate}
             className="rounded border border-border p-1 text-[11px]"
-            title="Dupliquer"
+            title={t("pdf.tool.duplicate.label")}
           >
             <CopyIcon className="h-3 w-3" />
           </button>
