@@ -817,7 +817,7 @@ export function VideoPlayer({
             <p className="mt-1 text-[12px] text-[color-mix(in_oklab,var(--pl-fg)_70%,transparent)]">
               {error}
             </p>
-            <div className="mt-4 flex items-center justify-center gap-2">
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
               <button
                 type="button"
                 onClick={retry}
@@ -825,6 +825,19 @@ export function VideoPlayer({
               >
                 {t("media.player.action.retry")}
               </button>
+              {isAndroidNative() ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    void openExternally().then((ok) => {
+                      if (ok) onClose();
+                    });
+                  }}
+                  className="rounded-full bg-[color-mix(in_oklab,var(--pl-fg)_10%,transparent)] px-4 py-2 text-[13px] font-semibold active:scale-95"
+                >
+                  {t("media.player.video.openExternal")}
+                </button>
+              ) : null}
               <button
                 type="button"
                 onClick={onClose}
@@ -833,6 +846,7 @@ export function VideoPlayer({
                 {t("media.player.action.close")}
               </button>
             </div>
+
           </div>
         </div>
       ) : null}
