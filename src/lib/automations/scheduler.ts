@@ -217,6 +217,17 @@ async function syncNativeAlarms(): Promise<void> {
 let started = false;
 let timer: ReturnType<typeof setInterval> | null = null;
 let stopSub: (() => void) | null = null;
+let syncTimer: ReturnType<typeof setTimeout> | null = null;
+
+/* Éditer plusieurs automatisations d'affilée ne doit pas reprogrammer les
+   alarmes natives à chaque frappe : on fusionne les demandes rapprochées. */
+function scheduleAlarmSync(delay = 400) {
+  if (syncTimer) clearTimeout(syncTimer);
+  syncTimer = setTimeout(() => {
+    syncTimer = null;
+    void syncNativeAlarms();
+  }, delay);
+}
 
 async function tick() {
   const now = new Date();
@@ -248,17 +259,19 @@ export function startAutomationScheduler(): () => void {
   const onVis = () => {
     if (typeof document !== "undefined" && !document.hidden) {
       void tick();
-      void syncNativeAlarms();
+      scheduleAlarmSync();
     }
   };
   if (typeof document !== "undefined") document.addEventListener("visibilitychange", onVis);
   stopSub = subscribeAutomations(() => {
     void tick();
-    void syncNativeAlarms();
+    scheduleAlarmSync();
   });
   return () => {
     if (timer) clearInterval(timer);
     timer = null;
+    if (syncTimer) clearTimeout(syncTimer);
+    syncTimer = null;
     if (typeof document !== "undefined") document.removeEventListener("visibilitychange", onVis);
     stopSub?.();
     stopSub = null;

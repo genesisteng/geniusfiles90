@@ -37,15 +37,23 @@ const listeners = new Set<() => void>();
 let ready = false;
 let capArmed = false;
 
+let capTimer: number | null = null;
+
 function armCap() {
   if (capArmed || typeof window === "undefined") return;
   capArmed = true;
-  window.setTimeout(() => finish(), HARD_CAP_MS);
+  capTimer = window.setTimeout(() => finish(), HARD_CAP_MS);
 }
 
 function finish() {
   if (ready) return;
   ready = true;
+  // Appareil rapide : on libère le minuteur de secours au lieu de laisser
+  // le fil principal se réveiller pour rien 900 ms plus tard.
+  if (capTimer != null && typeof window !== "undefined") {
+    window.clearTimeout(capTimer);
+    capTimer = null;
+  }
   for (const l of Array.from(listeners)) l();
 }
 

@@ -2,14 +2,14 @@
 
 ## H6 — Fonctionnalités réellement fonctionnelles
 
-| Sujet | Avant | Après |
-| --- | --- | --- |
-| Scanner de documents | pipeline factice (image inchangée) | détection de page (Sobel), correction de perspective (homographie + bilinéaire), amélioration de lisibilité |
-| Archives ZIP | mot de passe saisi puis ignoré | mot de passe transmis au pont natif (création + extraction) |
-| Cache de recherche | clé partielle → résultats erronés entre filtres | clé incluant tous les filtres (taille, dates précises, extensions, source image) |
-| Automatisations `organize` / `compress` / `extract` / `cleaner_scan` | messages « planifié » sans action | exécutions réelles via `src/lib/automations/real-actions.ts`, comptages réels remontés dans l'historique |
-| Suppression définitive du coffre-fort | succès annoncé même sans chemin natif | échec explicite si la suppression ne peut pas être garantie |
-| Fournisseurs de recherche en erreur | erreur avalée, affichée comme « aucun résultat » | avertissement « recherche incomplète » |
+| Sujet                                                                | Avant                                            | Après                                                                                                       |
+| -------------------------------------------------------------------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| Scanner de documents                                                 | pipeline factice (image inchangée)               | détection de page (Sobel), correction de perspective (homographie + bilinéaire), amélioration de lisibilité |
+| Archives ZIP                                                         | mot de passe saisi puis ignoré                   | mot de passe transmis au pont natif (création + extraction)                                                 |
+| Cache de recherche                                                   | clé partielle → résultats erronés entre filtres  | clé incluant tous les filtres (taille, dates précises, extensions, source image)                            |
+| Automatisations `organize` / `compress` / `extract` / `cleaner_scan` | messages « planifié » sans action                | exécutions réelles via `src/lib/automations/real-actions.ts`, comptages réels remontés dans l'historique    |
+| Suppression définitive du coffre-fort                                | succès annoncé même sans chemin natif            | échec explicite si la suppression ne peut pas être garantie                                                 |
+| Fournisseurs de recherche en erreur                                  | erreur avalée, affichée comme « aucun résultat » | avertissement « recherche incomplète »                                                                      |
 
 ## H7 — Navigation, états et rafraîchissement
 

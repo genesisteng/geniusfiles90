@@ -683,6 +683,21 @@ export function FilesPage() {
 
   /* ---------- selection handlers ---------- */
 
+  // Rappels stables : sans eux, chaque ligne mémoïsée de la liste se
+  // re-rendrait à chaque rendu du dossier (défilement saccadé).
+  const onEntryMore = useCallback(
+    (entry: FileEntry) => {
+      // Copier / déplacer / renommer / supprimer / partager sont masqués
+      // pendant un parcours de sélection.
+      if (!pick) setDialog({ kind: "actions", entry });
+    },
+    [pick],
+  );
+  const isEntrySelected = useCallback(
+    (entry: FileEntry) => (path ? selection.has(selectionKey(path, entry.name)) : false),
+    [path, selection],
+  );
+
   const toggleSelect = useCallback(
     (entry: FileEntry) => {
       if (!path) return;
@@ -1207,14 +1222,10 @@ export function FilesPage() {
           onOpen={openEntry}
           onQuickOpen={quickOpenEntry}
           onLongPress={beginSelection}
-          onMore={(e) => {
-            // Copier / déplacer / renommer / supprimer / partager sont masqués
-            // pendant un parcours de sélection.
-            if (!pick) setDialog({ kind: "actions", entry: e });
-          }}
+          onMore={onEntryMore}
           onRefresh={onRefresh}
           selectionMode={selectionMode || pick !== null}
-          isSelected={(e) => selection.has(selectionKey(path, e.name))}
+          isSelected={isEntrySelected}
           onToggleSelect={toggleSelect}
         />
       ) : (

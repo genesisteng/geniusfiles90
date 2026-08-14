@@ -91,7 +91,9 @@ export function scaleForDisplay(px: number): number {
     typeof window !== "undefined" && typeof window.devicePixelRatio === "number"
       ? window.devicePixelRatio
       : 2;
-  return Math.min(1080, Math.round(px * Math.min(3, Math.max(1, dpr))));
+  // Plafond volontairement bas : au-delà de 2× l'écran, la miniature coûte
+  // du décodage et de la mémoire sans aucun gain visible sur une vignette.
+  return Math.min(512, Math.round(px * Math.min(2, Math.max(1, dpr))));
 }
 
 // In-flight dedupe: if two components ask for the same thumbnail at the
