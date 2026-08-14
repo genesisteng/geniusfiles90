@@ -563,8 +563,11 @@ export function CategoryPage({ kind }: { kind: CategoryKind }) {
   /* Tirer pour actualiser : reconstruction de l'index en tâche de fond,
      la liste affichée n'est jamais vidée. */
   usePullToRefresh(
-    useCallback(() => {
-      refreshCategory(kind);
+    useCallback(async () => {
+      // Relecture réelle du stockage : la promesse n'est résolue qu'une
+      // fois la traversée terminée (nouveaux fichiers ajoutés, fichiers
+      // disparus évincés), sans jamais vider l'affichage.
+      await refreshCategory(kind);
     }, [kind]),
   );
 

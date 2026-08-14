@@ -339,11 +339,27 @@ async function runIndexer(): Promise<void> {
   }
 }
 
+/** Reconstruction immédiate — renvoie la promesse de la traversée en
+ *  cours lorsqu'une indexation est déjà lancée (aucun doublon). */
+let indexerPromise: Promise<void> | null = null;
+
+function runIndexerNow(): Promise<void> {
+  if (indexTimer) {
+    clearTimeout(indexTimer);
+    indexTimer = null;
+  }
+  if (indexerPromise) return indexerPromise;
+  indexerPromise = runIndexer().finally(() => {
+    indexerPromise = null;
+  });
+  return indexerPromise;
+}
+
 function scheduleIndexer(delay = 1200) {
   if (indexTimer) clearTimeout(indexTimer);
   indexTimer = setTimeout(() => {
     indexTimer = null;
-    void runIndexer();
+    void runIndexerNow();
   }, delay);
 }
 
@@ -433,9 +449,13 @@ export function subscribeCategory(
   };
 }
 
-/** Force une actualisation en arrière-plan sans vider l'affichage. */
-export function refreshCategory(_kind?: CategoryKind) {
-  scheduleIndexer(0);
+/**
+ * Actualisation réelle : relit le stockage et attend la fin de la
+ * traversée (l'affichage n'est jamais vidé — les entrées disparues sont
+ * évincées, les nouvelles fusionnées au fur et à mesure).
+ */
+export function refreshCategory(_kind?: CategoryKind): Promise<void> {
+  return runIndexerNow();
 }
 
 /** Invalidation explicite (purge du cache depuis les Paramètres). */

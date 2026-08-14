@@ -18,6 +18,8 @@
  */
 import { t } from "@/lib/i18n";
 import { listDirectory, getExternalVolumes, toAbsolutePath } from "@/lib/files/fs";
+import { subscribeFsPatch } from "@/lib/index/patches";
+import { extOf, kindOf } from "@/lib/files/format";
 import type { FileEntry, FileKind, PathRef, StorageRootId } from "@/lib/files/types";
 
 export type AddedFile = FileEntry & {
@@ -135,7 +137,7 @@ export function subscribeAdded(listener: () => void): () => void {
 let scanning: Promise<AddedFile[]> | null = null;
 let lastScanAt = 0;
 
-async function scan(): Promise<AddedFile[]> {
+async function scan(force = false): Promise<AddedFile[]> {
   const found = new Map<string, AddedFile>();
   const queue: { path: PathRef; depth: number }[] = seeds().map((p) => ({ path: p, depth: 0 }));
   const visited = new Set<string>();
@@ -148,7 +150,7 @@ async function scan(): Promise<AddedFile[]> {
     visited.add(key);
     dirs++;
 
-    const res = await listDirectory(path);
+    const res = await listDirectory(path, { force });
     if (!res.ok) continue;
 
     for (const entry of res.entries) {
@@ -194,7 +196,7 @@ export async function refreshAddedFiles(force = false): Promise<AddedFile[]> {
   if (scanning) return scanning;
   const now = Date.now();
   if (!force && now - lastScanAt < MIN_INTERVAL_MS) return readCache();
-  scanning = scan()
+  scanning = scan(force)
     .then((items) => {
       lastScanAt = Date.now();
       const before = readCache();
@@ -267,4 +269,75 @@ export function addedLocationLabel(f: AddedFile): string {
     rootLabel(f.rootId) ??
     (f.rootId.startsWith("ext:") ? t("storage.external") : t("files.recent.rootFallback"))
   );
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Mise à jour immédiate après une action.
+
+   Chaque mutation du stockage est appliquée directement à la liste
+   connue : un fichier supprimé disparaît aussitôt, un renommage ou un
+   déplacement est reflété sur place, un nouveau fichier apparaît —
+   sans attendre le prochain balayage ni recharger la page.
+   ───────────────────────────────────────────────────────────── */
+if (typeof window !== "undefined") {
+  subscribeFsPatch((patch) => {
+    const items = readCache();
+    let next: AddedFile[] | null = null;
+
+    if (patch.op === "delete") {
+      const id = `${patch.rootId}::${patch.segments.join("/")}::${patch.name}`;
+      const filtered = items.filter((f) => addedId(f) !== id);
+      if (filtered.length !== items.length) next = filtered;
+    } else if (patch.op === "rename") {
+      const id = `${patch.rootId}::${patch.segments.join("/")}::${patch.oldName}`;
+      let touched = false;
+      const mapped = items.map((f) => {
+        if (addedId(f) !== id) return f;
+        touched = true;
+        return {
+          ...f,
+          name: patch.newName,
+          path: [...patch.segments, patch.newName].join("/"),
+          kind: kindOf(patch.newName, false) as FileKind,
+          ext: extOf(patch.newName),
+        };
+      });
+      if (touched) next = mapped;
+    } else if (patch.op === "move") {
+      const id = `${patch.fromRootId}::${patch.fromSegments.join("/")}::${patch.fromName}`;
+      let touched = false;
+      const mapped = items.map((f) => {
+        if (addedId(f) !== id) return f;
+        touched = true;
+        return {
+          ...f,
+          rootId: patch.toRootId,
+          folderSegments: [...patch.toSegments],
+          name: patch.toName,
+          path: [...patch.toSegments, patch.toName].join("/"),
+          kind: kindOf(patch.toName, false) as FileKind,
+          ext: extOf(patch.toName),
+        };
+      });
+      if (touched) next = mapped;
+    } else if (patch.op === "create" && !patch.isDirectory) {
+      const file: AddedFile = {
+        name: patch.name,
+        path: [...patch.segments, patch.name].join("/"),
+        isDirectory: false,
+        size: patch.size,
+        mtime: patch.mtime ?? Date.now(),
+        kind: kindOf(patch.name, false) as FileKind,
+        ext: extOf(patch.name),
+        rootId: patch.rootId,
+        folderSegments: [...patch.segments],
+        at: patch.mtime ?? Date.now(),
+      };
+      if (!items.some((f) => addedId(f) === addedId(file))) {
+        next = [file, ...items].sort((a, b) => b.at - a.at);
+      }
+    }
+
+    if (next) writeCache(next);
+  });
 }
