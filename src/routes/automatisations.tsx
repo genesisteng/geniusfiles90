@@ -12,6 +12,7 @@
  * explicit "Exécuter maintenant" action on an existing card, or by
  * the scheduler when the exact trigger moment is reached.
  */
+import { useListScrollMemory } from "@/lib/files/use-list-scroll";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -140,6 +141,9 @@ function fromAutomation(a: Automation): Draft {
 /* ─────────────────────── Root component ─────────────────────── */
 
 function AutomationsPage() {
+  /* Position de la liste restituée au retour depuis un aperçu. */
+  useListScrollMemory("automations", true);
+
   const tr = useT();
   const [items, setItems] = useState<Automation[]>([]);
   const [history, setHistory] = useState<ExecutionRecord[]>([]);

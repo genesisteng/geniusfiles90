@@ -20,13 +20,19 @@ type Entry = {
 const store: Entry[] = [];
 
 export function keyFor(query: string, filters: SearchFilters): string {
-  return [
+  return JSON.stringify([
     query.trim().toLowerCase(),
     filters.kind,
     filters.size,
     filters.date,
     filters.rootId,
-  ].join("|");
+    filters.sizeMinBytes ?? null,
+    filters.sizeMaxBytes ?? null,
+    filters.mtimeMin ?? null,
+    filters.mtimeMax ?? null,
+    filters.imageSource ?? null,
+    filters.exts ?? null,
+  ]);
 }
 
 export function getCachedSearch(key: string): Entry | null {

@@ -13,6 +13,7 @@
  * public listing, so nothing extra is needed to make protected files
  * disappear from Fichiers, Galerie, Recherche or Nettoyeur.
  */
+import { useListScrollMemory } from "@/lib/files/use-list-scroll";
 import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { toast } from "sonner";
@@ -142,6 +143,9 @@ export const Route = createFileRoute("/coffre-fort")({
 });
 
 function VaultRoute() {
+  /* Position de la liste restituée au retour depuis un aperçu. */
+  useListScrollMemory("vault", true);
+
   const t = useT();
   const [configured, setConfigured] = useState<boolean | null>(null);
   const [unlocked, setUnlocked] = useState<boolean>(false);

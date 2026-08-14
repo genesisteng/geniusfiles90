@@ -17,6 +17,7 @@
  *    universel sans restauration préalable ;
  *  - barre de sélection en grille : aucun débordement, même sur écran étroit.
  */
+import { useListScrollMemory } from "@/lib/files/use-list-scroll";
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowDownAZ, Check, CheckSquare, MoreVertical, Square, X } from "lucide-react";
@@ -119,6 +120,9 @@ function toFileEntry(item: TrashItem): FileEntry {
 }
 
 function TrashPage() {
+  /* Position de la liste restituée au retour depuis un aperçu. */
+  useListScrollMemory("trash", true);
+
   const t = useT();
   const [items, setItems] = useState<TrashItem[] | null>(null);
   const [totalBytes, setTotalBytes] = useState(0);

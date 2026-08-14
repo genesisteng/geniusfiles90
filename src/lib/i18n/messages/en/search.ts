@@ -33,4 +33,6 @@ export default {
   "search.filters.location": "Location",
   "search.filters.dateModified": "Date modified",
   "search.filters.apply": "Apply",
+  "search.toast.partial.title": "Incomplete search",
+  "search.toast.partial.desc": "A source could not be scanned: results may be partial.",
 } as const;

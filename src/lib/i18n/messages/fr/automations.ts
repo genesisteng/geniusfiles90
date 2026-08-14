@@ -261,9 +261,6 @@ export default {
   "automations.engine.err.selectionOrPattern": "Sélection ou modèle manquant",
   "automations.engine.err.locationOrName": "Emplacement ou nom manquant",
   "automations.engine.err.sourceFolder": "Dossier source manquant",
-  "automations.engine.organizeScheduled": "Organisation programmée (règle {rule})",
-  "automations.engine.compressOpenArchives": "Compression : ouvrez l'outil Archives",
-  "automations.engine.cleanerScanTriggered": "Analyse déclenchée à l'ouverture du Nettoyeur",
   "automations.engine.notifyDefaultTitle": "Automatisation",
   "automations.engine.notifyDefaultBody": "Notification",
   "automations.engine.notifyDoneTitle": "✅ {name}",
@@ -352,4 +349,6 @@ export default {
   "automations.history.page.actionFailed": "Échec",
   "automations.history.page.actionSkipped": "Ignoré",
   "automations.history.page.actionOk": "OK",
+  "automations.engine.organizeDone": "{count} fichier(s) rangé(s) (règle {rule})",
+  "automations.engine.cleanerScanDone": "Analyse terminée : {items} élément(s) récupérable(s)",
 } as const;

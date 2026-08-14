@@ -506,15 +506,19 @@ export async function permanentDelete(items: VaultItem[]): Promise<VaultDeleteRe
   for (const it of items) {
     if (isAndroidNative()) {
       const p = nativePlugin();
-      if (p && it.vaultAbsolutePath) {
-        try {
-          await p.deletePath({ path: it.vaultAbsolutePath });
-          deleted.push(it.id);
-        } catch {
-          failed.push(it.id);
-        }
+      if (!p || !it.vaultAbsolutePath) {
+        // Sur appareil, sans chemin réel la suppression ne peut pas être
+        // garantie : on ne prétend pas l'avoir effectuée.
+        failed.push(it.id);
         continue;
       }
+      try {
+        await p.deletePath({ path: it.vaultAbsolutePath });
+        deleted.push(it.id);
+      } catch {
+        failed.push(it.id);
+      }
+      continue;
     }
     // Web preview — nothing to delete on disk, just drop the entry.
     deleted.push(it.id);

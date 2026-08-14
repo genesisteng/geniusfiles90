@@ -1,3 +1,4 @@
+import { useListScrollMemory } from "@/lib/files/use-list-scroll";
 import { createFileRoute } from "@tanstack/react-router";
 import { useAppNavigate } from "@/lib/navigation/pick-nav";
 import { confirmPick, usePickRequest } from "@/lib/files/pick-session";
@@ -14,6 +15,7 @@ import {
   ChevronRight,
   Trash2,
 } from "lucide-react";
+import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
 import { BACK_PRIORITY, useBackHandler } from "@/lib/navigation/back-stack";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -103,6 +105,9 @@ const SUGGESTIONS_DEFAULT = (t: TFn) => [
 const RESULTS_LIMIT = 500;
 
 export function SearchPage() {
+  /* Position de la liste restituée au retour depuis un aperçu. */
+  useListScrollMemory("search", true);
+
   const t = useT();
   const navigate = useAppNavigate();
   const pick = usePickRequest();
@@ -178,7 +183,8 @@ export function SearchPage() {
       setScanned(cached.scanned);
       setScanning(false);
     } else {
-      setResults([]);
+      // Pas de purge ici : les résultats précédents restent affichés pendant
+      // le nouveau scan et sont remplacés à l'arrivée du premier lot.
       setScanned(0);
     }
 
@@ -200,6 +206,7 @@ export function SearchPage() {
 
     setScanning(true);
     let latestScanned = 0;
+    let firstBatch = !cached;
     let latestResults: SearchResult[] = cached?.results ?? [];
     const t = window.setTimeout(() => {
       const ctrl = runSearch({
@@ -208,7 +215,9 @@ export function SearchPage() {
         roots: targetRoots,
         onBatch: (batch) => {
           setResults((prev) => {
-            const merged = sortResults([...prev, ...batch]).slice(0, RESULTS_LIMIT);
+            const base = firstBatch ? [] : prev;
+            firstBatch = false;
+            const merged = sortResults([...base, ...batch]).slice(0, RESULTS_LIMIT);
             latestResults = merged;
             return merged;
           });
@@ -217,9 +226,21 @@ export function SearchPage() {
           latestScanned = n;
           setScanned(n);
         },
-        onDone: () => {
+        onDone: ({ failedProviders }) => {
           setScanning(false);
+          // Aucun lot reçu : la requête n'a réellement rien donné, on retire
+          // les résultats de la requête précédente encore affichés.
+          if (firstBatch) {
+            firstBatch = false;
+            latestResults = [];
+            setResults([]);
+          }
           setCachedSearch(cacheKey, latestResults, latestScanned);
+          if (failedProviders.length > 0) {
+            toast.warning(translate("search.toast.partial.title"), {
+              description: translate("search.toast.partial.desc"),
+            });
+          }
         },
       });
       runRef.current = ctrl;

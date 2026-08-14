@@ -168,7 +168,8 @@ function CleanerPage() {
   // Kick off scan.
   useEffect(() => {
     setScanning(true);
-    setScan(null);
+    // On conserve le dernier résultat affiché pendant la nouvelle analyse :
+    // la page reste lisible au lieu de se vider puis se reconstruire.
     setSelection({});
     const targets = resolveScope(scope, roots).map((rootId) => ({
       rootId,

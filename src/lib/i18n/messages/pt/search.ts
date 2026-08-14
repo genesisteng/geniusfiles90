@@ -33,4 +33,7 @@ export default {
   "search.filters.location": "Local",
   "search.filters.dateModified": "Data de modificação",
   "search.filters.apply": "Aplicar",
+  "search.toast.partial.title": "Pesquisa incompleta",
+  "search.toast.partial.desc":
+    "Não foi possível explorar uma fonte: os resultados podem ser parciais.",
 } as const;

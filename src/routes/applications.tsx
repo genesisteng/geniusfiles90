@@ -14,6 +14,7 @@
  *  - Update check → colonne dédiée dans la fiche (updateAvailable)
  *  - Duplicates   → détection préparée via isDuplicate
  */
+import { useListScrollMemory } from "@/lib/files/use-list-scroll";
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -103,6 +104,9 @@ const sortLabel = (t: TFn): Record<AppSort, string> => ({
 });
 
 function AppsPage() {
+  /* Position de la liste restituée au retour depuis un aperçu. */
+  useListScrollMemory("apps", true);
+
   const t = useT();
   const [apps, setApps] = useState<InstalledApp[]>([]);
   const [loading, setLoading] = useState(true);

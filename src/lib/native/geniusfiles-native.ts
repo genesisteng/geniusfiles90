@@ -205,12 +205,14 @@ type Plugin = {
     destination: string;
     level?: number;
     overwrite?: boolean;
+    password?: string;
   }) => Promise<{ path: string; size: number; fileCount: number }>;
   extractArchive: (opts: {
     source: string;
     destination: string;
     entries?: string[];
     conflict?: "replace" | "skip" | "rename" | "keepBoth";
+    password?: string;
   }) => Promise<{ path: string; completed: number; skipped: number; overwritten: number }>;
   readFileBase64: (opts: { path: string }) => Promise<{ data: string; size: number }>;
   writeFileBase64: (opts: {

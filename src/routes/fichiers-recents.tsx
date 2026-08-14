@@ -8,6 +8,7 @@
  * d'ajout réelles) sur une fenêtre de 7 jours ; la liste connue
  * s'affiche instantanément puis se rafraîchit en arrière-plan.
  */
+import { useListScrollMemory } from "@/lib/files/use-list-scroll";
 import { createFileRoute } from "@tanstack/react-router";
 import { useAppNavigate } from "@/lib/navigation/pick-nav";
 import { confirmPick, requestDestination, usePickRequest } from "@/lib/files/pick-session";
@@ -102,6 +103,9 @@ function parentOf(f: AddedFile): PathRef {
 }
 
 export function AddedFilesPage() {
+  /* Position de la liste restituée au retour depuis un aperçu. */
+  useListScrollMemory("added", true);
+
   const t = useT();
   const navigate = useAppNavigate();
   const pick = usePickRequest();

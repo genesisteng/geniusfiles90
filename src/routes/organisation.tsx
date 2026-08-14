@@ -10,6 +10,7 @@
  *
  * 100 % local et hors connexion.
  */
+import { useListScrollMemory } from "@/lib/files/use-list-scroll";
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -81,6 +82,9 @@ export const Route = createFileRoute("/organisation")({
 const ROOT = [{ rootId: "internal" as const, segments: [] }];
 
 function OrganizationPage() {
+  /* Position de la liste restituée au retour depuis un aperçu. */
+  useListScrollMemory("organization", true);
+
   const t = useT();
   const [report, setReport] = useState<OrgReport | null>(() => getCachedReport());
   const [recs, setRecs] = useState<OrgRecommendation[] | null>(() => getCachedRecommendations());

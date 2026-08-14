@@ -350,6 +350,7 @@ export async function createArchive(opts: CreateOptions): Promise<CreateResult> 
         destination: dstAbs,
         level: opts.level,
         overwrite: false,
+        ...(opts.password ? { password: opts.password } : {}),
       });
       dispatchStorageChanged();
       recordOperation({
@@ -497,6 +498,7 @@ export async function extractArchive(opts: ExtractOptions): Promise<ExtractResul
         destination: dstAbs,
         entries: opts.entries,
         conflict: opts.conflict,
+        ...(opts.password ? { password: opts.password } : {}),
       });
       dispatchStorageChanged();
       recordOperation({

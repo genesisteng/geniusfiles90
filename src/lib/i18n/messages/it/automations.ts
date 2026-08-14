@@ -243,9 +243,6 @@ export default {
   "automations.engine.err.selectionOrPattern": "Selezione o modello mancante",
   "automations.engine.err.locationOrName": "Posizione o nome mancante",
   "automations.engine.err.sourceFolder": "Cartella di origine mancante",
-  "automations.engine.organizeScheduled": "Organizzazione programmata (regola {rule})",
-  "automations.engine.compressOpenArchives": "Compressione: apri lo strumento Archivi",
-  "automations.engine.cleanerScanTriggered": "Scansione avviata all'apertura di Pulizia",
   "automations.engine.notifyDefaultTitle": "Automazione",
   "automations.engine.notifyDefaultBody": "Notifica",
   "automations.engine.notifyDoneTitle": "✅ {name}",
@@ -329,4 +326,6 @@ export default {
   "automations.history.page.actionFailed": "Non riuscita",
   "automations.history.page.actionSkipped": "Ignorato",
   "automations.history.page.actionOk": "OK",
+  "automations.engine.organizeDone": "{count} file ordinati (regola {rule})",
+  "automations.engine.cleanerScanDone": "Scansione terminata: {items} elemento/i recuperabile/i",
 } as const;

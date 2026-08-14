@@ -241,9 +241,6 @@ export default {
   "automations.engine.err.selectionOrPattern": "Seleção ou modelo em falta",
   "automations.engine.err.locationOrName": "Localização ou nome em falta",
   "automations.engine.err.sourceFolder": "Pasta de origem em falta",
-  "automations.engine.organizeScheduled": "Organização agendada (regra {rule})",
-  "automations.engine.compressOpenArchives": "Compressão: abra a ferramenta Arquivos",
-  "automations.engine.cleanerScanTriggered": "Análise acionada ao abrir o Limpador",
   "automations.engine.notifyDefaultTitle": "Automatização",
   "automations.engine.notifyDefaultBody": "Notificação",
   "automations.engine.notifyDoneTitle": "✅ {name}",
@@ -327,4 +324,6 @@ export default {
   "automations.history.page.actionFailed": "Falha",
   "automations.history.page.actionSkipped": "Ignorado",
   "automations.history.page.actionOk": "OK",
+  "automations.engine.organizeDone": "{count} ficheiro(s) organizado(s) (regra {rule})",
+  "automations.engine.cleanerScanDone": "Análise concluída: {items} item(ns) recuperável(is)",
 } as const;

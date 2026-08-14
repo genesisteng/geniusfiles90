@@ -34,4 +34,6 @@ export default {
   "search.filters.location": "Konum",
   "search.filters.dateModified": "Değiştirilme tarihi",
   "search.filters.apply": "Uygula",
+  "search.toast.partial.title": "Arama eksik",
+  "search.toast.partial.desc": "Bir kaynak taranamadı: sonuçlar eksik olabilir.",
 } as const;
