@@ -48,47 +48,11 @@ export function listCapabilities(): Capability[] {
       available: true,
       needsOnline: false,
     },
-    // Réservations — activables sans changement d'UI :
-    {
-      id: "face",
-      label: t("system.cap.face"),
-      available: false,
-      needsOnline: false,
-      fallback: t("system.cap.faceFallback"),
-    },
-    {
-      id: "transcription",
-      label: t("system.cap.transcription"),
-      available: false,
-      needsOnline: true,
-      fallback: t("system.cap.transcriptionFallback"),
-    },
-    {
-      id: "video_summary",
-      label: t("system.resumeIntelligentDeVideos"),
-      available: false,
-      needsOnline: true,
-      fallback: t("system.cap.videoFallback"),
-    },
-    {
-      id: "translation",
-      label: t("system.cap.translation"),
-      available: false,
-      needsOnline: true,
-      fallback: t("system.cap.translationFallback"),
-    },
     {
       id: "visual_dedup",
       label: t("system.detectionAvanceeDesDoublonsVisuels"),
       available: true,
       needsOnline: false,
-    },
-    {
-      id: "multimodal",
-      label: t("system.cap.multimodal"),
-      available: false,
-      needsOnline: true,
-      fallback: t("system.cap.multimodalFallback"),
     },
   ];
   // Ajuster selon la connectivité

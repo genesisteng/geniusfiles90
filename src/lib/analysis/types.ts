@@ -173,12 +173,7 @@ export type Capability = {
     | "ocr"
     | "image"
     | "media_meta"
-    | "face"
-    | "transcription"
-    | "video_summary"
-    | "translation"
-    | "visual_dedup"
-    | "multimodal";
+    | "visual_dedup";
   label: string;
   available: boolean;
   needsOnline: boolean;

@@ -14,7 +14,6 @@ export * from "./scanner";
 export * from "./preview";
 export * from "./executor";
 export * from "./events";
-export * as reserved from "./reserved";
 
 import { scanOrganization } from "./scanner";
 import { buildRecommendations } from "./recommender";

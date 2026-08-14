@@ -15,7 +15,6 @@ export * from "./queue";
 export * from "./capabilities";
 export * from "./nlu";
 export * from "./similarity";
-export * as reserved from "./reserved";
 
 import { getRecord } from "./store";
 import { enqueueAnalysis } from "./queue";
