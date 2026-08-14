@@ -147,16 +147,6 @@
         </provider>
 
         <!--
-          Foreground service backing every active P2P transfer. Runs the
-          persistent notification so Android does not evict the process
-          while the TCP transfer is streaming in the background.
-        -->
-        <service
-            android:name="app.geniusfiles.mobile.TransferForegroundService"
-            android:exported="false"
-            android:foregroundServiceType="dataSync" />
-
-        <!--
           Foreground service backing the audio player. Holds the media
           notification and keeps the WebView audio pipeline alive while the
           user backgrounds the app or locks the screen.
@@ -166,19 +156,6 @@
             android:exported="false"
             android:foregroundServiceType="mediaPlayback" />
 
-        <!--
-          Handles Pause / Resume / Cancel intents fired from the
-          notification's action buttons.
-        -->
-        <receiver
-            android:name="app.geniusfiles.mobile.TransferActionReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="app.geniusfiles.mobile.TRANSFER_PAUSE" />
-                <action android:name="app.geniusfiles.mobile.TRANSFER_RESUME" />
-                <action android:name="app.geniusfiles.mobile.TRANSFER_CANCEL" />
-            </intent-filter>
-        </receiver>
 
         <!--
           Moteur natif de copie / déplacement. `stopWithTask="false"` :
