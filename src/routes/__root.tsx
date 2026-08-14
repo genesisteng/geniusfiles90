@@ -340,6 +340,7 @@ function RootComponent() {
         visibleToasts={3}
         swipeDirections={["left", "right", "bottom"]}
         offset={96}
+        mobileOffset={{ bottom: 96, left: 16, right: 16 }}
         toastOptions={{ className: "gf-toast", unstyled: true }}
       />
 
