@@ -4,6 +4,8 @@ import { AudioPlayer } from "./AudioPlayer";
 import { ArtworkFallback } from "./ArtworkFallback";
 import { parseTrackName } from "./format";
 import { useT } from "@/lib/i18n";
+import { BACK_PRIORITY, useBackHandler } from "@/lib/navigation/back-stack";
+
 
 /**
  * Persistent audio surface mounted once at the AppShell level.
