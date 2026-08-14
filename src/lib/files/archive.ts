@@ -498,6 +498,7 @@ export async function extractArchive(opts: ExtractOptions): Promise<ExtractResul
         destination: dstAbs,
         entries: opts.entries,
         conflict: opts.conflict,
+        ...(opts.password ? { password: opts.password } : {}),
       });
       dispatchStorageChanged();
       recordOperation({
