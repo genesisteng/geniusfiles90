@@ -1,0 +1,201 @@
+/**
+ * Files services and engines (operations, trash, transfers, archives,
+ * selection, recommendations, jobs). User-facing messages only —
+ * technical identifiers and logs are excluded.
+ */
+export default {
+  // Generic storage operation errors.
+  "ops.error.invalidName": "Invalid name",
+  "ops.error.pluginUnavailable": "Feature unavailable",
+  "ops.error.createFailed": "Couldn't create it",
+  "ops.error.renameFailed": "Couldn't rename it",
+  "ops.error.nameExists": "This name already exists",
+  "ops.error.deleteFailed": "Couldn't delete it",
+  "ops.error.copyFailed": "Couldn't copy it",
+  "ops.error.accessDenied": "Storage access denied",
+  "ops.error.notFound": "Item not found (already moved or deleted)",
+  "ops.error.notADirectory": "Invalid destination folder",
+  "ops.error.noSpace": "Not enough storage space",
+  "ops.error.unsupported": "Operation not supported on this storage",
+  "ops.error.storageUnavailable": "Storage unavailable",
+  "ops.error.destinationMissing": "Destination not found",
+  "ops.error.alreadyExists": "Already exists",
+  "ops.error.alreadyExistsAtDestination": "Already exists at destination",
+  "ops.error.moveUnconfirmed": "Move not confirmed by storage",
+  "ops.error.copyUnconfirmedSourceKept": "Copy not confirmed — source kept",
+  "ops.error.transferUnconfirmed": "Transfer not confirmed by storage",
+  "ops.error.itemInaccessible": "Item unreachable or locked",
+  "ops.error.deleteFailedStillPresent": "Couldn't delete it — item still present",
+  "ops.error.shareNoFiles": "Select at least one file (folders can't be shared).",
+  "ops.error.shareFailed": "Couldn't share it",
+  "ops.error.parentMissing": "Parent folder not found",
+  "ops.error.parentMissingParams": "Missing parent folder",
+  "ops.error.emptyName": "Empty name",
+  "ops.error.nameForbiddenChars": "The name can't contain “/” or “\\”",
+  "ops.error.foldersOnly": "Only folders are supported",
+  "ops.error.noItemsToDelete": "No items to delete",
+  "ops.error.noItemsToProcess": "No items to process",
+  "ops.error.sourceAndDestinationRequired": "Source and destination required",
+  "ops.error.pathMissing": "Missing path",
+  "ops.error.accessDeniedRead": "Access denied",
+  "ops.error.locationUnavailable": "Location unavailable",
+  "ops.error.readFailed": "Couldn't read it",
+  "ops.error.noLocationToAnalyze": "No location to analyze",
+  "ops.error.noLocationToSearch": "No location to search",
+  "ops.error.noFileToShare": "No file to share",
+  "ops.error.missingEntryList": "Missing entry list",
+  "ops.error.unknownCommand": "Unknown command: {type}",
+  "ops.error.commandCancelledBeforeRun": "Command cancelled before running",
+  "ops.error.batchInterrupted": "Batch interrupted",
+  "ops.error.deleteCancelled": "Deletion cancelled",
+  "ops.error.transferCancelled": "Operation cancelled",
+  "ops.error.transferFailed": "Couldn't transfer it",
+  "ops.error.organizeCancelled": "Sorting cancelled",
+  "ops.error.organizeFolderReadFailed": "Couldn't read the folder to sort",
+  "ops.error.unknownRule": "Unknown rule",
+  "ops.error.folderMissing": "Missing folder",
+
+  // Archives.
+  "ops.error.archiveFormatUnsupportedRead": "Format not supported for reading",
+  "ops.error.archiveFormatUnsupported": "Format not supported",
+  "ops.error.archiveReadFailed": "Couldn't read it",
+  "ops.error.archiveNameExists": "An archive with this name already exists",
+  "ops.error.archiveNameMissing": "Missing archive name",
+  "ops.error.noItemsToCompress": "No items to compress",
+  "ops.error.extractParamsIncomplete": "Incomplete extraction settings",
+  "ops.error.compressCancelled": "Compression cancelled",
+  "ops.error.compressFailed": "Couldn't compress it",
+  "ops.error.extractCancelled": "Extraction cancelled",
+  "ops.error.extractFailed": "Couldn't extract it",
+  "ops.archive.createSummary": "Archive “{name}” created ({count} item(s))",
+  "ops.archive.extractSummary": "Extracted “{name}” ({count} item(s))",
+
+  // Create / rename.
+  "ops.mkdir.summary": "New folder “{name}”",
+  "ops.rename.summary": "“{from}” renamed to “{to}”",
+
+  // Delete / trash.
+  "ops.delete.summary_one": "“{name}” moved to Trash",
+  "ops.delete.summary_other": "{count} items moved to Trash",
+  "ops.trash.restoreSummary_one": "Restored “{name}”",
+  "ops.trash.restoreSummary_other": "{count} items restored from Trash",
+  "ops.trash.permanentDeleteSummary_one": "Permanently deleted “{name}”",
+  "ops.trash.permanentDeleteSummary_other": "{count} items permanently deleted",
+  "ops.trash.emptiedSummary": "Trash emptied ({count})",
+
+  // Copy / move.
+  "ops.transfer.copySummary_one": "Copied “{name}”",
+  "ops.transfer.copySummary_other": "Copied {count} items",
+  "ops.transfer.moveSummary_one": "Moved “{name}”",
+  "ops.transfer.moveSummary_other": "Moved {count} items",
+  "ops.transfer.copyDone": "Copy complete",
+  "ops.transfer.moveDone": "Move complete",
+  "ops.transfer.copyCancelled": "Copy cancelled",
+  "ops.transfer.moveCancelled": "Move cancelled",
+  "ops.transfer.copyIncomplete": "Copy incomplete",
+  "ops.transfer.moveIncomplete": "Move incomplete",
+  "ops.transfer.summary": "{count} item(s) {verb}",
+  "ops.transfer.verbCopied": "copied",
+  "ops.transfer.verbMoved": "moved",
+  "ops.transfer.failuresCount": "{count} failure(s)",
+  "ops.transfer.duration": "in {time}",
+
+  // Sharing.
+  "ops.share.summary_one": "Sharing “{name}”",
+  "ops.share.summary_other": "Sharing {count} files",
+
+  // Pick session.
+  "ops.pick.selectFolders": "Select your folders",
+  "ops.pick.selectFolder": "Select a folder",
+  "ops.pick.selectItems": "Select your items",
+  "ops.pick.selectItem": "Select an item",
+  "ops.pick.selectFiles": "Select your files",
+  "ops.pick.selectFile": "Select a file",
+
+  // Selection "More" menu.
+  "ops.selection.moveToVault": "Move to secure folder",
+  "ops.selection.openAs": "Open as",
+  "ops.selection.properties": "Properties",
+  "ops.selection.cut": "Cut",
+  "ops.selection.pin": "Pin to top",
+  "ops.selection.unpin": "Unpin from top",
+  "ops.selection.hide": "Hide",
+  "ops.selection.addToHome": "Add to home screen",
+  "ops.selection.exit": "Exit selection",
+  "ops.selection.range": "Range",
+  "ops.selection.ariaLabel": "Selection actions",
+
+  // Categories.
+  "ops.categories.images": "Images",
+  "ops.categories.videos": "Videos",
+  "ops.categories.audio": "Music",
+  "ops.categories.documents": "Documents",
+  "ops.categories.downloads": "Downloads",
+  "ops.categories.archives": "Archives",
+  "ops.categories.code": "Code",
+  "ops.categories.apk": "Apps",
+  "ops.categories.fonts": "Fonts",
+  "ops.categories.other": "Other",
+
+  // Dashboard recommendations.
+  "ops.recommendations.storageCritical.title": "Storage almost full",
+  "ops.recommendations.storageCritical.desc":
+    "Only {free} free out of {total}. Free up space to keep your phone running smoothly.",
+  "ops.recommendations.storageCritical.cta": "Free up space",
+  "ops.recommendations.storageWarn.title": "Storage getting full",
+  "ops.recommendations.storageWarn.desc":
+    "{percent}% of storage is used. A preventive cleanup is recommended.",
+  "ops.recommendations.storageWarn.cta": "Analyze",
+  "ops.recommendations.trendDown.title": "Free space decreasing",
+  "ops.recommendations.trendDown.desc":
+    "You've used about {size} over the last few days. Check what's taking up space.",
+  "ops.recommendations.trendDown.cta": "See breakdown",
+  "ops.recommendations.apk.title_one": "{count} install file (APK)",
+  "ops.recommendations.apk.title_other": "{count} install files (APK)",
+  "ops.recommendations.apk.desc":
+    "{size} used by APK files. Remove the ones you no longer need after installing.",
+  "ops.recommendations.apk.cta": "Open",
+  "ops.recommendations.archive.title": "Large archives",
+  "ops.recommendations.archive.desc":
+    "{size} of archives detected. Extract the ones you need and delete the rest.",
+  "ops.recommendations.video.title": "Large videos",
+  "ops.recommendations.video.desc":
+    "Your videos take up {size}. Consider moving older ones to an SD card or external drive to free up space.",
+  "ops.recommendations.trashLarge.title": "Trash is taking up space",
+  "ops.recommendations.trashLarge.desc_one":
+    "{size} are kept in Trash ({count} item). Empty it to reclaim that space right away.",
+  "ops.recommendations.trashLarge.desc_other":
+    "{size} are kept in Trash ({count} items). Empty it to reclaim that space right away.",
+  "ops.recommendations.trashLarge.cta": "Open Trash",
+  "ops.recommendations.allGood.title": "Everything looks good",
+  "ops.recommendations.allGood.desc":
+    "No priority action detected. The dashboard will alert you as soon as an optimization is worth doing.",
+
+  // Long-running jobs (journal + notifications).
+  "ops.jobs.copy": "Copying",
+  "ops.jobs.move": "Moving",
+  "ops.jobs.compress": "Compressing",
+  "ops.jobs.extract": "Extracting",
+  "ops.jobs.clean": "Cleaning up",
+  "ops.jobs.delete": "Deleting",
+  "ops.jobs.remaining": "{time} left",
+  "ops.jobs.itemsProcessed": "{count} item(s) processed",
+  "ops.jobs.failuresCount": "{count} failure(s)",
+  "ops.time.seconds": "{count}s",
+  "ops.time.minutes": "{count} min",
+  "ops.time.hoursMinutes": "{hours}h {minutes}min",
+
+  // Progress dialog.
+  "ops.progress.hide": "Hide",
+  "ops.progress.cancel": "Cancel",
+  "ops.progress.cancelling": "Cancelling…",
+  "ops.progress.phase.cancelling": "Cancelling…",
+  "ops.progress.phase.preparing": "Preparing…",
+  "ops.progress.phase.finalizing": "Finalizing…",
+  "ops.progress.phase.running": "In progress",
+  "ops.progress.analyzing": "Analyzing selected items…",
+  "ops.progress.items": "{count}/{total} items",
+  "ops.progress.remaining": "~{time} left",
+  "ops.progress.hideHint":
+    "Hide doesn't stop anything: the transfer keeps running in the background, even if you leave GeniusFiles.",
+} as const;

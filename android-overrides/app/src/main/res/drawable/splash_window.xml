@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Fond de fenêtre du thème de lancement, utilisé sur Android 5 → 11
+  (API < 31). C'est la TOUTE PREMIÈRE chose peinte par le système, avant
+  même la création de l'Activity : l'illustration officielle est donc
+  visible immédiatement, sans écran noir intermédiaire.
+
+  Auparavant le thème de lancement ne posait qu'une couleur (voire rien
+  quand Theme.SplashScreen reprenait la main) : sur les appareils API < 31
+  — typiquement les tablettes du parc — l'utilisateur voyait un écran vide
+  puis le splash n'apparaissait que quelques millisecondes, une fois la
+  WebView prête.
+
+  Géométrie : cadre de 288dp centré, dans lequel l'illustration est
+  dessinée à 176dp de large (voir scripts/generate-app-icons.mjs) — la
+  même taille perçue que sur le SplashScreen d'Android 12+ et que
+  l'overlay web. `@color/splash_background` suit values-night, donc le
+  thème clair/sombre est respecté sans code.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/splash_background" />
+    <item
+        android:drawable="@drawable/splash_icon"
+        android:gravity="center"
+        android:width="288dp"
+        android:height="288dp" />
+</layer-list>

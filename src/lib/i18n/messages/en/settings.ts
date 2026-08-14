@@ -1,0 +1,58 @@
+export default {
+  "settings.title": "Settings",
+  "settings.subtitle": "The essentials, nothing more.",
+  "settings.meta.description":
+    "Set up the essentials of GeniusFiles: theme, language, storage, notifications, trash and app information.",
+  "settings.meta.ogDescription": "The essential GeniusFiles settings, simple and clear.",
+
+  "settings.appearance.title": "Appearance",
+  "settings.appearance.desc": "Interface theme and language",
+  "settings.theme.label": "Theme",
+  "settings.theme.desc": "Auto follows Android. Your choice is kept after closing the app.",
+  "settings.theme.aria": "App theme",
+  "settings.theme.system": "Auto",
+  "settings.theme.light": "Light",
+  "settings.theme.dark": "Dark",
+  "settings.theme.applied": "{theme} theme enabled.",
+
+  "settings.language.system": "Automatic",
+  "settings.language.label": "Language",
+  "settings.language.desc":
+    "Automatic: follows your phone's language. Pick a language to keep it fixed.",
+  "settings.language.applied": "App language: English.",
+
+  "settings.storage.title": "Storage",
+  "settings.storage.desc": "Hidden files and cache",
+  "settings.hidden.label": "Show hidden files",
+  "settings.hidden.desc": "Folders and files starting with a dot.",
+  "settings.cache.label": "Clear cache",
+  "settings.cache.desc": "Thumbnails and temporary files. Your own files are never deleted.",
+  "settings.cache.action": "Clear",
+  "settings.cache.working": "Clearing…",
+  "settings.cache.done": "Cache cleared",
+  "settings.cache.freed": "{size} freed up.",
+  "settings.cache.nothing": "Nothing to clear.",
+
+  "settings.notifications.title": "Notifications",
+  "settings.notifications.desc": "App alerts",
+  "settings.notifications.label": "Enable notifications",
+  "settings.notifications.hint": "Completed transfers, backups and clean-ups.",
+
+  "settings.trash.title": "Trash",
+  "settings.trash.desc": "Retention period",
+  "settings.trash.label": "Keep items for",
+  "settings.trash.hint": "After this period they are deleted permanently.",
+  "settings.trash.aria": "Retention period",
+  "settings.trash.option.days": "{count} days",
+  "settings.trash.option.manual": "Until deleted manually",
+  "settings.trash.updated": "Retention period updated.",
+
+  "settings.about.title": "About",
+  "settings.about.version": "Version {version}",
+  "settings.about.versionLabel": "Version",
+  "settings.about.privacy": "Privacy policy",
+  "settings.about.privacyDesc": "Your files stay on your device.",
+  "settings.about.terms": "Terms of use",
+  "settings.about.contact": "Contact us",
+  "settings.footer": "GeniusFiles · Built for Android · v{version}",
+} as const;

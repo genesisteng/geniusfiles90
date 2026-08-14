@@ -1,0 +1,201 @@
+/**
+ * Files services and engines (operations, trash, transfers, archives,
+ * selection, recommendations, jobs). User-facing messages only —
+ * technical identifiers and logs are excluded.
+ */
+export default {
+  // Generic storage operation errors.
+  "ops.error.invalidName": "Geçersiz ad",
+  "ops.error.pluginUnavailable": "Özellik kullanılamıyor",
+  "ops.error.createFailed": "Oluşturulamadı",
+  "ops.error.renameFailed": "Yeniden adlandırılamadı",
+  "ops.error.nameExists": "Bu ad zaten mevcut",
+  "ops.error.deleteFailed": "Silinemedi",
+  "ops.error.copyFailed": "Kopyalanamadı",
+  "ops.error.accessDenied": "Depolama erişimi reddedildi",
+  "ops.error.notFound": "Öğe bulunamadı (zaten taşınmış veya silinmiş)",
+  "ops.error.notADirectory": "Geçersiz hedef klasör",
+  "ops.error.noSpace": "Yeterli depolama alanı yok",
+  "ops.error.unsupported": "İşlem bu depolamada desteklenmiyor",
+  "ops.error.storageUnavailable": "Depolama kullanılamıyor",
+  "ops.error.destinationMissing": "Hedef bulunamadı",
+  "ops.error.alreadyExists": "Zaten mevcut",
+  "ops.error.alreadyExistsAtDestination": "Hedefte zaten mevcut",
+  "ops.error.moveUnconfirmed": "Taşıma depolama tarafından onaylanmadı",
+  "ops.error.copyUnconfirmedSourceKept": "Kopyalama onaylanmadı — kaynak korundu",
+  "ops.error.transferUnconfirmed": "Aktarım depolama tarafından onaylanmadı",
+  "ops.error.itemInaccessible": "Öğeye erişilemiyor veya kilitli",
+  "ops.error.deleteFailedStillPresent": "Silinemedi — öğe hâlâ mevcut",
+  "ops.error.shareNoFiles": "En az bir dosya seçin (klasörler paylaşılamaz).",
+  "ops.error.shareFailed": "Paylaşılamadı",
+  "ops.error.parentMissing": "Üst klasör bulunamadı",
+  "ops.error.parentMissingParams": "Üst klasör eksik",
+  "ops.error.emptyName": "Boş ad",
+  "ops.error.nameForbiddenChars": "Ad “/” veya “\\” içeremez",
+  "ops.error.foldersOnly": "Yalnızca klasörler desteklenir",
+  "ops.error.noItemsToDelete": "Silinecek öğe yok",
+  "ops.error.noItemsToProcess": "İşlenecek öğe yok",
+  "ops.error.sourceAndDestinationRequired": "Kaynak ve hedef gereklidir",
+  "ops.error.pathMissing": "Eksik yol",
+  "ops.error.accessDeniedRead": "Erişim reddedildi",
+  "ops.error.locationUnavailable": "Konum kullanılamıyor",
+  "ops.error.readFailed": "Okunamadı",
+  "ops.error.noLocationToAnalyze": "Analiz edilecek konum yok",
+  "ops.error.noLocationToSearch": "Aranacak konum yok",
+  "ops.error.noFileToShare": "Paylaşılacak dosya yok",
+  "ops.error.missingEntryList": "Eksik giriş listesi",
+  "ops.error.unknownCommand": "Bilinmeyen komut: {type}",
+  "ops.error.commandCancelledBeforeRun": "Komut çalıştırılmadan önce iptal edildi",
+  "ops.error.batchInterrupted": "Toplu işlem kesintiye uğradı",
+  "ops.error.deleteCancelled": "Silme iptal edildi",
+  "ops.error.transferCancelled": "İşlem iptal edildi",
+  "ops.error.transferFailed": "Aktarılamadı",
+  "ops.error.organizeCancelled": "Düzenleme iptal edildi",
+  "ops.error.organizeFolderReadFailed": "Düzenlenecek klasör okunamadı",
+  "ops.error.unknownRule": "Bilinmeyen kural",
+  "ops.error.folderMissing": "Eksik klasör",
+
+  // Archives.
+  "ops.error.archiveFormatUnsupportedRead": "Okuma için biçim desteklenmiyor",
+  "ops.error.archiveFormatUnsupported": "Biçim desteklenmiyor",
+  "ops.error.archiveReadFailed": "Okunamadı",
+  "ops.error.archiveNameExists": "Bu adda bir arşiv zaten mevcut",
+  "ops.error.archiveNameMissing": "Eksik arşiv adı",
+  "ops.error.noItemsToCompress": "Sıkıştırılacak öğe yok",
+  "ops.error.extractParamsIncomplete": "Çıkarma ayarları eksik",
+  "ops.error.compressCancelled": "Sıkıştırma iptal edildi",
+  "ops.error.compressFailed": "Sıkıştırılamadı",
+  "ops.error.extractCancelled": "Çıkarma iptal edildi",
+  "ops.error.extractFailed": "Çıkarılamadı",
+  "ops.archive.createSummary": "“{name}” arşivi oluşturuldu ({count} öğe)",
+  "ops.archive.extractSummary": "“{name}” çıkarıldı ({count} öğe)",
+
+  // Create / rename.
+  "ops.mkdir.summary": "Yeni klasör “{name}”",
+  "ops.rename.summary": "“{from}” “{to}” olarak yeniden adlandırıldı",
+
+  // Delete / trash.
+  "ops.delete.summary_one": "“{name}” çöp kutusuna taşındı",
+  "ops.delete.summary_other": "{count} öğe çöp kutusuna taşındı",
+  "ops.trash.restoreSummary_one": "“{name}” geri yüklendi",
+  "ops.trash.restoreSummary_other": "Çöp kutusundan {count} öğe geri yüklendi",
+  "ops.trash.permanentDeleteSummary_one": "“{name}” kalıcı olarak silindi",
+  "ops.trash.permanentDeleteSummary_other": "{count} öğe kalıcı olarak silindi",
+  "ops.trash.emptiedSummary": "Çöp kutusu boşaltıldı ({count})",
+
+  // Copy / move.
+  "ops.transfer.copySummary_one": "“{name}” kopyalandı",
+  "ops.transfer.copySummary_other": "{count} öğe kopyalandı",
+  "ops.transfer.moveSummary_one": "“{name}” taşındı",
+  "ops.transfer.moveSummary_other": "{count} öğe taşındı",
+  "ops.transfer.copyDone": "Kopyalama tamamlandı",
+  "ops.transfer.moveDone": "Taşıma tamamlandı",
+  "ops.transfer.copyCancelled": "Kopyalama iptal edildi",
+  "ops.transfer.moveCancelled": "Taşıma iptal edildi",
+  "ops.transfer.copyIncomplete": "Kopyalama tamamlanmadı",
+  "ops.transfer.moveIncomplete": "Taşıma tamamlanmadı",
+  "ops.transfer.summary": "{count} öğe {verb}",
+  "ops.transfer.verbCopied": "kopyalandı",
+  "ops.transfer.verbMoved": "taşındı",
+  "ops.transfer.failuresCount": "{count} hata",
+  "ops.transfer.duration": "{time} içinde",
+
+  // Sharing.
+  "ops.share.summary_one": "“{name}” paylaşılıyor",
+  "ops.share.summary_other": "{count} dosya paylaşılıyor",
+
+  // Pick session.
+  "ops.pick.selectFolders": "Klasörlerinizi seçin",
+  "ops.pick.selectFolder": "Bir klasör seçin",
+  "ops.pick.selectItems": "Öğelerinizi seçin",
+  "ops.pick.selectItem": "Bir öğe seçin",
+  "ops.pick.selectFiles": "Dosyalarınızı seçin",
+  "ops.pick.selectFile": "Bir dosya seçin",
+
+  // Selection "More" menu.
+  "ops.selection.moveToVault": "Güvenli klasöre taşı",
+  "ops.selection.openAs": "Farklı aç",
+  "ops.selection.properties": "Özellikler",
+  "ops.selection.cut": "Kes",
+  "ops.selection.pin": "Üste sabitle",
+  "ops.selection.unpin": "Üstten kaldır",
+  "ops.selection.hide": "Gizle",
+  "ops.selection.addToHome": "Ana ekrana ekle",
+  "ops.selection.exit": "Seçimden çık",
+  "ops.selection.range": "Aralık",
+  "ops.selection.ariaLabel": "Seçim işlemleri",
+
+  // Categories.
+  "ops.categories.images": "Resimler",
+  "ops.categories.videos": "Videolar",
+  "ops.categories.audio": "Müzik",
+  "ops.categories.documents": "Belgeler",
+  "ops.categories.downloads": "İndirilenler",
+  "ops.categories.archives": "Arşivler",
+  "ops.categories.code": "Kod",
+  "ops.categories.apk": "Uygulamalar",
+  "ops.categories.fonts": "Yazı tipleri",
+  "ops.categories.other": "Diğer",
+
+  // Dashboard recommendations.
+  "ops.recommendations.storageCritical.title": "Depolama alanı neredeyse dolu",
+  "ops.recommendations.storageCritical.desc":
+    "{total} alanın yalnızca {free} boş. Telefonunuzun sorunsuz çalışması için alan boşaltın.",
+  "ops.recommendations.storageCritical.cta": "Alan boşalt",
+  "ops.recommendations.storageWarn.title": "Depolama alanı dolmaya başlıyor",
+  "ops.recommendations.storageWarn.desc":
+    "Depolama alanının %{percent} kadarı kullanılıyor. Önleyici bir temizlik önerilir.",
+  "ops.recommendations.storageWarn.cta": "Analiz et",
+  "ops.recommendations.trendDown.title": "Boş alan azalıyor",
+  "ops.recommendations.trendDown.desc":
+    "Son birkaç günde yaklaşık {size} kullandınız. Neyin yer kapladığını kontrol edin.",
+  "ops.recommendations.trendDown.cta": "Ayrıntıları gör",
+  "ops.recommendations.apk.title_one": "{count} kurulum dosyası (APK)",
+  "ops.recommendations.apk.title_other": "{count} kurulum dosyası (APK)",
+  "ops.recommendations.apk.desc":
+    "APK dosyaları {size} yer kaplıyor. Kurulumdan sonra artık ihtiyacınız olmayanları kaldırın.",
+  "ops.recommendations.apk.cta": "Aç",
+  "ops.recommendations.archive.title": "Büyük arşivler",
+  "ops.recommendations.archive.desc":
+    "{size} arşiv tespit edildi. İhtiyacınız olanları çıkarın, geri kalanını silin.",
+  "ops.recommendations.video.title": "Büyük videolar",
+  "ops.recommendations.video.desc":
+    "Videolarınız {size} yer kaplıyor. Alan açmak için eski olanları bir SD karta veya harici sürücüye taşımayı düşünün.",
+  "ops.recommendations.trashLarge.title": "Çöp kutusu yer kaplıyor",
+  "ops.recommendations.trashLarge.desc_one":
+    "Çöp Kutusunda {size} tutuluyor ({count} öğe). Bu alanı hemen geri kazanmak için boşaltın.",
+  "ops.recommendations.trashLarge.desc_other":
+    "Çöp Kutusunda {size} tutuluyor ({count} öğe). Bu alanı hemen geri kazanmak için boşaltın.",
+  "ops.recommendations.trashLarge.cta": "Çöp Kutusunu aç",
+  "ops.recommendations.allGood.title": "Her şey yolunda görünüyor",
+  "ops.recommendations.allGood.desc":
+    "Öncelikli bir işlem tespit edilmedi. Yapılmaya değer bir optimizasyon olduğunda pano sizi uyaracak.",
+
+  // Long-running jobs (journal + notifications).
+  "ops.jobs.copy": "Kopyalanıyor",
+  "ops.jobs.move": "Taşınıyor",
+  "ops.jobs.compress": "Sıkıştırılıyor",
+  "ops.jobs.extract": "Çıkarılıyor",
+  "ops.jobs.clean": "Temizleniyor",
+  "ops.jobs.delete": "Siliniyor",
+  "ops.jobs.remaining": "{time} kaldı",
+  "ops.jobs.itemsProcessed": "{count} öğe işlendi",
+  "ops.jobs.failuresCount": "{count} hata",
+  "ops.time.seconds": "{count}sn",
+  "ops.time.minutes": "{count} dk",
+  "ops.time.hoursMinutes": "{hours}sa {minutes}dk",
+
+  // Progress dialog.
+  "ops.progress.hide": "Gizle",
+  "ops.progress.cancel": "İptal",
+  "ops.progress.cancelling": "İptal ediliyor…",
+  "ops.progress.phase.cancelling": "İptal ediliyor…",
+  "ops.progress.phase.preparing": "Hazırlanıyor…",
+  "ops.progress.phase.finalizing": "Tamamlanıyor…",
+  "ops.progress.phase.running": "Devam ediyor",
+  "ops.progress.analyzing": "Seçilen öğeler analiz ediliyor…",
+  "ops.progress.items": "{count}/{total} öğe",
+  "ops.progress.remaining": "~{time} kaldı",
+  "ops.progress.hideHint":
+    "Gizleme hiçbir şeyi durdurmaz: GeniusFiles'tan çıksanız bile aktarım arka planda çalışmaya devam eder.",
+} as const;

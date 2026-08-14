@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  GeniusFiles string overrides.
+
+  Forces the app label shown in the launcher and the system installer
+  dialog to "GeniusFiles" even if Capacitor regenerates strings.xml.
+-->
+<resources>
+    <string name="app_name">GeniusFiles</string>
+    <string name="title_activity_main">GeniusFiles</string>
+    <string name="package_name">app.geniusfiles.mobile</string>
+    <string name="custom_url_scheme">app.geniusfiles.mobile</string>
+</resources>

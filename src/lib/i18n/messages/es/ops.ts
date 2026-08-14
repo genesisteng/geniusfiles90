@@ -1,0 +1,201 @@
+/**
+ * Servicios y motores de archivos (operaciones, papelera, transferencias,
+ * archivos comprimidos, selección, recomendaciones, tareas). Solo mensajes
+ * visibles para el usuario — se excluyen identificadores técnicos y logs.
+ */
+export default {
+  // Errores genéricos de operaciones de almacenamiento.
+  "ops.error.invalidName": "Nombre no válido",
+  "ops.error.pluginUnavailable": "Función no disponible",
+  "ops.error.createFailed": "No se pudo crear",
+  "ops.error.renameFailed": "No se pudo renombrar",
+  "ops.error.nameExists": "Este nombre ya existe",
+  "ops.error.deleteFailed": "No se pudo eliminar",
+  "ops.error.copyFailed": "No se pudo copiar",
+  "ops.error.accessDenied": "Acceso al almacenamiento denegado",
+  "ops.error.notFound": "Elemento no encontrado (ya movido o eliminado)",
+  "ops.error.notADirectory": "Carpeta de destino no válida",
+  "ops.error.noSpace": "No hay suficiente espacio de almacenamiento",
+  "ops.error.unsupported": "Operación no compatible con este almacenamiento",
+  "ops.error.storageUnavailable": "Almacenamiento no disponible",
+  "ops.error.destinationMissing": "Destino no encontrado",
+  "ops.error.alreadyExists": "Ya existe",
+  "ops.error.alreadyExistsAtDestination": "Ya existe en el destino",
+  "ops.error.moveUnconfirmed": "Movimiento no confirmado por el almacenamiento",
+  "ops.error.copyUnconfirmedSourceKept": "Copia no confirmada — el origen se ha conservado",
+  "ops.error.transferUnconfirmed": "Transferencia no confirmada por el almacenamiento",
+  "ops.error.itemInaccessible": "Elemento inaccesible o bloqueado",
+  "ops.error.deleteFailedStillPresent": "No se pudo eliminar — el elemento sigue presente",
+  "ops.error.shareNoFiles": "Selecciona al menos un archivo (las carpetas no se pueden compartir).",
+  "ops.error.shareFailed": "No se pudo compartir",
+  "ops.error.parentMissing": "Carpeta principal no encontrada",
+  "ops.error.parentMissingParams": "Falta la carpeta principal",
+  "ops.error.emptyName": "Nombre vacío",
+  "ops.error.nameForbiddenChars": "El nombre no puede contener “/” ni “\\”",
+  "ops.error.foldersOnly": "Solo se admiten carpetas",
+  "ops.error.noItemsToDelete": "No hay elementos que eliminar",
+  "ops.error.noItemsToProcess": "No hay elementos que procesar",
+  "ops.error.sourceAndDestinationRequired": "Se requieren origen y destino",
+  "ops.error.pathMissing": "Falta la ruta",
+  "ops.error.accessDeniedRead": "Acceso denegado",
+  "ops.error.locationUnavailable": "Ubicación no disponible",
+  "ops.error.readFailed": "No se pudo leer",
+  "ops.error.noLocationToAnalyze": "No hay ubicación para analizar",
+  "ops.error.noLocationToSearch": "No hay ubicación para buscar",
+  "ops.error.noFileToShare": "No hay archivo que compartir",
+  "ops.error.missingEntryList": "Falta la lista de elementos",
+  "ops.error.unknownCommand": "Comando desconocido: {type}",
+  "ops.error.commandCancelledBeforeRun": "Comando cancelado antes de ejecutarse",
+  "ops.error.batchInterrupted": "Lote interrumpido",
+  "ops.error.deleteCancelled": "Eliminación cancelada",
+  "ops.error.transferCancelled": "Operación cancelada",
+  "ops.error.transferFailed": "No se pudo transferir",
+  "ops.error.organizeCancelled": "Organización cancelada",
+  "ops.error.organizeFolderReadFailed": "No se pudo leer la carpeta a organizar",
+  "ops.error.unknownRule": "Regla desconocida",
+  "ops.error.folderMissing": "Falta la carpeta",
+
+  // Archivos comprimidos.
+  "ops.error.archiveFormatUnsupportedRead": "Formato no compatible para lectura",
+  "ops.error.archiveFormatUnsupported": "Formato no compatible",
+  "ops.error.archiveReadFailed": "No se pudo leer",
+  "ops.error.archiveNameExists": "Ya existe un archivo comprimido con este nombre",
+  "ops.error.archiveNameMissing": "Falta el nombre del archivo comprimido",
+  "ops.error.noItemsToCompress": "No hay elementos que comprimir",
+  "ops.error.extractParamsIncomplete": "Ajustes de extracción incompletos",
+  "ops.error.compressCancelled": "Compresión cancelada",
+  "ops.error.compressFailed": "No se pudo comprimir",
+  "ops.error.extractCancelled": "Extracción cancelada",
+  "ops.error.extractFailed": "No se pudo extraer",
+  "ops.archive.createSummary": "Archivo comprimido “{name}” creado ({count} elemento(s))",
+  "ops.archive.extractSummary": "Extraído “{name}” ({count} elemento(s))",
+
+  // Crear / renombrar.
+  "ops.mkdir.summary": "Nueva carpeta “{name}”",
+  "ops.rename.summary": "“{from}” renombrado a “{to}”",
+
+  // Eliminar / papelera.
+  "ops.delete.summary_one": "“{name}” movido a la papelera",
+  "ops.delete.summary_other": "{count} elementos movidos a la papelera",
+  "ops.trash.restoreSummary_one": "“{name}” restaurado",
+  "ops.trash.restoreSummary_other": "{count} elementos restaurados de la papelera",
+  "ops.trash.permanentDeleteSummary_one": "“{name}” eliminado permanentemente",
+  "ops.trash.permanentDeleteSummary_other": "{count} elementos eliminados permanentemente",
+  "ops.trash.emptiedSummary": "Papelera vaciada ({count})",
+
+  // Copiar / mover.
+  "ops.transfer.copySummary_one": "“{name}” copiado",
+  "ops.transfer.copySummary_other": "{count} elementos copiados",
+  "ops.transfer.moveSummary_one": "“{name}” movido",
+  "ops.transfer.moveSummary_other": "{count} elementos movidos",
+  "ops.transfer.copyDone": "Copia completada",
+  "ops.transfer.moveDone": "Movimiento completado",
+  "ops.transfer.copyCancelled": "Copia cancelada",
+  "ops.transfer.moveCancelled": "Movimiento cancelado",
+  "ops.transfer.copyIncomplete": "Copia incompleta",
+  "ops.transfer.moveIncomplete": "Movimiento incompleto",
+  "ops.transfer.summary": "{count} elemento(s) {verb}",
+  "ops.transfer.verbCopied": "copiados",
+  "ops.transfer.verbMoved": "movidos",
+  "ops.transfer.failuresCount": "{count} fallo(s)",
+  "ops.transfer.duration": "en {time}",
+
+  // Compartir.
+  "ops.share.summary_one": "Compartiendo “{name}”",
+  "ops.share.summary_other": "Compartiendo {count} archivos",
+
+  // Sesión de selección.
+  "ops.pick.selectFolders": "Selecciona tus carpetas",
+  "ops.pick.selectFolder": "Selecciona una carpeta",
+  "ops.pick.selectItems": "Selecciona tus elementos",
+  "ops.pick.selectItem": "Selecciona un elemento",
+  "ops.pick.selectFiles": "Selecciona tus archivos",
+  "ops.pick.selectFile": "Selecciona un archivo",
+
+  // Menú "Más" de la selección.
+  "ops.selection.moveToVault": "Mover a carpeta segura",
+  "ops.selection.openAs": "Abrir como",
+  "ops.selection.properties": "Propiedades",
+  "ops.selection.cut": "Cortar",
+  "ops.selection.pin": "Fijar arriba",
+  "ops.selection.unpin": "Dejar de fijar",
+  "ops.selection.hide": "Ocultar",
+  "ops.selection.addToHome": "Añadir a pantalla de inicio",
+  "ops.selection.exit": "Salir de la selección",
+  "ops.selection.range": "Rango",
+  "ops.selection.ariaLabel": "Acciones de selección",
+
+  // Categorías.
+  "ops.categories.images": "Imágenes",
+  "ops.categories.videos": "Vídeos",
+  "ops.categories.audio": "Música",
+  "ops.categories.documents": "Documentos",
+  "ops.categories.downloads": "Descargas",
+  "ops.categories.archives": "Archivos comprimidos",
+  "ops.categories.code": "Código",
+  "ops.categories.apk": "Aplicaciones",
+  "ops.categories.fonts": "Fuentes",
+  "ops.categories.other": "Otros",
+
+  // Recomendaciones del panel.
+  "ops.recommendations.storageCritical.title": "Almacenamiento casi lleno",
+  "ops.recommendations.storageCritical.desc":
+    "Solo quedan {free} libres de {total}. Libera espacio para que tu teléfono funcione sin problemas.",
+  "ops.recommendations.storageCritical.cta": "Liberar espacio",
+  "ops.recommendations.storageWarn.title": "Almacenamiento casi lleno",
+  "ops.recommendations.storageWarn.desc":
+    "{percent}% del almacenamiento está en uso. Se recomienda una limpieza preventiva.",
+  "ops.recommendations.storageWarn.cta": "Analizar",
+  "ops.recommendations.trendDown.title": "El espacio libre disminuye",
+  "ops.recommendations.trendDown.desc":
+    "Has usado unos {size} en los últimos días. Revisa qué está ocupando espacio.",
+  "ops.recommendations.trendDown.cta": "Ver desglose",
+  "ops.recommendations.apk.title_one": "{count} archivo de instalación (APK)",
+  "ops.recommendations.apk.title_other": "{count} archivos de instalación (APK)",
+  "ops.recommendations.apk.desc":
+    "{size} usados por archivos APK. Elimina los que ya no necesites tras instalarlos.",
+  "ops.recommendations.apk.cta": "Abrir",
+  "ops.recommendations.archive.title": "Archivos comprimidos grandes",
+  "ops.recommendations.archive.desc":
+    "Se detectaron {size} en archivos comprimidos. Extrae los que necesites y elimina el resto.",
+  "ops.recommendations.video.title": "Vídeos grandes",
+  "ops.recommendations.video.desc":
+    "Tus vídeos ocupan {size}. Considera mover los más antiguos a una tarjeta SD o unidad externa para liberar espacio.",
+  "ops.recommendations.trashLarge.title": "La papelera ocupa espacio",
+  "ops.recommendations.trashLarge.desc_one":
+    "Hay {size} en la papelera ({count} elemento). Vacíala para recuperar ese espacio de inmediato.",
+  "ops.recommendations.trashLarge.desc_other":
+    "Hay {size} en la papelera ({count} elementos). Vacíala para recuperar ese espacio de inmediato.",
+  "ops.recommendations.trashLarge.cta": "Abrir papelera",
+  "ops.recommendations.allGood.title": "Todo está en orden",
+  "ops.recommendations.allGood.desc":
+    "No se ha detectado ninguna acción prioritaria. El panel te avisará en cuanto merezca la pena optimizar algo.",
+
+  // Tareas de larga duración (historial + notificaciones).
+  "ops.jobs.copy": "Copiando",
+  "ops.jobs.move": "Moviendo",
+  "ops.jobs.compress": "Comprimiendo",
+  "ops.jobs.extract": "Extrayendo",
+  "ops.jobs.clean": "Limpiando",
+  "ops.jobs.delete": "Eliminando",
+  "ops.jobs.remaining": "{time} restante",
+  "ops.jobs.itemsProcessed": "{count} elemento(s) procesados",
+  "ops.jobs.failuresCount": "{count} fallo(s)",
+  "ops.time.seconds": "{count}s",
+  "ops.time.minutes": "{count} min",
+  "ops.time.hoursMinutes": "{hours}h {minutes}min",
+
+  // Diálogo de progreso.
+  "ops.progress.hide": "Ocultar",
+  "ops.progress.cancel": "Cancelar",
+  "ops.progress.cancelling": "Cancelando…",
+  "ops.progress.phase.cancelling": "Cancelando…",
+  "ops.progress.phase.preparing": "Preparando…",
+  "ops.progress.phase.finalizing": "Finalizando…",
+  "ops.progress.phase.running": "En curso",
+  "ops.progress.analyzing": "Analizando elementos seleccionados…",
+  "ops.progress.items": "{count}/{total} elementos",
+  "ops.progress.remaining": "~{time} restante",
+  "ops.progress.hideHint":
+    "Ocultar no detiene nada: la transferencia sigue en segundo plano, aunque salgas de GeniusFiles.",
+} as const;

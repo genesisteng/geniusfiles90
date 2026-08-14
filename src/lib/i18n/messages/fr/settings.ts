@@ -1,0 +1,58 @@
+export default {
+  "settings.title": "Paramètres",
+  "settings.subtitle": "L'essentiel, rien de plus.",
+  "settings.meta.description":
+    "Réglez l'essentiel de GeniusFiles : thème, langue, stockage, notifications, corbeille et informations sur l'application.",
+  "settings.meta.ogDescription": "Les réglages essentiels de GeniusFiles, simples et clairs.",
+
+  "settings.appearance.title": "Apparence",
+  "settings.appearance.desc": "Thème et langue de l'interface",
+  "settings.theme.label": "Thème",
+  "settings.theme.desc": "Automatique suit Android. Votre choix est conservé après fermeture.",
+  "settings.theme.aria": "Thème de l'application",
+  "settings.theme.system": "Auto",
+  "settings.theme.light": "Clair",
+  "settings.theme.dark": "Sombre",
+  "settings.theme.applied": "Thème {theme} activé.",
+
+  "settings.language.system": "Automatique",
+  "settings.language.label": "Langue",
+  "settings.language.desc":
+    "Automatique : la langue du téléphone est suivie. Choisissez une langue pour la fixer.",
+  "settings.language.applied": "Langue de l'application : Français.",
+
+  "settings.storage.title": "Stockage",
+  "settings.storage.desc": "Fichiers cachés et cache",
+  "settings.hidden.label": "Afficher les fichiers cachés",
+  "settings.hidden.desc": "Dossiers et fichiers commençant par un point.",
+  "settings.cache.label": "Vider le cache",
+  "settings.cache.desc": "Miniatures et fichiers temporaires. Vos fichiers ne sont pas supprimés.",
+  "settings.cache.action": "Vider",
+  "settings.cache.working": "Nettoyage…",
+  "settings.cache.done": "Cache vidé",
+  "settings.cache.freed": "{size} libérés.",
+  "settings.cache.nothing": "Aucune donnée à supprimer.",
+
+  "settings.notifications.title": "Notifications",
+  "settings.notifications.desc": "Alertes de l'application",
+  "settings.notifications.label": "Activer les notifications",
+  "settings.notifications.hint": "Transferts, sauvegardes et nettoyages terminés.",
+
+  "settings.trash.title": "Corbeille",
+  "settings.trash.desc": "Durée de conservation",
+  "settings.trash.label": "Conserver les éléments",
+  "settings.trash.hint": "Passé ce délai, ils sont supprimés définitivement.",
+  "settings.trash.aria": "Durée de conservation",
+  "settings.trash.option.days": "{count} jours",
+  "settings.trash.option.manual": "Jusqu'à suppression manuelle",
+  "settings.trash.updated": "Durée de conservation mise à jour.",
+
+  "settings.about.title": "À propos",
+  "settings.about.version": "Version {version}",
+  "settings.about.versionLabel": "Version",
+  "settings.about.privacy": "Politique de confidentialité",
+  "settings.about.privacyDesc": "Vos fichiers restent sur votre appareil.",
+  "settings.about.terms": "Conditions d'utilisation",
+  "settings.about.contact": "Nous contacter",
+  "settings.footer": "GeniusFiles · Conçu pour Android · v{version}",
+} as const;
