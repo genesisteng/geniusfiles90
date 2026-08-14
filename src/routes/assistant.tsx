@@ -52,12 +52,12 @@ import { chatOfflineCopy } from "@/lib/copy/empty-illustrations";
 export const Route = createFileRoute("/assistant")({
   head: () => ({
     meta: [
-      { title: "Genius AI — GeniusFiles" },
+      { title: translate("meta.assistant.title") },
       {
         name: "description",
         content: translate("meta.assistant.description"),
       },
-      { property: "og:title", content: "Genius AI — GeniusFiles" },
+      { property: "og:title", content: translate("meta.assistant.title") },
       {
         property: "og:description",
         content: translate("meta.assistant.ogDescription"),

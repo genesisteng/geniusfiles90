@@ -129,7 +129,7 @@ function HistoryPage() {
                 <p className="text-[11px] text-muted-foreground">
                   {r.lastRunAt
                     ? tr("automations.history.page.lastRun", {
-                        when: new Date(r.lastRunAt).toLocaleString(undefined, {
+                        when: formatDateValue(r.lastRunAt, {
                           dateStyle: "short",
                           timeStyle: "short",
                         }),
@@ -226,7 +226,7 @@ function HistoryRow({ record, tr }: { record: ExecutionRecord; tr: TFunction }) 
           <p className="mt-0.5 flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
             <span className="inline-flex items-center gap-1">
               <Clock className="h-3 w-3" />
-              {new Date(record.startedAt).toLocaleString(undefined, {
+              {formatDateValue(record.startedAt, {
                 dateStyle: "short",
                 timeStyle: "short",
               })}
@@ -234,7 +234,7 @@ function HistoryRow({ record, tr }: { record: ExecutionRecord; tr: TFunction }) 
             <span>· {statusLabel(record.status, tr)}</span>
             <span>· {countLabel(record.actions.length, "action")}</span>
             {record.filesProcessed ? (
-              <span>· {countLabel(record.filesProcessed, "fichier")}</span>
+              <span>· {countLabel(record.filesProcessed, "file")}</span>
             ) : null}
           </p>
         </div>
