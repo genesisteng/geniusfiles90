@@ -1220,7 +1220,14 @@ function MergeSheet({ onClose }: { onClose: () => void }) {
           {sources.length > 0 ? (
             <>
               <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-                <span>X_PLACEHOLDER_MERGE_SUMMARY</span>
+                <span>
+                  {sources.every((s) => s.pageCount != null)
+                    ? t("pdf.merge.sourcesSummary", {
+                        count: sources.length,
+                        pages: sources.reduce((n, s) => n + (s.pageCount ?? 0), 0),
+                      })
+                    : t("pdf.merge.sourcesCount", { count: sources.length })}
+                </span>
               </div>
               <ul className="space-y-1.5">
                 {sources.map((s, i) => (
