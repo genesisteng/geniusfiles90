@@ -179,7 +179,8 @@ export function SearchPage() {
       setScanned(cached.scanned);
       setScanning(false);
     } else {
-      setResults([]);
+      // Pas de purge ici : les résultats précédents restent affichés pendant
+      // le nouveau scan et sont remplacés à l'arrivée du premier lot.
       setScanned(0);
     }
 
@@ -201,6 +202,7 @@ export function SearchPage() {
 
     setScanning(true);
     let latestScanned = 0;
+    let firstBatch = !cached;
     let latestResults: SearchResult[] = cached?.results ?? [];
     const t = window.setTimeout(() => {
       const ctrl = runSearch({
@@ -209,7 +211,9 @@ export function SearchPage() {
         roots: targetRoots,
         onBatch: (batch) => {
           setResults((prev) => {
-            const merged = sortResults([...prev, ...batch]).slice(0, RESULTS_LIMIT);
+            const base = firstBatch ? [] : prev;
+            firstBatch = false;
+            const merged = sortResults([...base, ...batch]).slice(0, RESULTS_LIMIT);
             latestResults = merged;
             return merged;
           });
