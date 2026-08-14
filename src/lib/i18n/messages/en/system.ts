@@ -204,10 +204,6 @@ export default {
     "Trim, adjust volume, fades and speed, then export your audio files losslessly.",
   "meta.audioEditor.ogDescription":
     "A non-destructive audio editor built into the GeniusFiles file manager.",
-  "meta.keyboard.title": "Keyboard test — GeniusFiles",
-  "meta.keyboard.description":
-    "Check that the Android keyboard shows suggestions, autocorrect and capitalisation as expected.",
-  "meta.keyboard.ogDescription": "Check how the Android keyboard behaves inside GeniusFiles.",
   "meta.settings.title": "Settings — GeniusFiles",
   "meta.settings.description":
     "Set up the essentials of GeniusFiles: theme, language, storage, notifications, trash and app information.",

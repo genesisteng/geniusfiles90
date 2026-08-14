@@ -201,11 +201,6 @@ export default {
     "Schneiden Sie Ihre Audiodateien, passen Sie Lautstärke, Überblendungen sowie Geschwindigkeit an und exportieren Sie sie verlustfrei.",
   "meta.audioEditor.ogDescription":
     "Ein nicht-destruktiver Audio-Editor, der direkt in den GeniusFiles-Dateimanager integriert ist.",
-  "meta.keyboard.title": "Tastaturtest — GeniusFiles",
-  "meta.keyboard.description":
-    "Überprüfen Sie, ob die Android-Tastatur Vorschläge, Autokorrektur und Großschreibung wie erwartet anzeigt.",
-  "meta.keyboard.ogDescription":
-    "Überprüfen Sie das Verhalten der Android-Tastatur in GeniusFiles.",
   "meta.settings.title": "Einstellungen — GeniusFiles",
   "meta.settings.description":
     "Richten Sie das Wichtigste in GeniusFiles ein: Design, Sprache, Speicher, Benachrichtigungen, Papierkorb und App-Informationen.",
