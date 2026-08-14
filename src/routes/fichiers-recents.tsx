@@ -514,7 +514,7 @@ export function AddedFilesPage() {
           break;
       }
     },
-    [doShare],
+    [doShare, startTransferFlow],
   );
 
   const viewerEntries = useMemo(() => sorted.filter((f) => canOpenInViewer(f)), [sorted]);
