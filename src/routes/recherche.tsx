@@ -224,6 +224,13 @@ export function SearchPage() {
         },
         onDone: ({ failedProviders }) => {
           setScanning(false);
+          // Aucun lot reçu : la requête n'a réellement rien donné, on retire
+          // les résultats de la requête précédente encore affichés.
+          if (firstBatch) {
+            firstBatch = false;
+            latestResults = [];
+            setResults([]);
+          }
           setCachedSearch(cacheKey, latestResults, latestScanned);
           if (failedProviders.length > 0) {
             toast.warning(translate("search.toast.partial.title"), {
