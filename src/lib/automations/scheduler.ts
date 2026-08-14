@@ -259,17 +259,19 @@ export function startAutomationScheduler(): () => void {
   const onVis = () => {
     if (typeof document !== "undefined" && !document.hidden) {
       void tick();
-      void syncNativeAlarms();
+      scheduleAlarmSync();
     }
   };
   if (typeof document !== "undefined") document.addEventListener("visibilitychange", onVis);
   stopSub = subscribeAutomations(() => {
     void tick();
-    void syncNativeAlarms();
+    scheduleAlarmSync();
   });
   return () => {
     if (timer) clearInterval(timer);
     timer = null;
+    if (syncTimer) clearTimeout(syncTimer);
+    syncTimer = null;
     if (typeof document !== "undefined") document.removeEventListener("visibilitychange", onVis);
     stopSub?.();
     stopSub = null;
