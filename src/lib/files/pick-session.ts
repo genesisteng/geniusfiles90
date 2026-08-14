@@ -43,6 +43,15 @@ export type PickScreen =
   | { kind: "recents" }
   | { kind: "search" };
 
+/**
+ * Nature de la session :
+ * - `items`       : l'appelant attend des fichiers / dossiers ;
+ * - `destination` : l'appelant attend UN dossier de destination
+ *   (copier / déplacer). L'utilisateur navigue normalement dans les
+ *   stockages, catégories et dossiers, puis valide « ici ».
+ */
+export type PickPurpose = "items" | "destination";
+
 export type PickRequest = {
   id: number;
   accept: PickAccept;
@@ -51,15 +60,21 @@ export type PickRequest = {
   extensions: string[];
   /** Intitulé affiché en tête du mode sélection. */
   title: string;
+  purpose: PickPurpose;
+  /** Opération en cours pour une session « destination ». */
+  mode?: "copy" | "move";
 };
 
 type Session = PickRequest & {
   resolve: (result: PickedDetail[] | null) => void;
+  resolveDest?: (dest: PathRef | null) => void;
 };
 
 let session: Session | null = null;
 let request: PickRequest | null = null;
 let stack: PickScreen[] = [{ kind: "home" }];
+/** Dossier actuellement affiché pendant une session « destination ». */
+let location: PathRef | null = null;
 let nextId = 1;
 
 const listeners = new Set<() => void>();
@@ -96,30 +111,89 @@ export function requestPick(opts: {
   title?: string;
 }): Promise<PickedDetail[] | null> {
   // Une nouvelle demande annule proprement la précédente.
-  if (session) session.resolve(null);
+  abortCurrent();
   clearSelectionStore();
   stack = [{ kind: "home" }];
+  location = null;
   return new Promise<PickedDetail[] | null>((resolve) => {
     const id = nextId++;
     const accept = opts.accept ?? "files";
     const multi = opts.multi;
-    session = {
+    const next: Session = {
       id,
       accept,
       multi,
       extensions: (opts.extensions ?? []).map((e) => e.toLowerCase()),
       title: opts.title?.trim() || defaultPickTitle(accept, multi),
+      purpose: "items",
       resolve,
     };
+    session = next;
     request = {
       id,
-      accept: session.accept,
-      multi: session.multi,
-      extensions: session.extensions,
-      title: session.title,
+      accept: next.accept,
+      multi: next.multi,
+      extensions: next.extensions,
+      title: next.title,
+      purpose: "items",
     };
     emit();
   });
+}
+
+/**
+ * Démarre le choix d'un dossier de destination (copier / déplacer).
+ *
+ * L'utilisateur retrouve exactement la navigation de GeniusFiles —
+ * stockages, catégories, dossiers et albums — et valide directement le
+ * dossier affiché. Aucun écran de sélection séparé n'est utilisé.
+ */
+export function requestDestination(opts: {
+  mode: "copy" | "move";
+  title?: string;
+  initial?: PathRef | null;
+}): Promise<PathRef | null> {
+  abortCurrent();
+  clearSelectionStore();
+  stack = [{ kind: "home" }];
+  location = opts.initial ?? null;
+  return new Promise<PathRef | null>((resolveDest) => {
+    const id = nextId++;
+    const title =
+      opts.title?.trim() ||
+      (opts.mode === "copy" ? t("files.pickDest.copyTitle") : t("files.pickDest.moveTitle"));
+    const next: Session = {
+      id,
+      accept: "folders",
+      multi: false,
+      extensions: [],
+      title,
+      purpose: "destination",
+      mode: opts.mode,
+      resolve: () => {},
+      resolveDest,
+    };
+    session = next;
+    request = {
+      id,
+      accept: next.accept,
+      multi: false,
+      extensions: [],
+      title,
+      purpose: "destination",
+      mode: opts.mode,
+    };
+    emit();
+  });
+}
+
+function abortCurrent() {
+  const current = session;
+  session = null;
+  request = null;
+  if (!current) return;
+  if (current.purpose === "destination") current.resolveDest?.(null);
+  else current.resolve(null);
 }
 
 function finish(result: PickedDetail[] | null) {
@@ -127,13 +201,53 @@ function finish(result: PickedDetail[] | null) {
   session = null;
   request = null;
   stack = [{ kind: "home" }];
+  location = null;
   clearSelectionStore();
   emit();
-  current?.resolve(result);
+  if (current?.purpose === "destination") current.resolveDest?.(null);
+  else current?.resolve(result);
 }
 
 export function cancelPick(): void {
   if (session) finish(null);
+}
+
+/* ── Session « destination » ────────────────────────────────────── */
+
+/** Dossier actuellement affiché (destination candidate). */
+export function getPickLocation(): PathRef | null {
+  return location;
+}
+
+/** Signalé par les écrans officiels pendant une session « destination ». */
+export function setPickLocation(next: PathRef | null): void {
+  const same =
+    (next === null && location === null) ||
+    (next !== null &&
+      location !== null &&
+      next.rootId === location.rootId &&
+      next.segments.join("/") === location.segments.join("/"));
+  if (same) return;
+  location = next ? { rootId: next.rootId, segments: [...next.segments] } : null;
+  emit();
+}
+
+/** Valide le dossier affiché comme destination de l'opération. */
+export function confirmPickDestination(): void {
+  const current = session;
+  const dest = location;
+  if (!current || current.purpose !== "destination" || !dest) return;
+  session = null;
+  request = null;
+  stack = [{ kind: "home" }];
+  location = null;
+  clearSelectionStore();
+  emit();
+  current.resolveDest?.(dest);
+}
+
+export function usePickLocation(): PathRef | null {
+  return useSyncExternalStore(subscribe, getPickLocation, () => null);
 }
 
 function defaultPickTitle(accept: PickAccept, multi: boolean): string {

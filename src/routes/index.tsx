@@ -3,6 +3,8 @@ import { useAppNavigate } from "@/lib/navigation/pick-nav";
 import {
   pickAccepts,
   pickAllowsApk,
+  requestDestination,
+  setPickLocation,
   usePickRequest,
   type PickedDetail,
   type PickRequest,
@@ -76,7 +78,6 @@ import { MoreActionsSheet } from "@/components/files/MoreActionsSheet";
 import { buildMoreActions } from "@/lib/files/selection-actions";
 import { EntryActionSheet, type EntryAction } from "@/components/files/EntryActionSheet";
 import { ConfirmDialog, NamePrompt } from "@/components/files/BottomSheet";
-import { DestinationPicker } from "@/components/files/DestinationPicker";
 import { DetailsSheet } from "@/components/files/DetailsSheet";
 import { ProgressDialog } from "@/components/files/ProgressDialog";
 import { startTransfer, cancelTransfer } from "@/lib/transfers/manager";
@@ -146,7 +147,7 @@ import {
 } from "@/lib/files/selection-store";
 import { useSelectionSize, invalidateSizes } from "@/lib/files/selection-size";
 import { unitFor } from "@/lib/files/describe";
-import { saveScrollFor, readScrollFor } from "@/lib/files/scroll-memory";
+import { useListScrollMemory } from "@/lib/files/use-list-scroll";
 import {
   createDirectory,
   createSignal,
@@ -207,7 +208,6 @@ type ActiveDialog =
   | { kind: "rename"; entry: FileEntry }
   | { kind: "details"; info: DetailsInfo | null; loading: boolean }
   | { kind: "confirmDelete"; entries: FileEntry[] }
-  | { kind: "picker"; mode: "copy" | "move"; entries: FileEntry[] }
   | { kind: "actions"; entry: FileEntry }
   | { kind: "archiveCreate"; entries: FileEntry[] }
   | {
@@ -420,32 +420,21 @@ export function FilesPage() {
   /* ---------- mémoire de navigation ---------- */
 
   const scrollKey = path ? pathKeyOf(path) : "__root";
-  const restoredScrollKey = useRef<string | null>(null);
 
-  // Position exacte mémorisée par dossier : chaque niveau garde la sienne.
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const key = scrollKey;
-    const onScroll = () => saveScrollFor(key, window.scrollY);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      saveScrollFor(key, window.scrollY);
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, [scrollKey]);
+  /* Position du gestionnaire de fichiers : conservée uniquement le temps
+     d'un aller-retour (ouvrir un dossier puis revenir), restituée avant
+     peinture — aucun clignotement, aucun saut. */
+  useListScrollMemory(
+    scrollKey,
+    path ? listing.status === "ready" || listing.status === "empty" : roots.length > 0,
+  );
 
-  // Restauration instantanée (aucune animation) dès que la liste est prête.
+  /* Choix d'une destination : le dossier affiché EST la destination
+     candidate — la barre du bas suit la navigation en direct. */
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (listing.status !== "ready" && listing.status !== "empty") return;
-    if (restoredScrollKey.current === scrollKey) return;
-    restoredScrollKey.current = scrollKey;
-    const y = readScrollFor(scrollKey);
-    const frame = requestAnimationFrame(() =>
-      requestAnimationFrame(() => window.scrollTo({ top: y, behavior: "auto" })),
-    );
-    return () => cancelAnimationFrame(frame);
-  }, [scrollKey, listing.status]);
+    if (pick?.purpose !== "destination") return;
+    setPickLocation(path);
+  }, [pick?.purpose, path]);
 
   // La sélection survit à la navigation : on retire seulement ce qui a
   // réellement disparu du dossier rafraîchi.
@@ -671,7 +660,16 @@ export function FilesPage() {
     (entry: FileEntry) => {
       if (!path) return;
       if (pick) {
+        /* Choix d'une destination : on ne sélectionne rien — un dossier
+           s'ouvre, un fichier est ignoré. La destination est le dossier
+           affiché, validé depuis la barre du bas. */
+        if (pick.purpose === "destination") {
+          if (entry.isDirectory)
+            navigateTo({ rootId: path.rootId, segments: [...path.segments, entry.name] });
+          return;
+        }
         // Un dossier reste ouvrable quand la fonctionnalité ne veut que des fichiers.
+
         if (entry.isDirectory && pick.accept === "files") {
           navigateTo({ rootId: path.rootId, segments: [...path.segments, entry.name] });
           return;
@@ -718,13 +716,20 @@ export function FilesPage() {
   /* ---------- operations ---------- */
 
   const runTransfer = useCallback(
-    (mode: "copy" | "move", entries: FileEntry[], dest: PathRef) => {
-      if (!path) return;
+    (
+      mode: "copy" | "move",
+      entries: FileEntry[],
+      dest: PathRef,
+      /* Regroupement calculé AVANT le choix de la destination : la
+         sélection d'origine est déjà retombée à ce moment-là. */
+      precomputedGroups?: { parent: PathRef; entries: FileEntry[] }[],
+    ) => {
       const destLabel = dest.segments.length
         ? dest.segments.join(" / ")
         : t("home.transfer.rootLabel");
-      const groups = groupsFor(entries);
+      const groups = precomputedGroups ?? groupsFor(entries);
       if (groups.length === 0) return;
+
       // « 2 dossiers » ≠ « 2 fichiers » : le libellé suit la nature réelle.
       const unit = unitFor(entries);
       // La tâche vit dans le gestionnaire global : masquer la fenêtre,
@@ -777,7 +782,27 @@ export function FilesPage() {
       clearSelection();
       invalidateSizes();
     },
-    [path, clearSelection, groupsFor, onRefresh, t],
+    [clearSelection, groupsFor, onRefresh, t],
+  );
+
+  /**
+   * Copier / Déplacer : l'utilisateur choisit la destination dans la
+   * navigation habituelle de GeniusFiles (accueil, stockages, catégories,
+   * dossiers, albums), puis valide « ici ». Aucun écran de sélection de
+   * dossier séparé n'est affiché.
+   */
+  const startTransferFlow = useCallback(
+    async (mode: "copy" | "move", entries: FileEntry[]) => {
+      if (entries.length === 0) return;
+      const items = [...entries];
+      const groups = groupsFor(items);
+      if (groups.length === 0) return;
+      setDialog({ kind: "none" });
+      const dest = await requestDestination({ mode });
+      if (!dest) return;
+      runTransfer(mode, items, dest, groups);
+    },
+    [groupsFor, runTransfer],
   );
 
   const runDelete = useCallback(
@@ -1023,10 +1048,10 @@ export function FilesPage() {
           runShare([entry]);
           break;
         case "copy":
-          setDialog({ kind: "picker", mode: "copy", entries: [entry] });
+          void startTransferFlow("copy", [entry]);
           break;
         case "move":
-          setDialog({ kind: "picker", mode: "move", entries: [entry] });
+          void startTransferFlow("move", [entry]);
           break;
         case "delete":
           setDialog({ kind: "confirmDelete", entries: [entry] });
@@ -1055,7 +1080,7 @@ export function FilesPage() {
           break;
       }
     },
-    [openDetails, runShare, openArchive, openEntry, path, routerNavigate],
+    [openDetails, runShare, openArchive, openEntry, path, routerNavigate, startTransferFlow],
   );
 
   /* ---------- viewer action dispatcher ---------- */
@@ -1076,10 +1101,10 @@ export function FilesPage() {
           setDialog({ kind: "rename", entry });
           break;
         case "copy":
-          setDialog({ kind: "picker", mode: "copy", entries: [entry] });
+          void startTransferFlow("copy", [entry]);
           break;
         case "move":
-          setDialog({ kind: "picker", mode: "move", entries: [entry] });
+          void startTransferFlow("move", [entry]);
           break;
         case "delete":
           setViewerName(null);
@@ -1096,7 +1121,7 @@ export function FilesPage() {
           break;
       }
     },
-    [openDetails, runShare, path],
+    [openDetails, runShare, path, startTransferFlow],
   );
 
   return (
@@ -1120,7 +1145,11 @@ export function FilesPage() {
           onFoldersFirstChange={onFoldersFirstChange}
           onRefresh={onRefresh}
           refreshing={refreshing}
-          onNewFolder={pick ? undefined : () => setDialog({ kind: "newFolder" })}
+          onNewFolder={
+            pick && pick.purpose !== "destination"
+              ? undefined
+              : () => setDialog({ kind: "newFolder" })
+          }
           onSelect={() => sortedEntries[0] && beginSelection(sortedEntries[0])}
           selection={
             selectionMode
@@ -1172,8 +1201,8 @@ export function FilesPage() {
         <>
           <SelectionBar
             count={selection.size}
-            onCopy={() => setDialog({ kind: "picker", mode: "copy", entries: selectedEntries })}
-            onMove={() => setDialog({ kind: "picker", mode: "move", entries: selectedEntries })}
+            onCopy={() => void startTransferFlow("copy", selectedEntries)}
+            onMove={() => void startTransferFlow("move", selectedEntries)}
             onDelete={() => setDialog({ kind: "confirmDelete", entries: selectedEntries })}
             onRename={() =>
               selectedEntries[0] && setDialog({ kind: "rename", entry: selectedEntries[0] })
@@ -1188,7 +1217,7 @@ export function FilesPage() {
               onShare: () => runShare(selectedEntries),
               onCompress: () => setDialog({ kind: "archiveCreate", entries: selectedEntries }),
               onProperties: () => selectedEntries[0] && openDetails(selectedEntries[0]),
-              onCut: () => setDialog({ kind: "picker", mode: "move", entries: selectedEntries }),
+              onCut: () => void startTransferFlow("move", selectedEntries),
             })}
           />
         </>
@@ -1246,23 +1275,6 @@ export function FilesPage() {
           const entries = dialog.entries;
           setDialog({ kind: "none" });
           await runDelete(entries);
-        }}
-      />
-
-      <DestinationPicker
-        open={dialog.kind === "picker"}
-        title={
-          dialog.kind === "picker" && dialog.mode === "copy"
-            ? t("home.destination.copyTitle")
-            : t("home.destination.moveTitle")
-        }
-        initial={path}
-        onCancel={() => setDialog({ kind: "none" })}
-        onConfirm={async (dest) => {
-          if (dialog.kind !== "picker") return;
-          const { mode, entries } = dialog;
-          setDialog({ kind: "none" });
-          await runTransfer(mode, entries, dest);
         }}
       />
 
@@ -1777,7 +1789,15 @@ function RootView({
       {/* Salutation = titre principal de la page, en en-tête collant. */}
       <PageHeader
         title={pick ? pick.title : greeting}
-        subtitle={pick ? t("home.subtitle.pick") : t("home.subtitle.default")}
+        subtitle={
+          pick
+            ? pick.purpose === "destination"
+              ? pick.mode === "move"
+                ? t("files.pickDest.subtitleMove")
+                : t("files.pickDest.subtitleCopy")
+              : t("home.subtitle.pick")
+            : t("home.subtitle.default")
+        }
         action={
           <button
             type="button"
@@ -1794,7 +1814,13 @@ function RootView({
         }
       />
 
-      {pick ? <PickHowTo multi={pick.multi} /> : <ResumeBanner />}
+      {pick ? (
+        pick.purpose === "destination" ? null : (
+          <PickHowTo multi={pick.multi} />
+        )
+      ) : (
+        <ResumeBanner />
+      )}
 
       {/* Stockages — accès direct au gestionnaire de fichiers */}
       <StorageCards onOpenRoot={onOpenRoot} internalFilesFallback={totalFiles || undefined} />

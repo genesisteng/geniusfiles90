@@ -1,14 +1,15 @@
 /**
- * Mémoire de défilement par dossier.
+ * Mémoire de retour : position de la liste que l'on vient de quitter.
  *
- * Chaque niveau de navigation conserve sa propre position : revenir d'un
- * sous-dossier restaure instantanément la position exacte (pas d'animation,
- * pas de saut), y compris après plusieurs niveaux d'exploration.
+ * Règle volontairement simple — seule la position nécessaire au RETOUR est
+ * conservée, puis consommée. Ouvrir un dossier ou une liste part donc
+ * toujours du haut ; revenir en arrière restitue instantanément la position
+ * exacte d'avant l'ouverture, sans rechargement, clignotement ni animation.
  *
- * La liste est virtualisée sur la fenêtre : mémoriser `window.scrollY` suffit
- * et coûte zéro mémoire par ligne. Le cache est borné pour éviter toute fuite.
+ * Le cache reste minuscule (quelques niveaux de profondeur) : aucune
+ * accumulation de positions de pages ou de dossiers déjà visités.
  */
-const MAX_ENTRIES = 200;
+const MAX_ENTRIES = 12;
 const positions = new Map<string, number>();
 
 export function saveScrollFor(key: string, y: number): void {
@@ -23,6 +24,13 @@ export function saveScrollFor(key: string, y: number): void {
 
 export function readScrollFor(key: string): number {
   return positions.get(key) ?? 0;
+}
+
+/** Lit ET oublie : la position ne sert qu'au retour immédiat. */
+export function takeScrollFor(key: string): number {
+  const y = positions.get(key) ?? 0;
+  positions.delete(key);
+  return y;
 }
 
 export function forgetScrollFor(key: string): void {

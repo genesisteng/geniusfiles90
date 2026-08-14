@@ -10,7 +10,7 @@
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { useAppNavigate } from "@/lib/navigation/pick-nav";
-import { confirmPick, usePickRequest } from "@/lib/files/pick-session";
+import { confirmPick, requestDestination, usePickRequest } from "@/lib/files/pick-session";
 import {
   toggleSelection as toggleGlobalSelection,
   useSelection as useGlobalSelection,
@@ -29,7 +29,6 @@ import { MoreActionsSheet } from "@/components/files/MoreActionsSheet";
 import { buildMoreActions } from "@/lib/files/selection-actions";
 import { EntryActionSheet, type EntryAction } from "@/components/files/EntryActionSheet";
 import { ConfirmDialog, NamePrompt } from "@/components/files/BottomSheet";
-import { DestinationPicker } from "@/components/files/DestinationPicker";
 import { DetailsSheet } from "@/components/files/DetailsSheet";
 import { ProgressDialog } from "@/components/files/ProgressDialog";
 import { startTransfer, cancelTransfer } from "@/lib/transfers/manager";
@@ -96,7 +95,6 @@ type Dialog =
   | { kind: "details"; info: DetailsInfo | null; loading: boolean; parent: PathRef }
   | { kind: "rename"; entry: FileEntry; parent: PathRef }
   | { kind: "confirmDelete"; items: AddedFile[] }
-  | { kind: "picker"; mode: "copy" | "move"; items: AddedFile[] }
   | { kind: "viewer"; entryId: string };
 
 function parentOf(f: AddedFile): PathRef {
@@ -409,6 +407,19 @@ export function AddedFilesPage() {
     [clearSelection, t],
   );
 
+  /* Copier / Déplacer : destination choisie dans la navigation habituelle. */
+  const startTransferFlow = useCallback(
+    async (mode: "copy" | "move", items: AddedFile[]) => {
+      if (items.length === 0) return;
+      const picked = [...items];
+      setDialog({ kind: "none" });
+      const dest = await requestDestination({ mode });
+      if (!dest) return;
+      doTransfer(mode, picked, dest);
+    },
+    [doTransfer],
+  );
+
   const doRename = useCallback(
     async (entry: FileEntry, parent: PathRef, newName: string) => {
       const r = await renameEntry(parent, entry, newName);
@@ -449,10 +460,10 @@ export function AddedFilesPage() {
           setDialog({ kind: "rename", entry: f, parent });
           break;
         case "copy":
-          setDialog({ kind: "picker", mode: "copy", items: [f] });
+          void startTransferFlow("copy", [f]);
           break;
         case "move":
-          setDialog({ kind: "picker", mode: "move", items: [f] });
+          void startTransferFlow("move", [f]);
           break;
         case "delete":
           setDialog({ kind: "confirmDelete", items: [f] });
@@ -467,7 +478,7 @@ export function AddedFilesPage() {
           break;
       }
     },
-    [dialog, doShare, navigate],
+    [dialog, doShare, navigate, startTransferFlow],
   );
 
   const onViewerAction = useCallback(
@@ -485,10 +496,10 @@ export function AddedFilesPage() {
           setDialog({ kind: "rename", entry: f, parent });
           break;
         case "copy":
-          setDialog({ kind: "picker", mode: "copy", items: [f] });
+          void startTransferFlow("copy", [f]);
           break;
         case "move":
-          setDialog({ kind: "picker", mode: "move", items: [f] });
+          void startTransferFlow("move", [f]);
           break;
         case "delete":
           setDialog({ kind: "confirmDelete", items: [f] });
@@ -503,7 +514,7 @@ export function AddedFilesPage() {
           break;
       }
     },
-    [doShare],
+    [doShare, startTransferFlow],
   );
 
   const viewerEntries = useMemo(() => sorted.filter((f) => canOpenInViewer(f)), [sorted]);
@@ -640,8 +651,8 @@ export function AddedFilesPage() {
       {selectionMode && !pick ? (
         <SelectionBar
           count={selectedFiles.length}
-          onCopy={() => setDialog({ kind: "picker", mode: "copy", items: selectedFiles })}
-          onMove={() => setDialog({ kind: "picker", mode: "move", items: selectedFiles })}
+          onCopy={() => void startTransferFlow("copy", selectedFiles)}
+          onMove={() => void startTransferFlow("move", selectedFiles)}
           onDelete={() => setDialog({ kind: "confirmDelete", items: selectedFiles })}
           onRename={() => {
             if (selectedFiles.length !== 1) return;
@@ -666,7 +677,7 @@ export function AddedFilesPage() {
             const info = await readDetails(parent, f);
             setDialog({ kind: "details", info, loading: false, parent });
           },
-          onCut: () => setDialog({ kind: "picker", mode: "move", items: selectedFiles }),
+          onCut: () => void startTransferFlow("move", selectedFiles),
         })}
       />
 
@@ -713,23 +724,6 @@ export function AddedFilesPage() {
           const items = dialog.items;
           setDialog({ kind: "none" });
           await doDelete(items);
-        }}
-      />
-
-      <DestinationPicker
-        open={dialog.kind === "picker"}
-        title={
-          dialog.kind === "picker" && dialog.mode === "copy"
-            ? t("files.actions.copyTo")
-            : t("files.actions.moveTo")
-        }
-        initial={null}
-        onCancel={() => setDialog({ kind: "none" })}
-        onConfirm={async (dest) => {
-          if (dialog.kind !== "picker") return;
-          const { mode, items } = dialog;
-          setDialog({ kind: "none" });
-          await doTransfer(mode, items, dest);
         }}
       />
 

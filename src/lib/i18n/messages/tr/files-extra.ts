@@ -96,4 +96,13 @@ export default {
   "files.op.movedOne": "“{name}” taşındı",
   "files.op.copiedMany": "{count} öge kopyalandı",
   "files.op.movedMany": "{count} öge taşındı",
+  "files.pickDest.copyTitle": "Şuraya kopyala…",
+  "files.pickDest.moveTitle": "Şuraya taşı…",
+  "files.pickDest.aria": "Hedefi seç",
+  "files.pickDest.current": "Hedef: {name}",
+  "files.pickDest.prompt": "Bir depolama veya kategori açın",
+  "files.pickDest.copyHere": "Buraya kopyala",
+  "files.pickDest.moveHere": "Buraya taşı",
+  "files.pickDest.subtitleCopy": "Ögelerinizin kopyalanacağı klasörü seçin.",
+  "files.pickDest.subtitleMove": "Ögelerinizin taşınacağı klasörü seçin.",
 } as const;

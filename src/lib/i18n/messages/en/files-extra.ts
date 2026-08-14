@@ -104,4 +104,13 @@ export default {
   "files.op.movedOne": "Moved “{name}”",
   "files.op.copiedMany": "Copied {count} items",
   "files.op.movedMany": "Moved {count} items",
+  "files.pickDest.copyTitle": "Copy to…",
+  "files.pickDest.moveTitle": "Move to…",
+  "files.pickDest.aria": "Choose destination",
+  "files.pickDest.current": "Destination: {name}",
+  "files.pickDest.prompt": "Open a storage or a category",
+  "files.pickDest.copyHere": "Copy here",
+  "files.pickDest.moveHere": "Move here",
+  "files.pickDest.subtitleCopy": "Choose the folder to copy your items into.",
+  "files.pickDest.subtitleMove": "Choose the folder to move your items into.",
 } as const;
