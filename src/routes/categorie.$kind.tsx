@@ -68,7 +68,7 @@ import {
 } from "@/lib/files/operations";
 
 import { CategoryTabs, type CategoryTabId } from "@/components/files/CategoryTabs";
-import { docTabs, isDocTab, matchesDocTab } from "@/lib/files/doc-tabs";
+import { docTabs as documentTabs, isDocTab, matchesDocTab } from "@/lib/files/doc-tabs";
 import { CategoryFolderList, type CategoryFolder } from "@/components/files/CategoryFolderList";
 import { t, useT } from "@/lib/i18n";
 import { groupBySort, type FileGroup } from "@/lib/files/image-groups";
@@ -802,7 +802,7 @@ export function CategoryPage({ kind }: { kind: CategoryKind }) {
           <CategoryTabs
             tabs={
               docTabs
-                ? docTabs()
+                ? documentTabs()
                 : [
                     { id: "songs", label: mediaTabLabel },
                     { id: "folders", label: folderTabLabel },

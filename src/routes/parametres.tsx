@@ -16,6 +16,7 @@ import {
   HardDrive,
   Info,
   Languages,
+  Check,
   Mail,
   MonitorSmartphone,
   Moon,

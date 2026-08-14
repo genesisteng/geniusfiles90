@@ -40,7 +40,7 @@ function extOf(name: string): string {
 }
 
 export function isDocTab(x: string): x is DocTabId {
-  return DOC_TABS.some((t) => t.id === x);
+  return docTabs().some((tab) => tab.id === x);
 }
 
 export function matchesDocTab(tab: DocTabId, name: string): boolean {
