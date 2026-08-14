@@ -358,7 +358,7 @@ export function ConfirmDialog({
   open,
   title,
   description,
-  confirmLabel = "Confirmer",
+  confirmLabel,
   danger,
   onCancel,
   onConfirm,
@@ -393,7 +393,7 @@ export function ConfirmDialog({
             {t("action.cancel")}
           </PrimaryButton>
           <PrimaryButton variant={danger ? "danger" : "primary"} onClick={go} disabled={busy}>
-            {confirmLabel}
+            {confirmLabel ?? t("action.confirm")}
           </PrimaryButton>
         </>
       }

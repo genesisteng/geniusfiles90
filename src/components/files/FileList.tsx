@@ -480,11 +480,12 @@ function OpenZone({
 }
 
 function MoreAction({ onClick }: { onClick: () => void }) {
+  const t = useT();
   return (
     <span
       role="button"
       tabIndex={0}
-      aria-label="Actions"
+      aria-label={t("action.actions")}
       onClick={(e) => {
         e.stopPropagation();
         onClick();

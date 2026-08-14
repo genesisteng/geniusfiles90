@@ -1923,7 +1923,7 @@ function Presets({ items }: { items: { label: string; apply: () => void }[] }) {
  */
 function EffectActions({
   build,
-  label = "Appliquer",
+  label,
   onApply,
   onPreview,
 }: {
