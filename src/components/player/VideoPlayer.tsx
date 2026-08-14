@@ -311,24 +311,47 @@ export function VideoPlayer({
 
   // ---- Chien de garde de chargement --------------------------------------
   // Un seul minuteur, aucun sondage périodique : l'état « prêt » vient des
-  // événements du moteur, ce minuteur ne borne que l'échec réel.
+  // événements du moteur. Le minuteur ne conclut à l'échec que si *rien*
+  // n'a progressé : tant que des octets arrivent (buffered qui grandit),
+  // une grosse vidéo 4K sur carte SD lente continue simplement de charger.
   useEffect(() => {
     if (!src || ready || error) return;
-    const id = window.setTimeout(() => {
+    let lastBuffered = -1;
+    const id = window.setInterval(() => {
       const v = videoRef.current;
       if (!v || v.readyState >= 2) return;
-      setBuffering(false);
-      setError(t("media.player.video.loadTimeout"));
+      const end = v.buffered.length ? v.buffered.end(v.buffered.length - 1) : 0;
+      if (end > lastBuffered) {
+        // Progression réelle : on laisse le décodeur travailler.
+        lastBuffered = end;
+        return;
+      }
+      window.clearInterval(id);
+      void handleFailure("timeout");
     }, 20000);
-    return () => window.clearTimeout(id);
-  }, [src, reloadNonce, ready, error, t]);
+    return () => window.clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [src, reloadNonce, ready, error]);
 
   const retry = useCallback(() => {
+    recoveryRef.current = 0;
     setError(null);
     setReady(false);
     setBuffering(true);
     setReloadNonce((n) => n + 1);
   }, []);
+
+  /** Ouvre la vidéo dans un lecteur système compatible (dernier recours). */
+  const openExternally = useCallback(async () => {
+    if (!entry) return false;
+    try {
+      await openWithSystem(parentOfEntry(entry), entry, "view");
+      return true;
+    } catch {
+      return false;
+    }
+  }, [entry, parentOfEntry]);
+
 
   // ---- Câblage de l'élément <video> --------------------------------------
   const latestIndex = useRef(index);
