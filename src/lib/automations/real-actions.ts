@@ -106,11 +106,8 @@ export function runCleanerScan(): Promise<CleanScanResult> {
       (result) => resolve(result),
     );
     // Garde-fou : une analyse ne doit jamais bloquer une automatisation.
-    setTimeout(
-      () => {
-        handle.cancel();
-      },
-      5 * 60_000,
-    );
+    setTimeout(() => {
+      handle.cancel();
+    }, 5 * 60_000);
   });
 }

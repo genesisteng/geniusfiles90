@@ -34,5 +34,6 @@ export default {
   "search.filters.dateModified": "Änderungsdatum",
   "search.filters.apply": "Anwenden",
   "search.toast.partial.title": "Unvollständige Suche",
-  "search.toast.partial.desc": "Eine Quelle konnte nicht durchsucht werden: Ergebnisse sind evtl. unvollständig.",
+  "search.toast.partial.desc":
+    "Eine Quelle konnte nicht durchsucht werden: Ergebnisse sind evtl. unvollständig.",
 } as const;

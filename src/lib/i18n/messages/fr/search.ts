@@ -34,5 +34,6 @@ export default {
   "search.filters.dateModified": "Date de modification",
   "search.filters.apply": "Appliquer",
   "search.toast.partial.title": "Recherche incomplète",
-  "search.toast.partial.desc": "Une source n'a pas pu être explorée : les résultats peuvent être partiels.",
+  "search.toast.partial.desc":
+    "Une source n'a pas pu être explorée : les résultats peuvent être partiels.",
 } as const;
