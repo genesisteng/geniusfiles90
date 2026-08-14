@@ -303,7 +303,7 @@ export type RunSearchOptions = {
   roots: { rootId: StorageRootId; path: PathRef }[];
   onBatch: (results: SearchResult[]) => void;
   onProgress?: (scanned: number, currentPath: string) => void;
-  onDone?: () => void;
+  onDone?: (info: { failedProviders: string[] }) => void;
   /** Deduplicate the batch stream — results are unique by absolute path. */
   batchIntervalMs?: number;
 };
@@ -322,6 +322,7 @@ export function runSearch(opts: RunSearchOptions): { abort: () => void; done: Pr
   const buffer: SearchResult[] = [];
   const seen = new Set<string>();
   let flushTimer: number | null = null;
+  const failedProviders: string[] = [];
 
   const flush = () => {
     flushTimer = null;
@@ -370,7 +371,9 @@ export function runSearch(opts: RunSearchOptions): { abort: () => void; done: Pr
       try {
         await p.run(ctx);
       } catch {
-        /* provider failure is non-fatal */
+        // Un fournisseur en échec ne doit pas interrompre les autres, mais
+        // il ne doit pas non plus se confondre avec « aucun résultat ».
+        failedProviders.push(p.id);
       }
     }
     if (flushTimer != null && typeof window !== "undefined") {
@@ -378,7 +381,7 @@ export function runSearch(opts: RunSearchOptions): { abort: () => void; done: Pr
       flushTimer = null;
     }
     flush();
-    opts.onDone?.();
+    opts.onDone?.({ failedProviders: [...failedProviders] });
   })();
 
   return {
