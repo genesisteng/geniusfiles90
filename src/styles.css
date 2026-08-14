@@ -4,36 +4,34 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
- */
-
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  /* GeniusFiles radius scale — hiérarchie cohérente (dp ≈ px @1x) */
+  --radius-xs: 8px;
+  --radius-sm: 10px; /* petit élément */
+  --radius-md: 14px;
+  --radius-lg: 16px; /* champ de texte */
+  --radius-xl: 18px; /* bouton principal */
+  --radius-2xl: 20px; /* carte / image */
+  --radius-3xl: 24px; /* fenêtre / illustration */
+  --radius-4xl: 28px; /* dialogue */
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-glow: var(--primary-glow);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-softer: var(--primary-softer);
+  --color-brand: var(--primary);
+  --color-brand-2: var(--primary-2);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -42,103 +40,1476 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+  --color-error: var(--destructive);
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-ring-offset-background: var(--background);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Navigation flottante (capsule) */
+  --color-nav-bar: var(--nav-bar);
+  --color-nav-pill: var(--nav-pill);
+  --color-nav-pill-foreground: var(--nav-pill-foreground);
+  --color-nav-inactive: var(--nav-inactive);
+
+  /* Lecteur de documents */
+  --color-reader-header: var(--reader-header);
+  --color-reader-header-foreground: var(--reader-header-foreground);
+  --color-reader-surface: var(--reader-surface);
+  --color-reader-ink: var(--reader-ink);
+  --color-reader-muted: var(--reader-muted);
+  --color-reader-backdrop: var(--reader-backdrop);
+  --color-reader-backdrop-foreground: var(--reader-backdrop-foreground);
+
+  /* Catégories — dérivées de la palette de marque */
+  --color-cat-image: var(--cat-image);
+  --color-cat-video: var(--cat-video);
+  --color-cat-audio: var(--cat-audio);
+  --color-cat-document: var(--cat-document);
+  --color-cat-archive: var(--cat-archive);
+  --color-cat-apk: var(--cat-apk);
+  --color-cat-other: var(--cat-other);
+
+  /* Éditeur audio — waveform, règle temporelle, sélection */
+  --color-wave-bg: var(--wave-bg);
+  --color-wave-lane: var(--wave-lane);
+  --color-wave-body: var(--wave-body);
+  --color-wave-body-dim: var(--wave-body-dim);
+  --color-wave-body-sel: var(--wave-body-sel);
+  --color-wave-axis: var(--wave-axis);
+  --color-wave-sel-fill: var(--wave-sel-fill);
+  --color-wave-sel-edge: var(--wave-sel-edge);
+  --color-wave-playhead: var(--wave-playhead);
+  --color-wave-grid: var(--wave-grid);
+  --color-wave-grid-strong: var(--wave-grid-strong);
+  --color-wave-label: var(--wave-label);
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Ombres — très douces, jamais flottantes */
+  --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.04);
+  --shadow-soft: 0 1px 3px rgb(0 0 0 / 0.05), 0 1px 2px rgb(0 0 0 / 0.03);
+  --shadow-card: 0 2px 10px rgb(0 0 0 / 0.05), 0 1px 2px rgb(0 0 0 / 0.04);
+  --shadow-elevated: 0 10px 28px rgb(0 0 0 / 0.08), 0 2px 6px rgb(0 0 0 / 0.04);
+  --shadow-glow: 0 8px 24px rgb(0 0 0 / 0.12);
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  /* Base geometric unit — cards default to 20 dp */
+  --radius: 20px;
+
+  /* ============================================================
+     GeniusFiles Design System — identité sombre unique
+     Gris neutres Material 3 + bleu de marque en accent.
+     ============================================================ */
+
+  color-scheme: dark;
+
+  --background: #191919;
+  --foreground: #f4f4f5;
+
+  --surface: #232323;
+  --surface-elevated: #262626;
+  --surface-2: #2a2a2a;
+  --surface-3: #303030;
+
+  --card: #232323;
+  --card-foreground: #f4f4f5;
+
+  --popover: #262626;
+  --popover-foreground: #f4f4f5;
+
+  /* Brand — GeniusFiles blue (actions, focus, indicateurs uniquement) */
+  --primary: #4da3ff;
+  --primary-2: #1677ff;
+  --primary-foreground: #10151c;
+  --primary-soft: rgb(77 163 255 / 0.16);
+  --primary-softer: rgb(77 163 255 / 0.09);
+  --primary-glow: rgb(77 163 255 / 0.22);
+
+  /* Neutrals */
+  --secondary: #2a2a2a;
+  --secondary-foreground: #f4f4f5;
+
+  --muted: #2a2a2a;
+  --muted-foreground: #b4b4b8;
+  --muted-foreground-2: #8a8a8f;
+
+  --accent: #2a2a2a;
+  --accent-foreground: #4da3ff;
+
+  /* States */
+  --success: #32d583;
+  --warning: #fdb022;
+  --destructive: #f97066;
+  --destructive-foreground: #10151c;
+  --info: #4da3ff;
+
+  /* Borders & inputs */
+  --border: #323232;
+  --border-strong: #3d3d3d;
+  --input: #232323;
+  --ring: rgb(77 163 255 / 0.5);
+
+  /* Navigation flottante */
+  --nav-bar: #232323;
+  --nav-pill: #f4f4f5;
+  --nav-pill-foreground: #17181c;
+  --nav-inactive: rgb(244 244 245 / 0.6);
+
+  /* Lecteur de documents — en-tête opaque + surface de lecture */
+  --reader-header: #1e1e20;
+  --reader-header-foreground: #f5f5f6;
+  --reader-surface: #fbfbf9;
+  --reader-ink: #16181c;
+  --reader-muted: #5c6068;
+  /* Fond derrière une page de document (PDF) et son texte */
+  --reader-backdrop: #262626;
+  --reader-backdrop-foreground: #f4f4f5;
+
+  /* Éditeur audio — palette sombre, contrastée mais non fatigante */
+  --wave-bg: #1c1f24;
+  --wave-lane: #22262c;
+  --wave-body: #6fd3b8;
+  --wave-body-dim: #4b6b6a;
+  --wave-body-sel: #8fe3ff;
+  --wave-axis: rgb(255 255 255 / 0.14);
+  --wave-sel-fill: rgb(77 163 255 / 0.14);
+  --wave-sel-edge: #4da3ff;
+  --wave-playhead: #ffc861;
+  --wave-grid: rgb(255 255 255 / 0.08);
+  --wave-grid-strong: rgb(255 255 255 / 0.2);
+  --wave-label: #9aa2ad;
+
+  /* Catégories — teintes discrètes */
+  --cat-image: #4da3ff;
+  --cat-video: #9b86ff;
+  --cat-audio: #32d583;
+  --cat-document: #6cb4ff;
+  --cat-archive: #fdb022;
+  --cat-apk: #f97066;
+  --cat-other: #9a9aa0;
+
+  /* Ombres — neutres et très discrètes */
+  --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.3);
+  --shadow-soft: 0 1px 3px rgb(0 0 0 / 0.35);
+  --shadow-card: 0 2px 8px rgb(0 0 0 / 0.38);
+  --shadow-elevated: 0 8px 24px rgb(0 0 0 / 0.5);
+  --shadow-glow: 0 8px 24px rgb(0 0 0 / 0.55);
+
+  /* ---------- Espacement (grille GeniusFiles) ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* ---------- Tailles de contrôle ---------- */
+  --control-height: 52px;
+  --touch-target: 48px;
+
+  /* ---------- Animations premium ---------- */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-base: 180ms;
+  --duration-slow: 220ms;
 }
 
-.dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+/* ============================================================
+   Thème clair GeniusFiles — identité premium, pas un simple blanc.
+   Surfaces blanches franches posées sur un fond gris perle, bordures
+   discrètes, bleu de marque plus dense pour garantir le contraste.
+   Toutes les valeurs sont des jetons : aucune couleur n'est codée
+   en dur dans les composants, ce qui permettra d'ajouter plus tard
+   une synchronisation automatique avec le thème du système.
+   ============================================================ */
+/* Avant l'exécution du script de pré-peinture (JS désactivé, première frame
+   d'un WebView très lent), on n'impose plus le fond sombre : on suit le
+   thème du système. Aucun jeton dupliqué, aucun coût de rendu. */
+@media (prefers-color-scheme: light) {
+  html:not([data-theme]) {
+    color-scheme: light;
+    background-color: #f5f6f8;
+  }
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+
+  --background: #f5f6f8;
+  --foreground: #15171c;
+
+  --surface: #ffffff;
+  --surface-elevated: #ffffff;
+  --surface-2: #eef0f4;
+  --surface-3: #e4e7ec;
+
+  --card: #ffffff;
+  --card-foreground: #15171c;
+
+  --popover: #ffffff;
+  --popover-foreground: #15171c;
+
+  /* Brand — bleu plus dense : lisible sur fond clair */
+  --primary: #1372f0;
+  --primary-2: #0b5ed7;
+  --primary-foreground: #ffffff;
+  --primary-soft: rgb(19 114 240 / 0.12);
+  --primary-softer: rgb(19 114 240 / 0.06);
+  --primary-glow: rgb(19 114 240 / 0.18);
+
+  /* Neutrals */
+  --secondary: #eef0f4;
+  --secondary-foreground: #15171c;
+
+  --muted: #eef0f4;
+  --muted-foreground: #5a616b;
+  --muted-foreground-2: #7d848e;
+
+  --accent: #e9f1fe;
+  --accent-foreground: #1372f0;
+
+  /* States — teintes soutenues pour rester lisibles sur blanc */
+  --success: #12894f;
+  --warning: #a95d05;
+  --destructive: #d92d20;
+  --destructive-foreground: #ffffff;
+  --info: #1372f0;
+
+  /* Borders & inputs */
+  --border: #e3e6ec;
+  --border-strong: #ccd2db;
+  --input: #ffffff;
+  --ring: rgb(19 114 240 / 0.35);
+
+  /* Navigation flottante — capsule sombre sur barre blanche */
+  --nav-bar: #ffffff;
+  --nav-pill: #15171c;
+  --nav-pill-foreground: #ffffff;
+  --nav-inactive: rgb(21 23 28 / 0.55);
+
+  /* Lecteur de documents */
+  --reader-header: #ffffff;
+  --reader-header-foreground: #15171c;
+  --reader-surface: #ffffff;
+  --reader-ink: #15171c;
+  --reader-muted: #5a616b;
+  --reader-backdrop: #e4e7ec;
+  --reader-backdrop-foreground: #15171c;
+
+  /* Éditeur audio — palette claire, contraste doux */
+  --wave-bg: #f2f4f7;
+  --wave-lane: #e9edf2;
+  --wave-body: #1f7a68;
+  --wave-body-dim: #9fb7b2;
+  --wave-body-sel: #0f5f8f;
+  --wave-axis: rgb(21 23 28 / 0.16);
+  --wave-sel-fill: rgb(19 114 240 / 0.12);
+  --wave-sel-edge: #1372f0;
+  --wave-playhead: #b45309;
+  --wave-grid: rgb(21 23 28 / 0.09);
+  --wave-grid-strong: rgb(21 23 28 / 0.22);
+  --wave-label: #5a616b;
+
+  /* Catégories */
+  --cat-image: #1372f0;
+  --cat-video: #7452f0;
+  --cat-audio: #12894f;
+  --cat-document: #0b74d1;
+  --cat-archive: #a95d05;
+  --cat-apk: #d92d20;
+  --cat-other: #6b7280;
+
+  /* Ombres — douces, jamais grises et sales */
+  --shadow-xs: 0 1px 2px rgb(21 23 28 / 0.05);
+  --shadow-soft: 0 1px 3px rgb(21 23 28 / 0.06), 0 1px 2px rgb(21 23 28 / 0.04);
+  --shadow-card: 0 2px 10px rgb(21 23 28 / 0.07), 0 1px 2px rgb(21 23 28 / 0.05);
+  --shadow-elevated: 0 10px 28px rgb(21 23 28 / 0.1), 0 2px 6px rgb(21 23 28 / 0.06);
+  --shadow-glow: 0 8px 24px rgb(19 114 240 / 0.18);
+}
+
+/* ---------- Personnalisation ---------- */
+
+/* Densité (padding vertical global) */
+html[data-density="compact"] {
+  --gf-density: 0.75;
+}
+html[data-density="cozy"] {
+  --gf-density: 1;
+}
+html[data-density="comfortable"] {
+  --gf-density: 1.25;
+}
+
+/* Taille de texte */
+html[data-text-size="sm"] {
+  font-size: 14px;
+}
+html[data-text-size="md"] {
+  font-size: 15px;
+}
+html[data-text-size="lg"] {
+  font-size: 16.5px;
+}
+html[data-text-size="xl"] {
+  font-size: 18px;
+}
+
+/* Animations */
+html[data-animations="expressive"] {
+  --gf-anim-scale: 1.15;
+}
+html[data-animations="standard"] {
+  --gf-anim-scale: 1;
+}
+html[data-animations="reduced"] {
+  --gf-anim-scale: 0.5;
+}
+html[data-animations="none"] {
+  --gf-anim-scale: 0;
+}
+
+html[data-reduce-motion="1"] *,
+html[data-reduce-motion="1"] *::before,
+html[data-reduce-motion="1"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
 }
 
 @layer base {
   * {
     border-color: var(--color-border);
   }
-
+  html,
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
+  body {
+    background-color: var(--color-background);
+    background-image: none;
+    min-height: 100dvh;
+  }
+  /* Typographie GeniusFiles */
+  h1 {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  h3 {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.35;
+  }
+  body {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  small {
+    font-size: 13px;
+  }
+  :root {
+    /* Live safe-area insets — mirror env() so JS can read them too. */
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+  }
+}
+
+@utility pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@utility pl-safe {
+  padding-left: env(safe-area-inset-left, 0px);
+}
+@utility pr-safe {
+  padding-right: env(safe-area-inset-right, 0px);
+}
+@utility mt-safe {
+  margin-top: env(safe-area-inset-top, 0px);
+}
+@utility top-safe {
+  top: env(safe-area-inset-top, 0px);
+}
+@utility h-safe-top {
+  height: env(safe-area-inset-top, 0px);
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+    font-weight: 600;
+  }
+  hr {
+    border-color: var(--border);
+  }
+}
+
+@utility glass-panel {
+  background: color-mix(in oklab, var(--surface) 88%, transparent);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  border: 1px solid var(--border);
+}
+
+@utility card-surface {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-xs);
+}
+
+@utility list-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 8px;
+  min-height: 56px;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+@utility list-row-last {
+  border-bottom: 0;
+}
+
+@utility text-gradient-brand {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- Boutons GeniusFiles ---------- */
+@utility btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 52px;
+  padding: 0 20px;
+  border-radius: 18px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-weight: 600;
+  font-size: 15px;
+  box-shadow: var(--shadow-soft);
+  transition:
+    transform var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard);
+  &:active {
+    transform: scale(0.98);
+    background: color-mix(in oklab, var(--primary) 88%, black);
+  }
+}
+@utility btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 52px;
+  padding: 0 20px;
+  border-radius: 18px;
+  background: var(--primary-softer);
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 15px;
+  transition:
+    transform var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard);
+  &:active {
+    transform: scale(0.98);
+    background: var(--primary-soft);
+  }
+}
+@utility btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--primary);
+  font-weight: 500;
+  font-size: 15px;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+  &:hover {
+    background: var(--primary-softer);
+  }
+}
+
+/* ---------- Champ de saisie GeniusFiles ---------- */
+@utility field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 16px;
+  border-radius: 16px;
+  background: var(--input);
+  border: 1px solid transparent;
+  color: var(--foreground);
+  font-size: 15px;
+  transition:
+    border-color var(--duration-base) var(--ease-standard),
+    background-color var(--duration-base) var(--ease-standard),
+    box-shadow var(--duration-base) var(--ease-standard);
+  &::placeholder {
+    color: var(--muted-foreground-2);
+  }
+  &:focus-within,
+  &:focus {
+    border-color: var(--primary);
+    background: var(--surface);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+    outline: none;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility animate-in-up {
+  animation: fade-in-up var(--duration-slow) var(--ease-emphasized) both;
+}
+
+/* -------- Android-style page transitions (View Transitions API) -------- */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+  animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  animation-name: gf-fade-out-slide;
+}
+::view-transition-new(root) {
+  animation-name: gf-fade-in-slide;
+}
+@keyframes gf-fade-out-slide {
+  to {
+    opacity: 0;
+    transform: translateX(-2%);
+  }
+}
+@keyframes gf-fade-in-slide {
+  from {
+    opacity: 0;
+    transform: translateX(2%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+/* Bandeau de suggestions Genius AI — masque la barre de défilement. */
+@utility gf-no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* -------- Genius AI : conversation -------- */
+
+/* Ligne d'état unique : apparition en fondu + léger déplacement vertical. */
+@keyframes gf-status-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility gf-status-line {
+  animation: gf-status-in 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Aucun débordement horizontal possible dans la conversation. */
+@utility gf-chat-safe {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+
+  & pre,
+  & table {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  & img,
+  & video,
+  & canvas,
+  & svg {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gf-status-line {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   Couche d'unification GeniusFiles
+   Règles partagées par toutes les pages : rythme vertical,
+   listes, cartes, états de pression, squelettes de chargement.
+   ============================================================ */
+
+/* Rythme vertical commun à toutes les sections d'une page. */
+@utility gf-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Carte standard — même rayon, même ombre, même bordure partout. */
+@utility gf-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+/* Ligne de liste standard — plus haute, plus aérée, plus lisible. */
+@utility gf-row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 14px;
+  min-height: 64px;
+  padding: 12px 14px;
+  text-align: left;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+  &:active {
+    background: color-mix(in oklab, var(--primary) 7%, transparent);
+  }
+}
+
+/* Titre d'une ligne / information principale. */
+@utility gf-row-title {
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+}
+
+/* Informations secondaires — discrètes mais parfaitement lisibles. */
+@utility gf-row-meta {
+  margin-top: 3px;
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: var(--muted-foreground);
+}
+
+/* Pastille d'icône de liste — icônes plus visibles. */
+@utility gf-icon-tile {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+}
+
+/* Retour tactile homogène sur tous les éléments interactifs. */
+@utility gf-press {
+  transition:
+    transform var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard),
+    opacity var(--duration-fast) var(--ease-standard);
+  &:active {
+    transform: scale(0.98);
+  }
+  &:disabled {
+    opacity: 0.45;
+    transform: none;
+    cursor: not-allowed;
+  }
+}
+
+/* Puce / filtre — même hauteur et même rayon dans toute l'application. */
+@utility gf-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  background: var(--surface-2);
+  color: var(--muted-foreground);
+  border: 1px solid transparent;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+  &:active {
+    transform: scale(0.97);
+  }
+}
+@utility gf-chip-active {
+  background: var(--primary-soft);
+  color: var(--primary);
+  border-color: color-mix(in oklab, var(--primary) 35%, transparent);
+}
+
+/* Chargement élégant — squelette animé, sans clignotement. */
+@keyframes gf-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+@utility gf-skeleton {
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    var(--surface-2) 25%,
+    color-mix(in oklab, var(--surface-3) 80%, var(--surface)) 50%,
+    var(--surface-2) 75%
+  );
+  background-size: 200% 100%;
+  animation: gf-shimmer 1.4s linear infinite;
+}
+
+/* Apparition douce du contenu — évite les sauts et clignotements. */
+@keyframes gf-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@utility gf-appear {
+  animation: gf-fade-in var(--duration-base) var(--ease-standard) both;
+}
+
+/* Séparateur de liste homogène. */
+@utility gf-divide {
+  & > * + * {
+    border-top: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
+  }
+}
+
+@layer base {
+  /* États désactivés cohérents pour tous les boutons de l'application. */
+  button:disabled,
+  [role="button"][aria-disabled="true"] {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  /* Pas de surbrillance bleue native au toucher sur Android. */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ----------------------------------------------------------------
+     Comportement natif : aucun texte de l'interface n'est sélectionnable
+     et aucun long-press ne déclenche le menu contextuel de la WebView.
+     Seuls les vrais champs de saisie gardent la sélection de texte.
+     ---------------------------------------------------------------- */
+  html,
+  body {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+  :where(input, textarea, select, [contenteditable=""], [contenteditable="true"]),
+  [data-gf-selectable="true"],
+  [data-gf-selectable="true"] *,
+  [data-gf-reader="true"],
+  [data-gf-reader="true"] * {
+    -webkit-user-select: text;
+    user-select: text;
+    -webkit-touch-callout: default;
+  }
+  /* L'appui long doit pouvoir déclencher la sélection système : pas de
+     capture du geste par le navigateur dans les zones de lecture. */
+  [data-gf-selectable="true"],
+  [data-gf-reader="true"] {
+    touch-action: pan-x pan-y;
+  }
+
+  /* Aucune image / icône ne doit être « déplaçable » ni copiable. */
+  img,
+  svg,
+  canvas {
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+    user-select: none;
+  }
+}
+
+/* ============================================================
+   Couche de texte PDF — sélection système Android (poignées,
+   Copier / Partager / Traduire) au-dessus du rendu canvas.
+   ============================================================ */
+.textLayer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 1;
+  line-height: 1;
+  text-align: initial;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  caret-color: transparent;
+  z-index: 2;
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+}
+
+.textLayer :is(span, br) {
+  position: absolute;
+  white-space: pre;
+  color: transparent;
+  cursor: text;
+  transform-origin: 0 0;
+  margin: 0;
+}
+
+.textLayer span.markedContent {
+  top: 0;
+  height: 0;
+}
+
+.textLayer ::selection {
+  background: rgb(0 100 255 / 0.28);
+}
+
+.textLayer br::selection {
+  background: transparent;
+}
+
+.textLayer .endOfContent {
+  display: block;
+  position: absolute;
+  inset: 100% 0 0;
+  z-index: 0;
+  cursor: default;
+  user-select: none;
+}
+
+.textLayer.selecting .endOfContent {
+  top: 0;
+}
+
+/* La couche de texte doit rester « touchable » : le geste de défilement
+   passe au conteneur, l'appui long déclenche la sélection système. */
+.textLayer {
+  touch-action: pan-x pan-y;
+}
+.textLayer span {
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+}
+/* Cible tactile : les <span> d'une couche PDF ne couvrent que la boîte des
+   glyphes, si bien qu'un appui long tombant dans l'interligne n'atteignait
+   aucun texte. Le pseudo-élément élargit *modérément* la zone touchable :
+   au-delà, les boîtes se chevauchent et la sélection déborde sur la ligne
+   voisine (grands rectangles bleus). */
+.textLayer span::after {
+  content: "";
+  position: absolute;
+  inset: -18% 0;
+  pointer-events: auto;
+}
+.textLayer .endOfContent::after {
+  content: none;
+}
+
+/* Le canvas ne doit jamais entrer dans la sélection : sinon l'appui long
+   sélectionne « toute la page » au lieu du mot touché. */
+.textLayer + canvas,
+canvas + .textLayer ~ canvas,
+[data-gf-reader="true"] canvas {
+  -webkit-user-select: none;
+  user-select: none;
+}
+/* Surbrillance cohérente dans toutes les zones de lecture. */
+[data-gf-reader="true"] ::selection,
+[data-gf-selectable="true"] ::selection {
+  background: rgb(0 100 255 / 0.28);
+}
+
+/* ============================================================
+   Finition premium — micro-interactions, lisibilité, fluidité
+   ============================================================ */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Aucun rebond de page : la WebView n'étire jamais l'interface, donc
+       l'en-tête collant et la barre de navigation restent immobiles. La
+       sensation de limite est rendue par ScrollFeel, sur le contenu seul. */
+    overscroll-behavior: none;
+
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Réaction immédiate au toucher sur tout élément interactif,
+     même ceux qui n'utilisent pas explicitement `gf-press`. */
+  :where(button, a, [role="button"], summary, label[for]) {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition:
+      opacity var(--duration-fast) var(--ease-standard),
+      background-color var(--duration-fast) var(--ease-standard),
+      color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard);
+  }
+  :where(button, a, [role="button"]):not(:disabled):active {
+    opacity: 0.82;
+  }
+
+  /* Anneau de focus unique dans toute l'application (clavier / accessibilité). */
+  :where(button, a, [role="button"], input, textarea, select):focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--primary-glow);
+    border-radius: inherit;
+  }
+
+  /* Défilement fluide et sans rebond parasite dans les zones scrollables. */
+  :where([class*="overflow-y-auto"], [class*="overflow-auto"]) {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, var(--muted-foreground) 35%, transparent) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--muted-foreground) 30%, transparent);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/* Contenu de page : apparition très courte, jamais clignotante.
+   IMPORTANT : n'animer QUE l'opacité. Toute `transform` (même identité)
+   crée un bloc conteneur qui casse le positionnement `fixed` des
+   overlays, feuilles et barres fixes rendus à l'intérieur d'une page. */
+@utility gf-page {
+  animation: gf-page-in 110ms var(--ease-standard) both;
+}
+
+@keyframes gf-page-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Apparition des barres du mode sélection (Material, 220 ms). */
+@keyframes gf-bar-in-top {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes gf-bar-in-bottom {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Barre d'action flottante — toujours atteignable au pouce. */
+@utility gf-thumb-bar {
+  position: fixed;
+  inset-inline: 0;
+  bottom: calc(env(safe-area-inset-bottom) + 72px);
+  z-index: 40;
+  display: flex;
+  justify-content: center;
+  padding-inline: 12px;
+  pointer-events: none;
+  animation: fade-in-up var(--duration-base) var(--ease-emphasized) both;
+}
+
+/* Listes : mises à jour sans saut ni reconstruction visible. */
+@utility gf-list-stable {
+  contain: layout paint style;
+  overflow-anchor: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   Lecteur vidéo plein écran
+   Palette pilotée par le thème actif : aucune couleur codée en
+   dur dans le composant, tout passe par ces variables.
+   ============================================================ */
+.gf-video-shell {
+  --pl-bg: #191919;
+  --pl-fg: #ffffff;
+  --pl-scrim: #000000;
+  --pl-glow: rgba(255, 255, 255, 0.09);
+  background: var(--pl-bg);
+  color: var(--pl-fg);
+  /* Le lecteur est toujours le dernier plan tactile : aucun geste de la
+     page dessous ne doit l'atteindre. */
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+/* Mode immersif : pendant la lecture, plus aucune chrome GeniusFiles
+   (barre de navigation, en-tête, barres flottantes) n'est visible. */
+html.gf-immersive nav[aria-label="Navigation principale"],
+html.gf-immersive header,
+html.gf-immersive .gf-thumb-bar {
+  display: none !important;
+}
+
+/* Genius AI — révélation douce du texte de réponse */
+.gf-smooth-text {
+  animation: gf-smooth-in 260ms ease-out;
+}
+@keyframes gf-smooth-in {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Genius AI — mise en page des réponses (lisibilité mobile)
+   Hiérarchie : titre de section > paragraphe > liste multi-lignes.
+   Les espacements sont posés dès l'apparition du texte : aucune
+   recomposition, aucun saut de mise en page pendant la rédaction. */
+.gf-answer {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--foreground);
+  overflow-wrap: anywhere;
+}
+.gf-answer > *:first-child {
+  margin-top: 0;
+}
+.gf-answer > *:last-child {
+  margin-bottom: 0;
+}
+.gf-answer-p {
+  margin: 0 0 0.85rem;
+  max-width: 34rem;
+}
+.gf-answer-title {
+  margin: 1.15rem 0 0.5rem;
+  font-family: var(--font-display, inherit);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--muted-foreground) 78%, var(--foreground));
+}
+.gf-answer-list {
+  margin: 0 0 0.9rem;
+  padding: 0;
+  list-style: none;
+}
+.gf-answer-item {
+  position: relative;
+  margin: 0 0 0.7rem;
+  padding-left: 0.95rem;
+}
+.gf-answer-item:last-child {
+  margin-bottom: 0;
+}
+.gf-answer-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  height: 5px;
+  width: 5px;
+  border-radius: 999px /* la puce reprend la couleur d'accent pour guider l'œil */;
+  background: color-mix(in oklab, var(--primary) 70%, transparent);
+}
+.gf-answer-item > .gf-answer-p {
+  margin-bottom: 0.25rem;
+}
+.gf-answer-item > .gf-answer-p:last-child {
+  margin-bottom: 0;
+}
+.gf-answer-item .gf-answer-list {
+  margin: 0.3rem 0 0;
+}
+.gf-answer-item .gf-answer-item::before {
+  background: color-mix(in oklab, var(--muted-foreground) 55%, transparent);
+}
+.gf-answer-strong {
+  font-weight: 650;
+  color: var(--foreground);
+}
+.gf-answer-em {
+  font-style: normal;
+  color: var(--muted-foreground);
+}
+.gf-answer-rule {
+  margin: 1rem 0;
+  border: 0;
+  border-top: 1px solid color-mix(in oklab, var(--border) 70%, transparent);
+}
+.gf-answer-quote {
+  margin: 0 0 0.9rem;
+  padding: 0.1rem 0 0.1rem 0.75rem;
+  border-left: 2px solid color-mix(in oklab, var(--primary) 45%, transparent);
+  color: var(--muted-foreground);
+}
+.gf-answer-code {
+  border-radius: 6px;
+  background: var(--secondary);
+  padding: 0.1em 0.35em;
+  font-size: 0.85em;
+}
+.gf-answer-pre {
+  margin: 0 0 0.9rem;
+  overflow-x: auto;
+  border-radius: 14px;
+  background: var(--secondary);
+  padding: 0.75rem;
+  font-size: 0.85em;
+}
+.gf-answer-pre .gf-answer-code {
+  background: transparent;
+  padding: 0;
+}
+
+/* Les sous-informations d'un même fichier restent groupées visuellement :
+   espacement resserré à l'intérieur d'un élément de liste. */
+.gf-answer-item .gf-answer-item {
+  margin-bottom: 0.28rem;
+  padding-left: 0.85rem;
+}
+.gf-answer-item .gf-answer-list {
+  margin-top: 0.35rem;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Éditeur photo — curseurs et feuille d'enregistrement                    */
+/* ---------------------------------------------------------------------- */
+.gf-photo-scroll {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+}
+
+.gf-photo-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.gf-photo-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 26px;
+  background: transparent;
+  touch-action: pan-y;
+}
+.gf-photo-range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--foreground) 18%, transparent);
+}
+.gf-photo-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -8px;
+  height: 20px;
+  width: 20px;
+  border-radius: 999px;
+  background: var(--primary);
+  border: 2px solid var(--background);
+  box-shadow: 0 4px 12px -4px rgb(0 0 0 / 0.6);
+  transition: transform 120ms ease;
+}
+.gf-photo-range:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+.gf-photo-range::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--foreground) 18%, transparent);
+}
+.gf-photo-range::-moz-range-thumb {
+  height: 18px;
+  width: 18px;
+  border: 2px solid var(--background);
+  border-radius: 999px;
+  background: var(--primary);
+}
+
+@keyframes gf-sheet-up {
+  from {
+    transform: translate3d(0, 18px, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+.gf-sheet-in {
+  animation: gf-sheet-up 240ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ---------- États vides illustrés ----------
+   Fondu + très légère montée de l'illustration, puis du texte quelques
+   millisecondes plus tard. Uniquement opacity/transform : composité par
+   le GPU, aucun impact sur la fluidité du défilement. */
+@keyframes gf-empty-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@utility gf-empty-copy {
+  animation: gf-empty-rise 300ms var(--ease-standard) 110ms both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gf-empty-copy {
+    animation-duration: 1ms;
+    animation-delay: 0ms;
+  }
+}
+
+/* Splash applicatif : fondu simple — aucune mise à l'échelle ni déplacement,
+   afin que l'illustration soit peinte d'emblée à sa position et à sa taille
+   définitives (aucun second rendu perceptible). */
+@keyframes gf-splash-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* -------- Genius AI : pipeline de traitement -------- */
+
+@utility gf-pipeline {
+  animation: gf-status-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@utility gf-pipeline-detail {
+  animation: gf-status-in 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Ligne unique : apparition douce, disparition progressive sans saut. */
+@keyframes gf-pipeline-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility gf-pipeline-line {
+  animation: gf-pipeline-line-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: opacity;
+}
+
+@utility gf-pipeline-out {
+  animation: gf-pipeline-line-in 320ms cubic-bezier(0.4, 0, 0.2, 1) reverse both;
+}
+
+/* Remplacement de l'étape active : l'ancienne cède la place en douceur. */
+@keyframes gf-pipeline-swap {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility gf-pipeline-swap {
+  animation: gf-pipeline-swap 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes gf-pipeline-pop {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@utility gf-pipeline-pop {
+  animation: gf-pipeline-pop 220ms cubic-bezier(0.22, 1.4, 0.4, 1) both;
+}
+
+@keyframes gf-pipeline-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@utility gf-pipeline-spin {
+  animation: gf-pipeline-spin 700ms linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gf-pipeline,
+  .gf-pipeline-detail,
+  .gf-pipeline-line,
+  .gf-pipeline-out,
+  .gf-pipeline-swap,
+  .gf-pipeline-pop {
+    animation: none;
+  }
+  .gf-pipeline-spin {
+    animation-duration: 1400ms;
+  }
+}
+
+/* ============================================================
+   Défilement natif — résistance de bord & tirer pour actualiser
+   Seul le CONTENU de la page bouge : l'en-tête collant (`> header`),
+   la barre de navigation et les couches fixes ne sont jamais touchés.
+   ============================================================ */
+html,
+body {
+  overscroll-behavior: none;
+  /* Supprime l'étirement natif de la WebView Android (Chromium 12+) :
+     sans cela, TOUTE la page — en-tête compris — se déforme au dépassement. */
+  overscroll-behavior-y: none;
+}
+
+/* Seuls les frères NON collants de l'en-tête se décalent. L'en-tête
+   (`> header`) et toute couche déclarée statique restent immobiles. */
+.gf-pulling > *:not(header):not([data-gf-static]) {
+  transform: translate3d(0, var(--gf-pull, 0px), 0);
+  will-change: transform;
+}
+
+.gf-pull-release > *:not(header):not([data-gf-static]) {
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Pendant le geste vertical, aucune interaction accidentelle avec la
+   liste (sélection, appui long, ouverture) : le geste appartient au scroll. */
+.gf-pulling:not(.gf-pull-release) > *:not(header):not([data-gf-static]) {
+  pointer-events: none;
+}
+
+.gf-pull-spinner {
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+
+.gf-pull-icon {
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+[data-spin] .gf-pull-spinner {
+  opacity: 1;
+}
+
+[data-spin] .gf-pull-icon {
+  opacity: 0;
 }

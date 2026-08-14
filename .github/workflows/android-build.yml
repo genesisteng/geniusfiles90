@@ -1,0 +1,263 @@
+name: Android Build (APK + AAB, signed release)
+
+# Reproducible Android build pipeline for GeniusFiles.
+#
+# Every build produces a **release**-signed APK + AAB using the signing
+# key stored in GitHub Secrets. The keystore is reconstructed at runtime
+# from ANDROID_KEYSTORE_BASE64, used for signing, then deleted from the
+# runner before the job ends. Nothing sensitive is ever committed.
+#
+# Required repository (or organization) secrets:
+#   ANDROID_KEYSTORE_BASE64   base64 of the .jks/.keystore file
+#   ANDROID_KEYSTORE_PASSWORD store password
+#   ANDROID_KEY_ALIAS         key alias inside the keystore
+#   ANDROID_KEY_PASSWORD      key password
+#
+# Required for Google Drive in APK/AAB:
+#   VITE_GOOGLE_DRIVE_ANDROID_CLIENT_ID  Android OAuth client ID
+
+#
+# Outputs (workflow artifacts + attached to GitHub Releases on tags):
+#   GeniusFiles-release.apk
+#   GeniusFiles-release.aab
+
+on:
+  push:
+    branches: [main, "release/**"]
+    tags: ["v*.*.*"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: android-build-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "20"
+  JAVA_VERSION: "21"
+
+jobs:
+  validate:
+    name: Validate (lint + mobile web build)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Cache bun install
+        uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock', 'package.json') }}
+          restore-keys: ${{ runner.os }}-bun-
+
+      - run: bun install --frozen-lockfile
+
+      # Barrière qualité obligatoire : typecheck + eslint + prettier + build.
+      # Si elle échoue, aucun APK/AAB n'est généré (voir AGENTS.md).
+      - name: Verify (typecheck + lint + format + build)
+        run: bun run verify
+
+      - name: Mobile SPA build (prod SSR prerender)
+        env:
+          GENIUSFILES_MOBILE: "1"
+          VITE_GOOGLE_DRIVE_ANDROID_CLIENT_ID: ${{ secrets.VITE_GOOGLE_DRIVE_ANDROID_CLIENT_ID }}
+
+        run: node scripts/build-mobile.mjs
+
+      - name: Upload dist-mobile
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-mobile
+          path: dist-mobile
+          retention-days: 3
+
+  android:
+    name: Build & sign release APK + AAB
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          cmdline-tools-version: 11076708
+          packages: "platforms;android-35 build-tools;35.0.0 platform-tools"
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
+      - run: bun install --frozen-lockfile
+
+      - name: Download dist-mobile
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-mobile
+          path: dist-mobile
+
+      # ─── Signing preflight ────────────────────────────────────────────
+      # Fail fast, with a clear message, if any signing secret is missing
+      # or the base64 keystore cannot be decoded. Nothing sensitive is
+      # ever echoed — only presence and byte counts.
+      - name: Verify signing secrets are configured
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -e
+          missing=()
+          [ -n "$ANDROID_KEYSTORE_BASE64" ]   || missing+=("ANDROID_KEYSTORE_BASE64")
+          [ -n "$ANDROID_KEYSTORE_PASSWORD" ] || missing+=("ANDROID_KEYSTORE_PASSWORD")
+          [ -n "$ANDROID_KEY_ALIAS" ]         || missing+=("ANDROID_KEY_ALIAS")
+          [ -n "$ANDROID_KEY_PASSWORD" ]      || missing+=("ANDROID_KEY_PASSWORD")
+          if [ ${#missing[@]} -ne 0 ]; then
+            echo "::error::Missing required GitHub Secrets for Android signing: ${missing[*]}"
+            echo "Add them in repo Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+          echo "✓ All 4 Android signing secrets are configured."
+
+      - name: Initialize Android platform
+        run: |
+          if [ ! -d android ]; then
+            npx cap add android
+          fi
+          npx cap sync android
+
+      - name: Generate GeniusFiles launcher icons + splash
+        run: node scripts/generate-app-icons.mjs
+
+      - name: Apply GeniusFiles Android overrides
+        env:
+          ANDROID_VERSION_CODE: ${{ github.run_number }}
+          ANDROID_VERSION_NAME: 1.0.${{ github.run_number }}
+          VITE_GOOGLE_DRIVE_ANDROID_CLIENT_ID: ${{ secrets.VITE_GOOGLE_DRIVE_ANDROID_CLIENT_ID }}
+        run: node scripts/apply-android-overrides.mjs
+
+      # ─── Reconstruct release keystore from GitHub Secrets ─────────────
+      # Written outside the repo (under $RUNNER_TEMP) so `git status` stays
+      # clean and it cannot be accidentally committed. The absolute path
+      # is exported so both this job and Gradle resolve the same file.
+      - name: Decode release keystore
+        id: keystore
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          set -e
+          KEYSTORE_PATH="$RUNNER_TEMP/geniusfiles-release.keystore"
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 -d > "$KEYSTORE_PATH"
+          if [ ! -s "$KEYSTORE_PATH" ]; then
+            echo "::error::ANDROID_KEYSTORE_BASE64 decoded to an empty file. The secret is malformed."
+            exit 1
+          fi
+          # Sanity-check the keystore + credentials without printing anything sensitive.
+          if ! keytool -list -keystore "$KEYSTORE_PATH" \
+                 -storepass "${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" \
+                 -alias "${{ secrets.ANDROID_KEY_ALIAS }}" >/dev/null 2>keytool.err; then
+            echo "::error::Keystore validation failed. Check ANDROID_KEYSTORE_PASSWORD and ANDROID_KEY_ALIAS."
+            sed -E 's/(pass(word)?[^ ]*)/[REDACTED]/gi' keytool.err || true
+            exit 1
+          fi
+          echo "keystore_path=$KEYSTORE_PATH" >> "$GITHUB_OUTPUT"
+          echo "✓ Release keystore decoded and validated ($(wc -c < "$KEYSTORE_PATH") bytes)."
+
+      - name: Grant gradlew exec
+        working-directory: android
+        run: chmod +x gradlew
+
+      - name: Build signed release APK
+        working-directory: android
+        env:
+          GENIUSFILES_RELEASE_KEYSTORE: ${{ steps.keystore.outputs.keystore_path }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: ./gradlew assembleRelease --no-daemon --stacktrace
+
+      - name: Build signed release AAB
+        working-directory: android
+        env:
+          GENIUSFILES_RELEASE_KEYSTORE: ${{ steps.keystore.outputs.keystore_path }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: ./gradlew bundleRelease --no-daemon --stacktrace
+
+      - name: Locate, verify & rename artifacts
+        id: artifacts
+        run: |
+          set -e
+          SRC_APK=$(find android/app/build/outputs/apk/release -name "*.apk" ! -name "*unsigned*" | head -n1)
+          SRC_AAB=$(find android/app/build/outputs/bundle/release -name "*.aab" | head -n1)
+          if [ -z "$SRC_APK" ] || [ -z "$SRC_AAB" ]; then
+            echo "::error::Release APK or AAB not found in build outputs."
+            find android/app/build/outputs -type f -name "*.apk" -o -name "*.aab" || true
+            exit 1
+          fi
+          # Confirm the APK is actually signed (apksigner ships with build-tools).
+          APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner 2>/dev/null | tail -n1)
+          if [ -n "$APKSIGNER" ]; then
+            "$APKSIGNER" verify --print-certs "$SRC_APK" >/dev/null
+            echo "✓ APK signature verified."
+          fi
+          mkdir -p artifacts
+          cp "$SRC_APK" "artifacts/GeniusFiles-release.apk"
+          cp "$SRC_AAB" "artifacts/GeniusFiles-release.aab"
+          echo "apk=artifacts/GeniusFiles-release.apk" >> "$GITHUB_OUTPUT"
+          echo "aab=artifacts/GeniusFiles-release.aab" >> "$GITHUB_OUTPUT"
+          ls -la artifacts/
+
+      - name: Upload signed APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: GeniusFiles-release-apk
+          path: ${{ steps.artifacts.outputs.apk }}
+          retention-days: 30
+
+      - name: Upload signed AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: GeniusFiles-release-aab
+          path: ${{ steps.artifacts.outputs.aab }}
+          retention-days: 30
+
+      - name: Attach to GitHub Release (tags only)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ steps.artifacts.outputs.apk }}
+            ${{ steps.artifacts.outputs.aab }}
+
+      # ─── Always scrub the decoded keystore, even on failure ───────────
+      - name: Scrub release keystore
+        if: always()
+        run: |
+          if [ -n "${{ steps.keystore.outputs.keystore_path }}" ]; then
+            shred -u "${{ steps.keystore.outputs.keystore_path }}" 2>/dev/null || \
+              rm -f "${{ steps.keystore.outputs.keystore_path }}"
+            echo "✓ Release keystore scrubbed from runner."
+          fi

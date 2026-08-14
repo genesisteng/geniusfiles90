@@ -6,3 +6,9 @@ pnpm-lock.yaml
 package-lock.json
 bun.lock
 routeTree.gen.ts
+dist-mobile
+.output
+android
+android-overrides
+.lovable/plan
+RAPPORT_*.md

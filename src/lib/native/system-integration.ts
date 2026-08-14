@@ -1,0 +1,84 @@
+/**
+ * Lot 3 — System integration bridge.
+ *
+ * Exposes:
+ *   - registerDefaultShortcuts(): pushes dynamic App Shortcuts (long-press
+ *     on the launcher icon → Recherche / IA / Nettoyeur). Called once
+ *     per cold start.
+ *   - updateWidgetSummary(text): refreshes the home-screen widget line.
+ *   - consumeLaunchIntent(): returns the intent that opened / resumed
+ *     the app (shortcut route, incoming VIEW / SEND uri). Consumed once.
+ *
+ * All calls are no-ops off native, so the same code runs safely in the
+ * Lovable web preview.
+ */
+import { t } from "@/lib/i18n";
+import { isAndroidNative, nativePlugin } from "./geniusfiles-native";
+
+type ShortcutSpec = { id: string; label: string; longLabel?: string; route: string };
+
+type Plugin = {
+  registerShortcuts?: (o: { shortcuts: ShortcutSpec[] }) => Promise<void>;
+  updateWidgetSummary?: (o: { summary: string }) => Promise<void>;
+  getLaunchIntent?: () => Promise<LaunchIntent>;
+};
+
+export type LaunchIntent = {
+  action?: string;
+  route?: string;
+  shortcutId?: string;
+  uri?: string;
+  uris?: string[];
+  mime?: string;
+};
+
+function plugin(): Plugin | null {
+  return nativePlugin() as unknown as Plugin | null;
+}
+
+const DEFAULT_SHORTCUTS: ShortcutSpec[] = [
+  { id: "search", label: "Recherche", longLabel: t("system.shortcut.search"), route: "/recherche" },
+  {
+    id: "cleaner",
+    label: "Nettoyeur",
+    longLabel: t("system.shortcut.analyze"),
+    route: "/nettoyeur",
+  },
+];
+
+let shortcutsRegistered = false;
+export async function registerDefaultShortcuts(): Promise<void> {
+  if (shortcutsRegistered || !isAndroidNative()) return;
+  const p = plugin();
+  if (!p?.registerShortcuts) return;
+  try {
+    await p.registerShortcuts({ shortcuts: DEFAULT_SHORTCUTS });
+    shortcutsRegistered = true;
+  } catch {
+    /* silent — retried on next cold start */
+  }
+}
+
+export async function updateWidgetSummary(summary: string): Promise<void> {
+  if (!isAndroidNative()) return;
+  const p = plugin();
+  if (!p?.updateWidgetSummary) return;
+  try {
+    await p.updateWidgetSummary({ summary });
+  } catch {
+    /* silent — widget updates are best-effort */
+  }
+}
+
+export async function consumeLaunchIntent(): Promise<LaunchIntent | null> {
+  if (!isAndroidNative()) return null;
+  const p = plugin();
+  if (!p?.getLaunchIntent) return null;
+  try {
+    const ret = await p.getLaunchIntent();
+    if (!ret || (!ret.route && !ret.uri && !ret.uris)) return null;
+    return ret;
+  } catch {
+    return null;
+  }
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  FileProvider paths for GeniusFiles.
+
+  Exposes the app's private and public storage roots so the app can
+  share/open files with other apps through content:// URIs.
+-->
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <files-path name="internal_files" path="." />
+    <cache-path name="internal_cache" path="." />
+    <external-path name="external_root" path="." />
+    <external-files-path name="external_files" path="." />
+    <external-cache-path name="external_cache" path="." />
+    <external-media-path name="external_media" path="." />
+</paths>

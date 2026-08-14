@@ -1,0 +1,307 @@
+/**
+ * Smart organization + App manager (English).
+ *
+ * The classifier's category labels (`classifier.ts`) and suggested
+ * folder segments are intentionally NOT here: they also serve as real
+ * folder names created on the device and must never change with the
+ * language (or they'd create orphans).
+ */
+export default {
+  "organize.title": "Organização inteligente",
+  "organize.subtitle": "Análise local do seu armazenamento. Nenhuma alteração sem sua aprovação.",
+  "organize.action.rescan": "Reanalisar",
+  "organize.stat.reorganizable": "Reorganizável",
+  "organize.stat.recommendations": "Recomendações",
+  "organize.stat.scannedFiles": "Arquivos analisados",
+  "organize.action.smartRename": "Renomeação inteligente",
+  "organize.section.recommendations": "Recomendações",
+  "organize.section.recommendationsHint": "Cada ação explica por que é importante.",
+  "organize.scanning": "Analisando seu armazenamento…",
+  "organize.empty.title": "Seu armazenamento já está organizado",
+  "organize.empty.desc": "Nada a sugerir no momento. Reanalise após adicionar novos arquivos.",
+  "organize.section.distribution": "Distribuição atual",
+  "organize.section.distributionHint": "Principais categorias no seu armazenamento.",
+  "organize.section.collections": "Coleções dinâmicas",
+  "organize.section.collectionsHint": "Visualizações virtuais — não alteram nenhum arquivo.",
+  "organize.preview.defaultTitle": "Pré-visualização",
+  "organize.preview.computing": "Calculando pré-visualização…",
+  "organize.confirm.title": "Aplicar esta organização?",
+  "organize.confirm.desc": "{summary} Você poderá desfazer tudo pelo histórico ou pela lixeira.",
+  "organize.progress.title": "Organizando",
+  "organize.progress.preparing": "Preparando…",
+  "organize.collection.defaultTitle": "Coleção",
+  "organize.collection.searching": "Procurando arquivos correspondentes…",
+  "organize.collection.empty":
+    "Nenhum arquivo corresponde a esta coleção ainda. Ela se preencherá automaticamente conforme surgirem arquivos compatíveis.",
+  "organize.collection.limited":
+    "Pré-visualização limitada aos primeiros 200 resultados de {total}.",
+  "organize.rec.why": "Por quê?",
+
+  "organize.toast.scanFailed.title": "Falha na análise do armazenamento",
+  "organize.toast.scanFailed.desc": "Não foi possível analisar seus arquivos no momento.",
+  "organize.toast.previewFailed.title": "Pré-visualização indisponível",
+  "organize.toast.previewFailed.desc":
+    "Não foi possível preparar a pré-visualização desta organização.",
+  "organize.toast.interrupted.title": "Organização interrompida",
+  "organize.toast.interrupted.desc": "Nenhuma outra alteração será aplicada.",
+  "organize.toast.done.title": "Organização concluída",
+  "organize.toast.done.desc_one": "{count} ação aplicada. Você pode desfazer tudo pelo histórico.",
+  "organize.toast.done.desc_other":
+    "{count} ações aplicadas. Você pode desfazer tudo pelo histórico.",
+  "organize.toast.partial.title": "Organização parcial",
+  "organize.toast.partial.applied_one": "{count} ação aplicada",
+  "organize.toast.partial.applied_other": "{count} ações aplicadas",
+  "organize.toast.partial.failed_one": "{count} falha",
+  "organize.toast.partial.failed_other": "{count} falhas",
+  "organize.toast.applyFailed.title": "Falha na organização",
+  "organize.toast.applyFailed.desc": "Não foi possível aplicar esta organização no momento.",
+  "organize.toast.noRename.title": "Nada para renomear",
+  "organize.toast.noRename.desc": "Seus nomes de arquivo já estão claros, nada a melhorar aqui.",
+
+  "organize.rename.planTitle": "Renomeação inteligente",
+  "organize.rename.planDesc_one": "{count} arquivo",
+  "organize.rename.planDesc_other": "{count} arquivos",
+  "organize.rename.hint": "Proponha, corrija, desmarque: nada é renomeado até você aplicar.",
+  "organize.rename.applyCount": "Aplicar ({count})",
+  "organize.rename.resetAria": "Redefinir",
+  "organize.rename.checkboxAria": "Renomear {name}",
+  "organize.rename.empty": "Nenhuma sugestão — os nomes atuais já estão claros.",
+
+  "organize.plan.noActions": "Nenhuma ação a aplicar.",
+  "organize.plan.summary_one": "{count} ação será aplicada aos seus arquivos.",
+  "organize.plan.summary_other": "{count} ações serão aplicadas aos seus arquivos.",
+  "organize.plan.none": "Nenhuma ação será aplicada.",
+  "organize.count.renames_one": "{count} renomeação",
+  "organize.count.renames_other": "{count} renomeações",
+  "organize.count.moves_one": "{count} movimentação",
+  "organize.count.moves_other": "{count} movimentações",
+  "organize.count.groups_one": "{count} grupo",
+  "organize.count.groups_other": "{count} grupos",
+  "organize.count.archives_one": "{count} arquivo compactado",
+  "organize.count.archives_other": "{count} arquivos compactados",
+
+  "organize.preview.noChangesGlobal": "Esta organização não causará nenhuma alteração visível.",
+  "organize.preview.createdFolders": "Pastas criadas",
+  "organize.preview.noChangesNode": "Nenhuma alteração.",
+
+  "organize.rec.messyTitle": "Organizar \u201c{folder}\u201d por categoria",
+  "organize.rec.messyWhy":
+    "{detail} Agrupar arquivos semelhantes facilita a busca e o compartilhamento.",
+  "organize.rec.cta.preview": "Pré-visualizar",
+  "organize.rec.messyPlanTitle": "Reorganizar {folder}",
+  "organize.rec.messyPlanDesc":
+    "Cria uma subpasta por categoria detectada e move os arquivos correspondentes para ela.",
+  "organize.action.groupReason_one":
+    "Agrupar o arquivo \u201c{catId}\u201d em uma subpasta \u201c{catLabel}\u201d.",
+  "organize.action.groupReason_other":
+    "Agrupar os {count} arquivos \u201c{catId}\u201d em uma subpasta \u201c{catLabel}\u201d.",
+  "organize.rec.overloadedTitle": "Aliviar \u201c{folder}\u201d",
+  "organize.rec.overloadedWhy":
+    "{detail} Uma pasta com menos de 80 arquivos permanece rápida de navegar.",
+  "organize.rec.cta.openFolder": "Abrir pasta",
+  "organize.rec.overloadedPlanDesc": "Selecione grupos de arquivos para mover manualmente.",
+  "organize.rec.misplacedTitle": "Mover arquivos sem relação com \u201c{folder}\u201d",
+  "organize.rec.misplacedWhy":
+    "{detail} Todo arquivo fica mais fácil de encontrar quando é guardado em uma pasta consistente.",
+  "organize.action.moveReason": "Mover para {category} — mais adequado ao conteúdo.",
+  "organize.rec.misplacedPlanTitle_one": "Mover {count} arquivo",
+  "organize.rec.misplacedPlanTitle_other": "Mover {count} arquivos",
+  "organize.rec.misplacedPlanDesc": "Move arquivos para uma pasta mais adequada ao seu tipo.",
+  "organize.rec.unclearTitle_one": "Renomear {count} arquivo genérico",
+  "organize.rec.unclearTitle_other": "Renomear {count} arquivos genéricos",
+  "organize.rec.unclearWhy": "{detail} Um nome claro permite encontrar um arquivo sem abri-lo.",
+  "organize.rec.cta.renamePreview": "Pré-visualizar renomeação",
+  "organize.rec.unclearPlanDesc": "Sugere nomes legíveis.",
+  "organize.rec.isolatedTitle_one": "Agrupar {count} arquivo \u201c{category}\u201d",
+  "organize.rec.isolatedTitle_other": "Agrupar {count} arquivos \u201c{category}\u201d",
+  "organize.rec.isolatedWhy":
+    "{detail} Uma subpasta dedicada torna todo o conjunto imediatamente visível.",
+  "organize.rec.isolatedPlanTitle": "Criar \u201c{category}\u201d",
+  "organize.rec.isolatedPlanDesc": "Cria uma subpasta dedicada e move os arquivos para ela.",
+  "organize.action.isolatedReason_one": "Subpasta \u201c{category}\u201d para {count} arquivo.",
+  "organize.action.isolatedReason_other": "Subpasta \u201c{category}\u201d para {count} arquivos.",
+  "organize.rec.hardTitle": "Reorganização completa recomendada",
+  "organize.rec.hardWhy": "{detail} Organizar por categoria principal reduz o atrito do dia a dia.",
+  "organize.rec.cta.priorities": "Ver prioridades",
+  "organize.rec.hardPlanTitle": "Reorganização completa",
+  "organize.rec.hardPlanDesc": "Uma visão geral das ações de maior impacto.",
+  "organize.rec.summaryTitle": "Cerca de {size} poderiam ser melhor organizados",
+  "organize.rec.summaryWhy": "Esta estimativa soma o espaço coberto pelas recomendações abaixo.",
+  "organize.rec.cta.seeRecs": "Ver recomendações",
+  "organize.rec.summaryPlanTitle": "Pré-visualização",
+  "organize.rec.summaryPlanDesc": "Um resumo do potencial de organização.",
+
+  "organize.scanner.root": "Raiz",
+  "organize.scanner.overloadedDetail_one":
+    "{count} arquivo nesta pasta — está ficando difícil de navegar.",
+  "organize.scanner.overloadedDetail_other":
+    "{count} arquivos nesta pasta — está ficando difícil de navegar.",
+  "organize.scanner.messyDetail":
+    "Uma mistura de {count} tipos de arquivo — organizar por categoria melhorará a navegação.",
+  "organize.scanner.misplacedDetail_one": "{count} arquivo sem relação com uma pasta {kind}.",
+  "organize.scanner.misplacedDetail_other": "{count} arquivos sem relação com uma pasta {kind}.",
+  "organize.scanner.unclearDetail_one": "{count} arquivo tem um nome pouco claro.",
+  "organize.scanner.unclearDetail_other": "{count} arquivos têm nomes pouco claros.",
+  "organize.scanner.isolatedDetail_one":
+    "{count} arquivo \u201c{category}\u201d isolado — agrupe-o em uma subpasta dedicada.",
+  "organize.scanner.isolatedDetail_other":
+    "{count} arquivos \u201c{category}\u201d isolados — agrupe-os em uma subpasta dedicada.",
+  "organize.scanner.hardDetail":
+    "Várias pastas estão grandes. Recomenda-se uma reorganização completa.",
+  "organize.kind.audio": "áudio",
+  "organize.kind.video": "vídeo",
+  "organize.kind.image": "imagem",
+
+  "organize.renamer.artistTitle": "Título e artista detectados nos metadados.",
+  "organize.renamer.titleOnly": "Título detectado nos metadados.",
+  "organize.renamer.docType": "Tipo de documento detectado: {type}.",
+  "organize.renamer.receipt": "Recibo detectado na imagem.",
+  "organize.renamer.invoice": "Fatura detectada na imagem.",
+  "organize.renamer.businessCard": "Cartão de visita detectado.",
+  "organize.renamer.screenshot": "Captura de tela detectada.",
+  "organize.renamer.document": "Documento digitalizado detectado.",
+  "organize.renamer.genericName": "Nome genérico substituído por um título legível.",
+  "organize.renamer.receiptName": "Recibo {date}",
+  "organize.renamer.invoiceName": "Fatura {date}",
+  "organize.renamer.businessCardName": "Cartão de visita {date}",
+  "organize.renamer.screenshotName": "Captura de tela {date}",
+  "organize.renamer.documentName": "Documento digitalizado {date}",
+  "organize.renamer.photoName": "Foto {date}",
+  "organize.renamer.videoName": "Vídeo {date}",
+  "organize.renamer.fileName": "Arquivo {date}",
+
+  "organize.apps.title": "Aplicativos",
+  "organize.apps.subtitleLoading": "Analisando seus aplicativos…",
+  "organize.apps.count_one": "{count} aplicativo",
+  "organize.apps.count_other": "{count} aplicativos",
+  "organize.apps.refreshAria": "Atualizar lista",
+  "organize.apps.sectionAll": "Todos os aplicativos",
+  "organize.apps.searchPlaceholder": "Buscar um aplicativo…",
+  "organize.apps.clearSearchAria": "Limpar busca",
+  "organize.apps.filter.user": "Usuário",
+  "organize.apps.filter.system": "Sistema",
+  "organize.apps.filter.all": "Todos",
+  "organize.apps.sortAria": "Ordenar: {label}",
+  "organize.apps.layoutGridAria": "Visualização em grade",
+  "organize.apps.layoutListAria": "Visualização em lista",
+  "organize.apps.pluginError.title": "Lista de aplicativos indisponível",
+  "organize.apps.pluginError.desc":
+    "O GeniusFiles não conseguiu ler os aplicativos instalados neste dispositivo. Feche e reabra o app, ou tente novamente em instantes.",
+  "organize.apps.emptySearch.title": "Nenhum aplicativo corresponde",
+  "organize.apps.emptyNone.title": "Nenhum aplicativo para exibir",
+  "organize.apps.emptySearch.desc":
+    "Tente outro nome ou altere o filtro para incluir aplicativos do sistema.",
+  "organize.apps.emptyNone.desc": "Altere o filtro para mostrar aplicativos do sistema ou todos.",
+  "organize.apps.sectionRecommendations": "Recomendações",
+  "organize.apps.sectionRecommendationsHint": "Apenas informativo, nenhuma ação automática",
+  "organize.apps.sort.name": "Nome",
+  "organize.apps.sort.size": "Tamanho",
+  "organize.apps.sort.installed": "Instalado",
+  "organize.apps.sort.updated": "Atualizado",
+  "organize.apps.sort.used": "Último uso",
+  "organize.apps.badgeSystem": "Sistema",
+  "organize.apps.sortBy": "Ordenar por",
+  "organize.apps.sortActive": "Ativo",
+  "organize.apps.usage.grantTitle": "Mostrar tamanhos reais",
+  "organize.apps.usage.descPartial":
+    "Seus aplicativos estão listados. O acesso de uso do Android adiciona o tamanho real (código, dados, cache) e a última vez que cada aplicativo foi aberto.",
+  "organize.apps.usage.descFull":
+    "O acesso de uso do Android permite que o GeniusFiles calcule o tamanho real de cada aplicativo e identifique os que você não abre mais.",
+  "organize.apps.usage.opening": "Abrindo…",
+  "organize.apps.usage.openSettings": "Abrir configurações",
+  "organize.apps.usage.recheck": "Concedi a permissão — tentar novamente",
+  "organize.apps.usage.toast":
+    "Ative \u201cGeniusFiles\u201d em \u201cDados de acesso de uso\u201d e volte aqui.",
+  "organize.apps.usage.available": "Tamanhos reais e datas de último uso estão disponíveis.",
+  "organize.apps.usage.unavailable": "Tamanhos estimados: o acesso de uso ainda não foi concedido.",
+  "organize.apps.stats.totalLabel": "Espaço usado",
+  "organize.apps.stats.totalCount": "{count} no total",
+  "organize.apps.stats.user": "usuário",
+  "organize.apps.stats.system": "sistema",
+  "organize.apps.stats.userCount": "{count} usuário",
+  "organize.apps.stats.systemCount": "{count} sistema",
+  "organize.apps.reclaimable": "Até {size} recuperáveis",
+  "organize.apps.reclaimableDesc":
+    "Arquivando aplicativos raramente usados ou limpando caches grandes. Nada é excluído automaticamente.",
+  "organize.apps.unusedTitle": "Raramente usados",
+  "organize.apps.heavyTitle": "Aplicativos grandes",
+  "organize.apps.recEmpty":
+    "Nada a relatar no momento. O GeniusFiles monitora o uso e o armazenamento.",
+
+  "organize.apps.detail.type": "Tipo",
+  "organize.apps.detail.typeSystem": "Sistema",
+  "organize.apps.detail.typeUser": "Usuário",
+  "organize.apps.detail.state": "Estado",
+  "organize.apps.detail.enabled": "Ativado",
+  "organize.apps.detail.disabled": "Desativado",
+  "organize.apps.detail.installed": "Instalado",
+  "organize.apps.detail.updated": "Atualizado",
+  "organize.apps.detail.totalSize": "Tamanho total",
+  "organize.apps.detail.apk": "APK",
+  "organize.apps.detail.data": "Dados",
+  "organize.apps.detail.cache": "Cache",
+  "organize.apps.detail.targetSdk": "SDK alvo",
+  "organize.apps.detail.lastUsed": "Último acesso",
+  "organize.apps.detail.location": "Local",
+  "organize.apps.action.open": "Abrir",
+  "organize.apps.action.systemInfo": "Informações do sistema",
+  "organize.apps.action.share": "Compartilhar",
+  "organize.apps.action.backup": "Fazer backup do APK",
+  "organize.apps.action.backingUp": "Fazendo backup…",
+  "organize.apps.action.permissions": "Permissões",
+  "organize.apps.action.storage": "Armazenamento",
+  "organize.apps.permissions.title": "Permissões concedidas",
+  "organize.apps.permissions.loading": "Carregando…",
+  "organize.apps.permissions.none": "Nenhuma permissão perigosa concedida.",
+  "organize.apps.permissions.moreDeclared":
+    "{count} outras permissões declaradas mas não concedidas.",
+  "organize.apps.storage.title": "Atividade de armazenamento",
+  "organize.apps.storage.loading": "Carregando…",
+  "organize.apps.storage.unavailable":
+    "Detalhamento por categoria não disponível neste dispositivo.",
+  "organize.apps.storage.app": "Aplicativo",
+  "organize.apps.storage.data": "Dados",
+  "organize.apps.storage.cache": "Cache",
+  "organize.apps.storage.total": "Total",
+  "organize.apps.uninstall": "Desinstalar",
+  "organize.apps.systemNotice":
+    "Este aplicativo faz parte do sistema Android: não pode ser desinstalado.",
+
+  "organize.apps.toast.openFailed.title": "Não foi possível abrir este aplicativo",
+  "organize.apps.toast.openFailed.desc":
+    "Ele pode estar desativado no seu dispositivo. Verifique nas configurações do Android.",
+  "organize.apps.toast.settingsFailed.title":
+    "Não foi possível abrir as configurações deste aplicativo",
+  "organize.apps.toast.settingsFailed.desc":
+    "Abra Configurações do Android › Aplicativos e selecione este app.",
+  "organize.apps.toast.shareFailed.title": "Não é possível compartilhar",
+  "organize.apps.toast.shareFailed.desc":
+    "Nenhum aplicativo de compartilhamento disponível neste dispositivo.",
+  "organize.apps.toast.backupDone.title": "Backup concluído",
+  "organize.apps.toast.backupDone.desc":
+    "Uma cópia de \u201c{name}\u201d ({size}) foi salva em seus arquivos.",
+  "organize.apps.toast.backupFailed.title": "Falha no backup",
+  "organize.apps.toast.backupFailed.desc":
+    "Verifique o espaço livre do seu dispositivo e tente novamente.",
+  "organize.apps.confirm.backupTitle": "Fazer backup de \u201c{name}\u201d?",
+  "organize.apps.confirm.backupDesc":
+    "Uma cópia do aplicativo será salva em seus arquivos. Isso permitirá reinstalá-lo depois, mesmo offline.",
+  "organize.apps.confirm.backupConfirm": "Fazer backup",
+  "organize.apps.systemUninstall.title": "Este aplicativo faz parte do sistema",
+  "organize.apps.systemUninstall.desc":
+    "O Android não permite desinstalá-lo. Você pode desativá-lo nas configurações.",
+  "organize.apps.confirm.uninstallTitle": "Desinstalar \u201c{name}\u201d?",
+  "organize.apps.confirm.uninstallDesc":
+    "O aplicativo e seus dados serão removidos do seu dispositivo. O Android pedirá uma última confirmação.",
+  "organize.apps.confirm.uninstallConfirm": "Desinstalar",
+  "organize.apps.toast.uninstallFailed.title": "Não foi possível desinstalar",
+  "organize.apps.toast.uninstallFailed.desc":
+    "Este aplicativo não pode ser removido pelo GeniusFiles. Tente pelas configurações do Android.",
+  "organize.apps.share.template":
+    "{name}\nVersão: {version} ({code})\nTamanho: {size}\nInstalado em: {installed}\nAtualizado em: {updated}",
+  "organize.apps.backupUnavailable": "Indisponível nesta plataforma",
+
+  // Ajouts génération automatique (i18n complet)
+  "organize.capturesDEcran": "Capturas de tela",
+  "organize.documentsNumerises": "Documentos digitalizados",
+} as const;

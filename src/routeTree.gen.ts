@@ -9,38 +9,341 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RechercheRouteImport } from './routes/recherche'
+import { Route as PdfOutilsRouteImport } from './routes/pdf-outils'
+import { Route as ParametresRouteImport } from './routes/parametres'
+import { Route as OrganisationRouteImport } from './routes/organisation'
+import { Route as NettoyeurRouteImport } from './routes/nettoyeur'
+import { Route as FichiersRecentsRouteImport } from './routes/fichiers-recents'
+import { Route as EditeurAudioRouteImport } from './routes/editeur-audio'
+import { Route as DiagnosticClavierRouteImport } from './routes/diagnostic-clavier'
+import { Route as CorbeilleRouteImport } from './routes/corbeille'
+import { Route as CoffreFortRouteImport } from './routes/coffre-fort'
+import { Route as AutomatisationsRouteImport } from './routes/automatisations'
+import { Route as AssistantRouteImport } from './routes/assistant'
+import { Route as ApplicationsRouteImport } from './routes/applications'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CategorieKindRouteImport } from './routes/categorie.$kind'
+import { Route as AutomatisationsHistoriqueRouteImport } from './routes/automatisations.historique'
+import { Route as ApiPublicChatRouteImport } from './routes/api/public/chat'
 
+const RechercheRoute = RechercheRouteImport.update({
+  id: '/recherche',
+  path: '/recherche',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PdfOutilsRoute = PdfOutilsRouteImport.update({
+  id: '/pdf-outils',
+  path: '/pdf-outils',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ParametresRoute = ParametresRouteImport.update({
+  id: '/parametres',
+  path: '/parametres',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrganisationRoute = OrganisationRouteImport.update({
+  id: '/organisation',
+  path: '/organisation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NettoyeurRoute = NettoyeurRouteImport.update({
+  id: '/nettoyeur',
+  path: '/nettoyeur',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FichiersRecentsRoute = FichiersRecentsRouteImport.update({
+  id: '/fichiers-recents',
+  path: '/fichiers-recents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EditeurAudioRoute = EditeurAudioRouteImport.update({
+  id: '/editeur-audio',
+  path: '/editeur-audio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiagnosticClavierRoute = DiagnosticClavierRouteImport.update({
+  id: '/diagnostic-clavier',
+  path: '/diagnostic-clavier',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CorbeilleRoute = CorbeilleRouteImport.update({
+  id: '/corbeille',
+  path: '/corbeille',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoffreFortRoute = CoffreFortRouteImport.update({
+  id: '/coffre-fort',
+  path: '/coffre-fort',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AutomatisationsRoute = AutomatisationsRouteImport.update({
+  id: '/automatisations',
+  path: '/automatisations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssistantRoute = AssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApplicationsRoute = ApplicationsRouteImport.update({
+  id: '/applications',
+  path: '/applications',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CategorieKindRoute = CategorieKindRouteImport.update({
+  id: '/categorie/$kind',
+  path: '/categorie/$kind',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AutomatisationsHistoriqueRoute =
+  AutomatisationsHistoriqueRouteImport.update({
+    id: '/historique',
+    path: '/historique',
+    getParentRoute: () => AutomatisationsRoute,
+  } as any)
+const ApiPublicChatRoute = ApiPublicChatRouteImport.update({
+  id: '/api/public/chat',
+  path: '/api/public/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/applications': typeof ApplicationsRoute
+  '/assistant': typeof AssistantRoute
+  '/automatisations': typeof AutomatisationsRouteWithChildren
+  '/coffre-fort': typeof CoffreFortRoute
+  '/corbeille': typeof CorbeilleRoute
+  '/diagnostic-clavier': typeof DiagnosticClavierRoute
+  '/editeur-audio': typeof EditeurAudioRoute
+  '/fichiers-recents': typeof FichiersRecentsRoute
+  '/nettoyeur': typeof NettoyeurRoute
+  '/organisation': typeof OrganisationRoute
+  '/parametres': typeof ParametresRoute
+  '/pdf-outils': typeof PdfOutilsRoute
+  '/recherche': typeof RechercheRoute
+  '/automatisations/historique': typeof AutomatisationsHistoriqueRoute
+  '/categorie/$kind': typeof CategorieKindRoute
+  '/api/public/chat': typeof ApiPublicChatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/applications': typeof ApplicationsRoute
+  '/assistant': typeof AssistantRoute
+  '/automatisations': typeof AutomatisationsRouteWithChildren
+  '/coffre-fort': typeof CoffreFortRoute
+  '/corbeille': typeof CorbeilleRoute
+  '/diagnostic-clavier': typeof DiagnosticClavierRoute
+  '/editeur-audio': typeof EditeurAudioRoute
+  '/fichiers-recents': typeof FichiersRecentsRoute
+  '/nettoyeur': typeof NettoyeurRoute
+  '/organisation': typeof OrganisationRoute
+  '/parametres': typeof ParametresRoute
+  '/pdf-outils': typeof PdfOutilsRoute
+  '/recherche': typeof RechercheRoute
+  '/automatisations/historique': typeof AutomatisationsHistoriqueRoute
+  '/categorie/$kind': typeof CategorieKindRoute
+  '/api/public/chat': typeof ApiPublicChatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/applications': typeof ApplicationsRoute
+  '/assistant': typeof AssistantRoute
+  '/automatisations': typeof AutomatisationsRouteWithChildren
+  '/coffre-fort': typeof CoffreFortRoute
+  '/corbeille': typeof CorbeilleRoute
+  '/diagnostic-clavier': typeof DiagnosticClavierRoute
+  '/editeur-audio': typeof EditeurAudioRoute
+  '/fichiers-recents': typeof FichiersRecentsRoute
+  '/nettoyeur': typeof NettoyeurRoute
+  '/organisation': typeof OrganisationRoute
+  '/parametres': typeof ParametresRoute
+  '/pdf-outils': typeof PdfOutilsRoute
+  '/recherche': typeof RechercheRoute
+  '/automatisations/historique': typeof AutomatisationsHistoriqueRoute
+  '/categorie/$kind': typeof CategorieKindRoute
+  '/api/public/chat': typeof ApiPublicChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/applications'
+    | '/assistant'
+    | '/automatisations'
+    | '/coffre-fort'
+    | '/corbeille'
+    | '/diagnostic-clavier'
+    | '/editeur-audio'
+    | '/fichiers-recents'
+    | '/nettoyeur'
+    | '/organisation'
+    | '/parametres'
+    | '/pdf-outils'
+    | '/recherche'
+    | '/automatisations/historique'
+    | '/categorie/$kind'
+    | '/api/public/chat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/applications'
+    | '/assistant'
+    | '/automatisations'
+    | '/coffre-fort'
+    | '/corbeille'
+    | '/diagnostic-clavier'
+    | '/editeur-audio'
+    | '/fichiers-recents'
+    | '/nettoyeur'
+    | '/organisation'
+    | '/parametres'
+    | '/pdf-outils'
+    | '/recherche'
+    | '/automatisations/historique'
+    | '/categorie/$kind'
+    | '/api/public/chat'
+  id:
+    | '__root__'
+    | '/'
+    | '/applications'
+    | '/assistant'
+    | '/automatisations'
+    | '/coffre-fort'
+    | '/corbeille'
+    | '/diagnostic-clavier'
+    | '/editeur-audio'
+    | '/fichiers-recents'
+    | '/nettoyeur'
+    | '/organisation'
+    | '/parametres'
+    | '/pdf-outils'
+    | '/recherche'
+    | '/automatisations/historique'
+    | '/categorie/$kind'
+    | '/api/public/chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApplicationsRoute: typeof ApplicationsRoute
+  AssistantRoute: typeof AssistantRoute
+  AutomatisationsRoute: typeof AutomatisationsRouteWithChildren
+  CoffreFortRoute: typeof CoffreFortRoute
+  CorbeilleRoute: typeof CorbeilleRoute
+  DiagnosticClavierRoute: typeof DiagnosticClavierRoute
+  EditeurAudioRoute: typeof EditeurAudioRoute
+  FichiersRecentsRoute: typeof FichiersRecentsRoute
+  NettoyeurRoute: typeof NettoyeurRoute
+  OrganisationRoute: typeof OrganisationRoute
+  ParametresRoute: typeof ParametresRoute
+  PdfOutilsRoute: typeof PdfOutilsRoute
+  RechercheRoute: typeof RechercheRoute
+  CategorieKindRoute: typeof CategorieKindRoute
+  ApiPublicChatRoute: typeof ApiPublicChatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/recherche': {
+      id: '/recherche'
+      path: '/recherche'
+      fullPath: '/recherche'
+      preLoaderRoute: typeof RechercheRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pdf-outils': {
+      id: '/pdf-outils'
+      path: '/pdf-outils'
+      fullPath: '/pdf-outils'
+      preLoaderRoute: typeof PdfOutilsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/parametres': {
+      id: '/parametres'
+      path: '/parametres'
+      fullPath: '/parametres'
+      preLoaderRoute: typeof ParametresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/organisation': {
+      id: '/organisation'
+      path: '/organisation'
+      fullPath: '/organisation'
+      preLoaderRoute: typeof OrganisationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nettoyeur': {
+      id: '/nettoyeur'
+      path: '/nettoyeur'
+      fullPath: '/nettoyeur'
+      preLoaderRoute: typeof NettoyeurRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fichiers-recents': {
+      id: '/fichiers-recents'
+      path: '/fichiers-recents'
+      fullPath: '/fichiers-recents'
+      preLoaderRoute: typeof FichiersRecentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/editeur-audio': {
+      id: '/editeur-audio'
+      path: '/editeur-audio'
+      fullPath: '/editeur-audio'
+      preLoaderRoute: typeof EditeurAudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diagnostic-clavier': {
+      id: '/diagnostic-clavier'
+      path: '/diagnostic-clavier'
+      fullPath: '/diagnostic-clavier'
+      preLoaderRoute: typeof DiagnosticClavierRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/corbeille': {
+      id: '/corbeille'
+      path: '/corbeille'
+      fullPath: '/corbeille'
+      preLoaderRoute: typeof CorbeilleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/coffre-fort': {
+      id: '/coffre-fort'
+      path: '/coffre-fort'
+      fullPath: '/coffre-fort'
+      preLoaderRoute: typeof CoffreFortRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/automatisations': {
+      id: '/automatisations'
+      path: '/automatisations'
+      fullPath: '/automatisations'
+      preLoaderRoute: typeof AutomatisationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assistant': {
+      id: '/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/applications': {
+      id: '/applications'
+      path: '/applications'
+      fullPath: '/applications'
+      preLoaderRoute: typeof ApplicationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +351,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/categorie/$kind': {
+      id: '/categorie/$kind'
+      path: '/categorie/$kind'
+      fullPath: '/categorie/$kind'
+      preLoaderRoute: typeof CategorieKindRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/automatisations/historique': {
+      id: '/automatisations/historique'
+      path: '/historique'
+      fullPath: '/automatisations/historique'
+      preLoaderRoute: typeof AutomatisationsHistoriqueRouteImport
+      parentRoute: typeof AutomatisationsRoute
+    }
+    '/api/public/chat': {
+      id: '/api/public/chat'
+      path: '/api/public/chat'
+      fullPath: '/api/public/chat'
+      preLoaderRoute: typeof ApiPublicChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface AutomatisationsRouteChildren {
+  AutomatisationsHistoriqueRoute: typeof AutomatisationsHistoriqueRoute
+}
+
+const AutomatisationsRouteChildren: AutomatisationsRouteChildren = {
+  AutomatisationsHistoriqueRoute: AutomatisationsHistoriqueRoute,
+}
+
+const AutomatisationsRouteWithChildren = AutomatisationsRoute._addFileChildren(
+  AutomatisationsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApplicationsRoute: ApplicationsRoute,
+  AssistantRoute: AssistantRoute,
+  AutomatisationsRoute: AutomatisationsRouteWithChildren,
+  CoffreFortRoute: CoffreFortRoute,
+  CorbeilleRoute: CorbeilleRoute,
+  DiagnosticClavierRoute: DiagnosticClavierRoute,
+  EditeurAudioRoute: EditeurAudioRoute,
+  FichiersRecentsRoute: FichiersRecentsRoute,
+  NettoyeurRoute: NettoyeurRoute,
+  OrganisationRoute: OrganisationRoute,
+  ParametresRoute: ParametresRoute,
+  PdfOutilsRoute: PdfOutilsRoute,
+  RechercheRoute: RechercheRoute,
+  CategorieKindRoute: CategorieKindRoute,
+  ApiPublicChatRoute: ApiPublicChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

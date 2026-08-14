@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  GeniusFiles color overrides.
+
+  Valeurs de jour. values-night/colors.xml fournit automatiquement les
+  équivalents sombres au système Android.
+  Keep in sync with capacitor.config.ts (`SplashScreen.backgroundColor`)
+  and src/styles.css (background CSS variable).
+-->
+<resources>
+    <color name="splash_background">#f5f6f8</color>
+</resources>

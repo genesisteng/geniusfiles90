@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Android 12+ (API 31+) SplashScreen override.
+
+  On API 31+, Android replaces the launch theme's windowBackground with
+  the system SplashScreen: it renders the app's launcher icon inside a
+  288dp masked circle over `windowSplashScreenBackground`. If
+  `windowSplashScreenAnimatedIcon` is not overridden, Android upscales
+  the small ic_launcher foreground into that region → the "tiny blurred
+  logo in a dark rounded square" symptom.
+
+  `windowSplashScreenIconBackgroundColor` n'est volontairement PAS défini :
+  le renseigner force Android dans la branche « icône avec fond » (icône
+  réduite à 240dp puis masquée aux 2/3), ce qui rapetissait et adoucissait
+  l'illustration. Sans lui, Android utilise la branche 288dp pleine et peint
+  notre drawable haute résolution sans sur-réduction.
+
+  We point it at @drawable/splash_icon, a high-resolution adaptive
+  drawable. ATTENTION : AdaptiveIconDrawable agrandit chaque calque de
+  1,5× puis en rogne le tiers extérieur. L'illustration y occupe donc
+  176/432 du calque afin d'être peinte à 176dp — soit 704 px au maximum
+  (densité ×4), une RÉDUCTION du master officiel 801 px. C'est ce qui
+  supprime le flou observé sur les téléphones haute densité, où l'ancien
+  réglage (0.667 du calque = 288dp) demandait jusqu'à 1152 px à un master
+  de 801 px. Voir scripts/generate-app-icons.mjs.
+
+
+  `postSplashScreenTheme` est indispensable : sans lui l'activité garde le
+  thème de lancement (fond splash opaque, barres non pilotées) après la
+  disparition du splash.
+-->
+<resources>
+    <style name="AppTheme.NoActionBarLaunch" parent="AppTheme.NoActionBar">
+        <item name="android:background">@color/splash_background</item>
+        <item name="android:windowBackground">@color/splash_background</item>
+        <item name="android:windowSplashScreenBackground">@color/splash_background</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_icon</item>
+        <item name="postSplashScreenTheme">@style/AppTheme.NoActionBar</item>
+    </style>
+</resources>
