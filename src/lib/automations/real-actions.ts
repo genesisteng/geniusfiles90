@@ -21,7 +21,7 @@ export function organizeBucket(entry: FileEntry, rule: "type" | "date" | "name")
     return /[A-Z]/.test(first) ? first : "#";
   }
   if (rule === "date") {
-    const d = new Date(entry.modifiedAt ?? Date.now());
+    const d = new Date(entry.mtime ?? Date.now());
     const month = `${d.getMonth() + 1}`.padStart(2, "0");
     return `${d.getFullYear()}-${month}`;
   }
