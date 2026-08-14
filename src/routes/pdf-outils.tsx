@@ -1,3 +1,4 @@
+import { useListScrollMemory } from "@/lib/files/use-list-scroll";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   GfPdfMerge as Combine,
@@ -333,6 +334,9 @@ function extractTools(t: TFunction): Tool[] {
 /* ---------- Page ---------- */
 
 function PdfToolsPage() {
+  /* Position de la liste restituée au retour depuis un aperçu. */
+  useListScrollMemory("pdf-tools", true);
+
   const t = useT();
   const [tool, setTool] = useState<ToolId | null>(null);
 

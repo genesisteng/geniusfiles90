@@ -140,6 +140,9 @@ function fromAutomation(a: Automation): Draft {
 /* ─────────────────────── Root component ─────────────────────── */
 
 function AutomationsPage() {
+  /* Position de la liste restituée au retour depuis un aperçu. */
+  useListScrollMemory("automations", true);
+
   const tr = useT();
   const [items, setItems] = useState<Automation[]>([]);
   const [history, setHistory] = useState<ExecutionRecord[]>([]);

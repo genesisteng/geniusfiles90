@@ -1,3 +1,4 @@
+import { useListScrollMemory } from "@/lib/files/use-list-scroll";
 import { createFileRoute } from "@tanstack/react-router";
 import { useAppNavigate } from "@/lib/navigation/pick-nav";
 import { confirmPick, usePickRequest } from "@/lib/files/pick-session";
@@ -104,6 +105,9 @@ const SUGGESTIONS_DEFAULT = (t: TFn) => [
 const RESULTS_LIMIT = 500;
 
 export function SearchPage() {
+  /* Position de la liste restituée au retour depuis un aperçu. */
+  useListScrollMemory("search", true);
+
   const t = useT();
   const navigate = useAppNavigate();
   const pick = usePickRequest();

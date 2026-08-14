@@ -6,6 +6,7 @@
  * le reste de l'app grâce aux évènements `gf:automations-history-changed` et
  * `gf:automations-changed` — pas de rafraîchissement manuel nécessaire.
  */
+import { useListScrollMemory } from "@/lib/files/use-list-scroll";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -52,6 +53,9 @@ export const Route = createFileRoute("/automatisations/historique")({
 });
 
 function HistoryPage() {
+  /* Position de la liste restituée au retour depuis un aperçu. */
+  useListScrollMemory("automations-history", true);
+
   const tr = useT();
   const [history, setHistory] = useState<ExecutionRecord[]>([]);
   const [rules, setRules] = useState<Automation[]>([]);

@@ -142,6 +142,9 @@ export const Route = createFileRoute("/coffre-fort")({
 });
 
 function VaultRoute() {
+  /* Position de la liste restituée au retour depuis un aperçu. */
+  useListScrollMemory("vault", true);
+
   const t = useT();
   const [configured, setConfigured] = useState<boolean | null>(null);
   const [unlocked, setUnlocked] = useState<boolean>(false);
