@@ -128,37 +128,23 @@ export function StorageCards({
     return list;
   }, [internal, externals, counts, internalFilesFallback, t]);
 
-  const many = cards.length > 1;
-
   return (
     <section aria-label={t("home.storage.aria")}>
       <h2 className="mb-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
         {t("home.storage.title")}
       </h2>
-      <div
-        className={
-          many
-            ? "-mx-1 flex snap-x snap-mandatory gap-2.5 overflow-x-auto px-1 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-            : "grid grid-cols-1 gap-2.5"
-        }
-      >
+      {/* Toujours vertical : chaque stockage occupe une ligne pleine largeur,
+          quel que soit leur nombre — aucun débordement horizontal. */}
+      <div className="flex w-full flex-col gap-2.5">
         {cards.map((c) => (
-          <StorageTile key={c.id} card={c} scrollable={many} onOpen={() => onOpenRoot(c.id)} />
+          <StorageTile key={c.id} card={c} onOpen={() => onOpenRoot(c.id)} />
         ))}
       </div>
     </section>
   );
 }
 
-function StorageTile({
-  card,
-  onOpen,
-  scrollable,
-}: {
-  card: StorageCard;
-  onOpen: () => void;
-  scrollable: boolean;
-}) {
+function StorageTile({ card, onOpen }: { card: StorageCard; onOpen: () => void }) {
   const t = useT();
   const Icon = card.icon;
   const known = card.total > 0;
@@ -169,10 +155,9 @@ function StorageTile({
       type="button"
       onClick={onOpen}
       aria-label={t("home.storage.open", { label: card.label })}
-      className={`group flex items-center gap-3 rounded-2xl border border-border bg-surface px-3 py-2.5 text-left transition-transform duration-100 ease-out active:scale-[0.98] hover:border-primary/30 ${
-        scrollable ? "w-[248px] shrink-0 snap-start" : "w-full"
-      }`}
+      className="group flex w-full items-center gap-3 rounded-2xl border border-border bg-surface px-3 py-2.5 text-left transition-transform duration-100 ease-out active:scale-[0.98] hover:border-primary/30"
     >
+
       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/12 text-primary">
         <Icon className="h-[19px] w-[19px]" />
       </span>
