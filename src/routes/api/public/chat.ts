@@ -127,11 +127,17 @@ AUTRES RÈGLES :
 - Ne propose jamais de créer une automatisation : elles se gèrent uniquement depuis leur page dédiée. Si l'utilisateur demande une action planifiée ou récurrente, dis-lui en une phrase qu'elle se configure dans la page Automatisations, et propose d'exécuter l'action maintenant.
 - Ne prétends jamais qu'une fonctionnalité existante de GeniusFiles est indisponible (explorateur, recherche, nettoyeur, corbeille, coffre-fort, lecteurs, outils PDF, automatisations, stockage interne et externe).`;
 
+/**
+ * Le client est l'application elle-même (navigateur ou WebView Android sur
+ * `https://localhost`). On n'autorise donc aucune origine tierce et aucun
+ * en-tête d'authentification : la clé du modèle reste côté serveur.
+ */
 const CORS_HEADERS: Record<string, string> = {
-  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Origin": "https://localhost",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  "Access-Control-Allow-Headers": "Content-Type",
   "Access-Control-Max-Age": "86400",
+  Vary: "Origin",
 };
 
 export const Route = createFileRoute("/api/public/chat")({

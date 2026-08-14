@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 
 import { AppShell } from "@/components/AppShell";
-import { useT, type TFunction, t, t as translate } from "@/lib/i18n";
+import { formatDateValue, useT, type TFunction, t, t as translate } from "@/lib/i18n";
 import { BackButton } from "@/components/navigation/BackButton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { SectionHeader } from "@/components/ui/SectionHeader";
