@@ -422,9 +422,6 @@ export function VideoPlayer({
     setReloadNonce((n) => n + 1);
   }, []);
 
-
-
-
   // ---- Câblage de l'élément <video> --------------------------------------
   const latestIndex = useRef(index);
   const entriesLenRef = useRef(entries.length);
@@ -846,7 +843,6 @@ export function VideoPlayer({
                 {t("media.player.action.close")}
               </button>
             </div>
-
           </div>
         </div>
       ) : null}

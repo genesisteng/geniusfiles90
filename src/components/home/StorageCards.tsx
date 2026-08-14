@@ -157,7 +157,6 @@ function StorageTile({ card, onOpen }: { card: StorageCard; onOpen: () => void }
       aria-label={t("home.storage.open", { label: card.label })}
       className="group flex w-full items-center gap-3 rounded-2xl border border-border bg-surface px-3 py-2.5 text-left transition-transform duration-100 ease-out active:scale-[0.98] hover:border-primary/30"
     >
-
       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/12 text-primary">
         <Icon className="h-[19px] w-[19px]" />
       </span>
