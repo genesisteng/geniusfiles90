@@ -8,23 +8,23 @@ Ordre retenu : assainir le périmètre, corriger les incohérences et les écran
 
 ## Vue d'ensemble des étapes
 
-| Étape | Objectif principal |
-| --- | --- |
-| H1 | Audit complet et cartographie avant modification |
-| H2 | Suppression définitive du transfert et de tout son code |
-| H3 | Suppression des fonctionnalités abandonnées et du code mort |
-| H4 | Nettoyage du système de préférences |
-| H5 | Correction des incohérences et bugs identifiés |
-| H6 | Finalisation des fonctionnalités réellement utiles mais partielles |
-| H7 | Fiabilisation du système de navigation, états et rafraîchissement |
-| H8 | Optimisation générale des performances |
-| H9 | Intégration Android des applications internes « Ouvrir avec » |
-| H10 | Widgets Android réels et professionnels |
-| H11 | Nettoyage UX/UI et cohérence générale |
-| H12 | Audit internationalisation et Genius AI |
-| H13 | Sécurité, permissions et composants Android |
-| H14 | Nettoyage final du projet et suppression du code mort résiduel |
-| H15 | Validation complète APK Android et contrôle anti-régression |
+| Étape | Objectif principal                                                 |
+| ----- | ------------------------------------------------------------------ |
+| H1    | Audit complet et cartographie avant modification                   |
+| H2    | Suppression définitive du transfert et de tout son code            |
+| H3    | Suppression des fonctionnalités abandonnées et du code mort        |
+| H4    | Nettoyage du système de préférences                                |
+| H5    | Correction des incohérences et bugs identifiés                     |
+| H6    | Finalisation des fonctionnalités réellement utiles mais partielles |
+| H7    | Fiabilisation du système de navigation, états et rafraîchissement  |
+| H8    | Optimisation générale des performances                             |
+| H9    | Intégration Android des applications internes « Ouvrir avec »      |
+| H10   | Widgets Android réels et professionnels                            |
+| H11   | Nettoyage UX/UI et cohérence générale                              |
+| H12   | Audit internationalisation et Genius AI                            |
+| H13   | Sécurité, permissions et composants Android                        |
+| H14   | Nettoyage final du projet et suppression du code mort résiduel     |
+| H15   | Validation complète APK Android et contrôle anti-régression        |
 
 ---
 

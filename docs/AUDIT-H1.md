@@ -20,12 +20,12 @@ Aucune modification de code n'a été effectuée. Ce document est le diagnostic 
 
 Toutes retournent systématiquement `null` et ne sont référencées par aucune route ni composant :
 
-| Fonctionnalité | Emplacement |
-| --- | --- |
-| Reconnaissance faciale, transcription audio, résumé vidéo, traduction de contenu, recherche multimodale, organisation avancée, doublons visuels avancés | `src/lib/analysis/reserved.ts` |
-| Modèle d'habitudes, suggestions proactives, sync multi-appareils, renommage IA | `src/lib/organizer/reserved.ts` |
-| Profils utilisateur, HabitProfile, SyncClient | `src/lib/personalization/reserved.ts` |
-| Capacités `face`, `transcription`, `video_summary`, `translation`, `multimodal` (`available: false` en dur) | `src/lib/analysis/capabilities.ts:53-96`, union dans `src/lib/analysis/types.ts:176-181` |
+| Fonctionnalité                                                                                                                                          | Emplacement                                                                              |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Reconnaissance faciale, transcription audio, résumé vidéo, traduction de contenu, recherche multimodale, organisation avancée, doublons visuels avancés | `src/lib/analysis/reserved.ts`                                                           |
+| Modèle d'habitudes, suggestions proactives, sync multi-appareils, renommage IA                                                                          | `src/lib/organizer/reserved.ts`                                                          |
+| Profils utilisateur, HabitProfile, SyncClient                                                                                                           | `src/lib/personalization/reserved.ts`                                                    |
+| Capacités `face`, `transcription`, `video_summary`, `translation`, `multimodal` (`available: false` en dur)                                             | `src/lib/analysis/capabilities.ts:53-96`, union dans `src/lib/analysis/types.ts:176-181` |
 
 `listCapabilities()` n'est appelé par aucune UI ; seuls `pdf` et `ocr` sont réellement consommés (par `extractors.ts`).
 
@@ -37,19 +37,19 @@ Schéma : `src/lib/personalization/types.ts`, persistance `store.ts`, applicatio
 
 `parametres.tsx` n'expose que 5 réglages : thème, langue, fichiers cachés, notifications on/off, rétention corbeille.
 
-| Clé | UI | Effet réel |
-| --- | --- | --- |
-| `appearance.theme` | oui | oui |
-| `appearance.textSize`, `density`, `animations` | non | oui (CSS via `applier.ts`) — figées sur leur valeur par défaut |
-| `appearance.defaultView` | non | non |
-| `notifications.channels.*` | non | non |
-| `search.keepHistory / autoClearDays / smartIndex / indexFrequency` | non | non |
-| `automations.globallyEnabled / onlyWhenCharging / onlyOnWifi / batteryFloor` | non | non |
-| `privacy.autoLockSec / biometricUnlock / protectedModules / clearCacheOnExit` | non | non |
-| `widgets[]` | non | non (définitions dans `widgets.ts` seulement) |
-| `navigation.*` | non | non |
-| `reserved.*` | non | non |
-| `files.trashRetentionDays` (`src/lib/files/preferences.ts`) | oui | oui |
+| Clé                                                                           | UI  | Effet réel                                                     |
+| ----------------------------------------------------------------------------- | --- | -------------------------------------------------------------- |
+| `appearance.theme`                                                            | oui | oui                                                            |
+| `appearance.textSize`, `density`, `animations`                                | non | oui (CSS via `applier.ts`) — figées sur leur valeur par défaut |
+| `appearance.defaultView`                                                      | non | non                                                            |
+| `notifications.channels.*`                                                    | non | non                                                            |
+| `search.keepHistory / autoClearDays / smartIndex / indexFrequency`            | non | non                                                            |
+| `automations.globallyEnabled / onlyWhenCharging / onlyOnWifi / batteryFloor`  | non | non                                                            |
+| `privacy.autoLockSec / biometricUnlock / protectedModules / clearCacheOnExit` | non | non                                                            |
+| `widgets[]`                                                                   | non | non (définitions dans `widgets.ts` seulement)                  |
+| `navigation.*`                                                                | non | non                                                            |
+| `reserved.*`                                                                  | non | non                                                            |
+| `files.trashRetentionDays` (`src/lib/files/preferences.ts`)                   | oui | oui                                                            |
 
 Décision à prendre en H4 pour texte/densité/animations : les exposer dans Paramètres ou les supprimer.
 
