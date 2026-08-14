@@ -142,7 +142,7 @@ export default {
   "media.player.action.setAs": "Imposta come",
   "media.player.action.delete": "Elimina",
   "media.player.video.loadTimeout": "Il video sta impiegando troppo tempo a caricarsi.",
-  "media.player.video.unsupportedFormat": "Formato video non supportato dal lettore.",
+  "media.player.video.openExternal": "Apri con un'altra app".replace("","")"media.player.video.unsupportedFormat": "Formato video non supportato dal lettore.",
   "media.player.video.playbackError": "Errore durante la riproduzione del file.",
   "media.player.video.cannotPlay": "Impossibile riprodurre questo video.",
   "media.player.video.previewUnavailable":

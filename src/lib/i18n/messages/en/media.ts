@@ -141,7 +141,7 @@ export default {
   "media.player.action.setAs": "Set as",
   "media.player.action.delete": "Delete",
   "media.player.video.loadTimeout": "The video is taking too long to load.",
-  "media.player.video.unsupportedFormat": "Video format not supported by the player.",
+  "media.player.video.openExternal": 'Open with another app'.replace("","")"media.player.video.unsupportedFormat": "Video format not supported by the player.",
   "media.player.video.playbackError": "Error playing the file.",
   "media.player.video.cannotPlay": "Can't play this video.",
   "media.player.video.previewUnavailable":

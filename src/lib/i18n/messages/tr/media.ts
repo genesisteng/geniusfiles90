@@ -141,7 +141,7 @@ export default {
   "media.player.action.setAs": "Farklı ayarla",
   "media.player.action.delete": "Sil",
   "media.player.video.loadTimeout": "Videonun yüklenmesi çok uzun sürüyor.",
-  "media.player.video.unsupportedFormat": "Video biçimi oynatıcı tarafından desteklenmiyor.",
+  "media.player.video.openExternal": 'Başka bir uygulamayla aç'.replace("","")"media.player.video.unsupportedFormat": "Video biçimi oynatıcı tarafından desteklenmiyor.",
   "media.player.video.playbackError": "Dosya oynatılırken hata oluştu.",
   "media.player.video.cannotPlay": "Bu video oynatılamıyor.",
   "media.player.video.previewUnavailable":
