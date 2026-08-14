@@ -54,9 +54,9 @@ const MAP: Record<FileKind, { Icon: GfIconComponent; tone: string }> = {
  * toute sa zone d'affichage pour un rendu de gestionnaire de fichiers natif.
  */
 const DIMS = {
-  sm: { box: "h-11 w-11", icon: "h-5 w-5", radius: "rounded-[4px]", px: 128 },
-  md: { box: "h-13 w-13", icon: "h-6 w-6", radius: "rounded-[5px]", px: 176 },
-  lg: { box: "h-[68px] w-[68px]", icon: "h-7 w-7", radius: "rounded-[6px]", px: 320 },
+  sm: { box: "h-11 w-11", icon: "h-5 w-5", radius: "rounded-[4px]", px: 88 },
+  md: { box: "h-13 w-13", icon: "h-6 w-6", radius: "rounded-[5px]", px: 104 },
+  lg: { box: "h-[68px] w-[68px]", icon: "h-7 w-7", radius: "rounded-[6px]", px: 144 },
 } as const;
 
 function hash(input: string): number {
