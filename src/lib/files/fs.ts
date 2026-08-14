@@ -391,10 +391,13 @@ export function prefetchSubdirectories(path: PathRef, entries: FileEntry[], max 
   }
 }
 
-export async function listDirectory(path: PathRef): Promise<ListResult> {
+export async function listDirectory(
+  path: PathRef,
+  opts: { force?: boolean } = {},
+): Promise<ListResult> {
   if (isAndroidNative()) {
     const abs = toAbsolutePath(path);
-    const res = await listDirectoryCached(abs);
+    const res = await listDirectoryCached(abs, opts);
     if (!res.ok) {
       if (res.reason === "denied") return { ok: false, reason: "denied", message: res.message };
       if (res.reason === "not_found") return { ok: true, entries: [] };

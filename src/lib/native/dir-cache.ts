@@ -55,8 +55,12 @@ export type CachedListing =
  * List a directory, reusing the cached entries when the native side
  * reports the folder is unchanged.
  */
-export async function listDirectoryCached(path: string): Promise<CachedListing> {
-  const cached = cache.get(path);
+export async function listDirectoryCached(
+  path: string,
+  opts: { force?: boolean } = {},
+): Promise<CachedListing> {
+  const cached = opts.force ? undefined : cache.get(path);
+  if (opts.force) cache.delete(path);
   if (cached) {
     const s = await statDirectory(path);
     if (s.ok && s.mtime === cached.mtime && s.count === cached.count) {

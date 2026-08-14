@@ -48,6 +48,7 @@ import {
 import { useStorageStats, type StorageStats } from "@/lib/native/use-storage-stats";
 import { StorageCards } from "@/components/home/StorageCards";
 import { RecentFilesSection } from "@/components/home/RecentFilesSection";
+import { refreshAddedFiles } from "@/lib/recents/added";
 import { formatSize } from "@/lib/files/format";
 import { buildRecommendations, type Recommendation } from "@/lib/files/recommendations";
 import type { ScanResult } from "@/lib/files/analyzer";
@@ -242,7 +243,6 @@ export function FilesPage() {
 
   const [listing, setListing] = useState<ListingState>({ status: "idle" });
   const [refreshing, setRefreshing] = useState(false);
-  const [reloadTick, setReloadTick] = useState(0);
 
   /* Sélection globale (store externe) : elle survit à la navigation, au fil
      d'Ariane et aux changements de stockage, et peut couvrir plusieurs
@@ -368,7 +368,7 @@ export function FilesPage() {
     return () => {
       cancelled = true;
     };
-  }, [path, reloadTick]);
+  }, [path]);
 
   /* ─────────────────────────────────────────────────────────────
      Mise à jour immédiate et ciblée.
@@ -616,13 +616,40 @@ export function FilesPage() {
     saveFoldersFirst(v);
   };
 
-  const onRefresh = useCallback(() => {
+  /**
+   * Actualisation réelle (tirer pour actualiser / bouton).
+   *
+   * Le dossier affiché est **relu depuis le stockage** en ignorant le
+   * cache (`force`), les volumes et les statistiques sont recalculés et
+   * la liste des fichiers récemment ajoutés est rescannée. La promesse
+   * n'est résolue qu'une fois les données réellement à jour : l'anneau
+   * de rafraîchissement reflète l'état réel de l'opération.
+   */
+  const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    setReloadTick((t) => t + 1);
-    // Actualisation explicite : les tailles de catégories sont recalculées
-    // depuis le stockage réel (le cache n'est jamais une source périmée).
     refreshStorageStats();
-  }, []);
+    const jobs: Promise<unknown>[] = [refreshStorageVolumes(), refreshAddedFiles(true)];
+    if (path) {
+      jobs.push(
+        listDirectory(path, { force: true }).then((res) => {
+          if (!res.ok) {
+            setListing({ status: res.reason, message: res.message ?? "" } as ListingState);
+            return;
+          }
+          setListing(
+            res.entries.length === 0
+              ? { status: "empty" }
+              : { status: "ready", entries: res.entries },
+          );
+        }),
+      );
+    }
+    try {
+      await Promise.all(jobs);
+    } finally {
+      setRefreshing(false);
+    }
+  }, [path]);
 
   /* Tirer pour actualiser : relit le dossier courant (racines, dossiers
      et sous-dossiers) sans perdre la position ni la sélection. */
