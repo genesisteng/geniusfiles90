@@ -196,10 +196,6 @@ export default {
     "Corte, ajuste o volume, os desvanecimentos, a velocidade e exporte os seus ficheiros de áudio sem perdas.",
   "meta.audioEditor.ogDescription":
     "Editor de áudio não destrutivo integrado no gestor de ficheiros GeniusFiles.",
-  "meta.keyboard.title": "Teste do teclado — GeniusFiles",
-  "meta.keyboard.description":
-    "Verifique se o teclado Android apresenta as sugestões, a autocorreção e as maiúsculas esperadas.",
-  "meta.keyboard.ogDescription": "Verifique o comportamento do teclado Android no GeniusFiles.",
   "meta.settings.title": "Definições — GeniusFiles",
   "meta.settings.description":
     "Ajuste o essencial do GeniusFiles: tema, idioma, armazenamento, notificações, reciclagem e informações sobre a aplicação.",

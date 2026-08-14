@@ -56,7 +56,8 @@ import {
 import { clearThumbnailCache } from "@/lib/native/thumbnails";
 import { sweepTempFiles } from "@/lib/native/temp-sweep";
 
-const APP_VERSION = "0.1.0";
+/* Injectée au build depuis `package.json` (voir vite.config.ts). */
+const APP_VERSION = __APP_VERSION__;
 
 /** Drapeaux associés à chaque option de langue (système = globe). */
 const LOCALE_FLAGS: Record<LocalePreference, string> = {

@@ -97,7 +97,8 @@ if (existsSync(gradlePath)) {
   const versionCode = Number(
     process.env.ANDROID_VERSION_CODE || process.env.GITHUB_RUN_NUMBER || 1,
   );
-  const versionName = process.env.ANDROID_VERSION_NAME || "1.0.0";
+  const appPkg = JSON.parse(readFileSync(join(ROOT, "package.json"), "utf8"));
+  const versionName = process.env.ANDROID_VERSION_NAME || appPkg.version;
 
   gradle = gradle
     .replace(/versionCode\s+\d+/, `versionCode ${versionCode}`)

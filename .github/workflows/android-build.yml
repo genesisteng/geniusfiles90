@@ -153,7 +153,6 @@ jobs:
       - name: Apply GeniusFiles Android overrides
         env:
           ANDROID_VERSION_CODE: ${{ github.run_number }}
-          ANDROID_VERSION_NAME: 1.0.${{ github.run_number }}
           VITE_GOOGLE_DRIVE_ANDROID_CLIENT_ID: ${{ secrets.VITE_GOOGLE_DRIVE_ANDROID_CLIENT_ID }}
         run: node scripts/apply-android-overrides.mjs
 

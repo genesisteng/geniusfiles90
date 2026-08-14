@@ -16,7 +16,6 @@ import { Route as OrganisationRouteImport } from './routes/organisation'
 import { Route as NettoyeurRouteImport } from './routes/nettoyeur'
 import { Route as FichiersRecentsRouteImport } from './routes/fichiers-recents'
 import { Route as EditeurAudioRouteImport } from './routes/editeur-audio'
-import { Route as DiagnosticClavierRouteImport } from './routes/diagnostic-clavier'
 import { Route as CorbeilleRouteImport } from './routes/corbeille'
 import { Route as CoffreFortRouteImport } from './routes/coffre-fort'
 import { Route as AutomatisationsRouteImport } from './routes/automatisations'
@@ -60,11 +59,6 @@ const FichiersRecentsRoute = FichiersRecentsRouteImport.update({
 const EditeurAudioRoute = EditeurAudioRouteImport.update({
   id: '/editeur-audio',
   path: '/editeur-audio',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DiagnosticClavierRoute = DiagnosticClavierRouteImport.update({
-  id: '/diagnostic-clavier',
-  path: '/diagnostic-clavier',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CorbeilleRoute = CorbeilleRouteImport.update({
@@ -121,7 +115,6 @@ export interface FileRoutesByFullPath {
   '/automatisations': typeof AutomatisationsRouteWithChildren
   '/coffre-fort': typeof CoffreFortRoute
   '/corbeille': typeof CorbeilleRoute
-  '/diagnostic-clavier': typeof DiagnosticClavierRoute
   '/editeur-audio': typeof EditeurAudioRoute
   '/fichiers-recents': typeof FichiersRecentsRoute
   '/nettoyeur': typeof NettoyeurRoute
@@ -140,7 +133,6 @@ export interface FileRoutesByTo {
   '/automatisations': typeof AutomatisationsRouteWithChildren
   '/coffre-fort': typeof CoffreFortRoute
   '/corbeille': typeof CorbeilleRoute
-  '/diagnostic-clavier': typeof DiagnosticClavierRoute
   '/editeur-audio': typeof EditeurAudioRoute
   '/fichiers-recents': typeof FichiersRecentsRoute
   '/nettoyeur': typeof NettoyeurRoute
@@ -160,7 +152,6 @@ export interface FileRoutesById {
   '/automatisations': typeof AutomatisationsRouteWithChildren
   '/coffre-fort': typeof CoffreFortRoute
   '/corbeille': typeof CorbeilleRoute
-  '/diagnostic-clavier': typeof DiagnosticClavierRoute
   '/editeur-audio': typeof EditeurAudioRoute
   '/fichiers-recents': typeof FichiersRecentsRoute
   '/nettoyeur': typeof NettoyeurRoute
@@ -181,7 +172,6 @@ export interface FileRouteTypes {
     | '/automatisations'
     | '/coffre-fort'
     | '/corbeille'
-    | '/diagnostic-clavier'
     | '/editeur-audio'
     | '/fichiers-recents'
     | '/nettoyeur'
@@ -200,7 +190,6 @@ export interface FileRouteTypes {
     | '/automatisations'
     | '/coffre-fort'
     | '/corbeille'
-    | '/diagnostic-clavier'
     | '/editeur-audio'
     | '/fichiers-recents'
     | '/nettoyeur'
@@ -219,7 +208,6 @@ export interface FileRouteTypes {
     | '/automatisations'
     | '/coffre-fort'
     | '/corbeille'
-    | '/diagnostic-clavier'
     | '/editeur-audio'
     | '/fichiers-recents'
     | '/nettoyeur'
@@ -239,7 +227,6 @@ export interface RootRouteChildren {
   AutomatisationsRoute: typeof AutomatisationsRouteWithChildren
   CoffreFortRoute: typeof CoffreFortRoute
   CorbeilleRoute: typeof CorbeilleRoute
-  DiagnosticClavierRoute: typeof DiagnosticClavierRoute
   EditeurAudioRoute: typeof EditeurAudioRoute
   FichiersRecentsRoute: typeof FichiersRecentsRoute
   NettoyeurRoute: typeof NettoyeurRoute
@@ -300,13 +287,6 @@ declare module '@tanstack/react-router' {
       path: '/editeur-audio'
       fullPath: '/editeur-audio'
       preLoaderRoute: typeof EditeurAudioRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/diagnostic-clavier': {
-      id: '/diagnostic-clavier'
-      path: '/diagnostic-clavier'
-      fullPath: '/diagnostic-clavier'
-      preLoaderRoute: typeof DiagnosticClavierRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/corbeille': {
@@ -394,7 +374,6 @@ const rootRouteChildren: RootRouteChildren = {
   AutomatisationsRoute: AutomatisationsRouteWithChildren,
   CoffreFortRoute: CoffreFortRoute,
   CorbeilleRoute: CorbeilleRoute,
-  DiagnosticClavierRoute: DiagnosticClavierRoute,
   EditeurAudioRoute: EditeurAudioRoute,
   FichiersRecentsRoute: FichiersRecentsRoute,
   NettoyeurRoute: NettoyeurRoute,

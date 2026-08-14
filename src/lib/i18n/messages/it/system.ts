@@ -198,10 +198,6 @@ export default {
     "Rifila, regola volume, dissolvenze e velocità, ed esporta i tuoi file audio senza perdita di qualità.",
   "meta.audioEditor.ogDescription":
     "Un editor audio non distruttivo integrato nel gestore file GeniusFiles.",
-  "meta.keyboard.title": "Test della tastiera — GeniusFiles",
-  "meta.keyboard.description":
-    "Verifica che la tastiera Android mostri correttamente suggerimenti, correzione automatica e maiuscole.",
-  "meta.keyboard.ogDescription": "Verifica il comportamento della tastiera Android in GeniusFiles.",
   "meta.settings.title": "Impostazioni — GeniusFiles",
   "meta.settings.description":
     "Configura gli aspetti essenziali di GeniusFiles: tema, lingua, archiviazione, notifiche, cestino e informazioni sull'app.",
