@@ -1637,3 +1637,14 @@ body {
     animation-duration: 1ms;
   }
 }
+
+/* Sonner positionne chaque message en absolu : sans ses styles par
+   défaut, on ancre nous-mêmes la carte sur le bord du conteneur pour
+   qu'elle reste au-dessus de la barre de navigation. */
+[data-sonner-toaster][data-y-position="bottom"] .gf-toast {
+  bottom: 0;
+}
+
+[data-sonner-toaster][data-y-position="top"] .gf-toast {
+  top: 0;
+}
