@@ -1525,11 +1525,9 @@ body {
   display: flex;
   align-items: center;
   gap: 0.625rem;
-  width: fit-content;
-  max-width: min(92vw, 30rem);
-  margin-inline: auto;
+  width: 100%;
   padding: 0.6875rem 1rem;
-  border-radius: 9999px;
+  border-radius: 1.5rem;
   border: 1px solid var(--border);
   background: color-mix(in srgb, var(--surface-elevated) 92%, transparent);
   color: var(--foreground);
@@ -1547,7 +1545,6 @@ body {
 /* Un toast avec description reprend des coins largement arrondis
    plutôt qu'une pilule, tout en restant compact. */
 .gf-toast:has([data-description]) {
-  border-radius: 1.375rem;
   align-items: flex-start;
   padding: 0.8125rem 1rem;
 }
