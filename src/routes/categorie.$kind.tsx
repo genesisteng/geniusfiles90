@@ -325,6 +325,13 @@ export function CategoryPage({ kind }: { kind: CategoryKind }) {
     true,
   );
 
+  /* Choix d'une destination : un dossier/album ouvert dans la catégorie
+     devient la destination candidate. */
+  useEffect(() => {
+    if (pick?.purpose !== "destination") return;
+    setPickLocation(openFolder ? { rootId: openFolder.rootId, segments: openFolder.segments } : null);
+  }, [pick?.purpose, openFolder]);
+
   /* Onglet actif + dossier ouvert : restaurés à l'ouverture de la catégorie. */
   useEffect(() => {
     if (!hasTabs || typeof window === "undefined") return;
