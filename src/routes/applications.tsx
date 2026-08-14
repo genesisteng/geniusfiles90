@@ -622,9 +622,7 @@ function RecommendationsBlock({
   const t = useT();
   if (stats.unused.length === 0 && stats.heavy.length === 0) {
     return (
-      <p className="text-[11px] text-muted-foreground">
-        Rien à signaler pour le moment. GeniusFiles surveille l'usage et l'espace occupé.
-      </p>
+      <p className="text-[11px] text-muted-foreground">{t("organize.apps.reco.empty")}</p>
     );
   }
   return (
@@ -636,11 +634,10 @@ function RecommendationsBlock({
           </span>
           <div>
             <p className="text-sm font-medium">
-              Jusqu'à {formatSize(stats.reclaimableBytes)} récupérables
+              {t("organize.apps.reco.reclaimable", { size: formatSize(stats.reclaimableBytes) })}
             </p>
             <p className="mt-0.5 text-[11px] text-muted-foreground">
-              En archivant les applications rarement utilisées ou en vidant les caches volumineux.
-              Aucune suppression automatique.
+              {t("organize.apps.reco.reclaimableHint")}
             </p>
           </div>
         </div>

@@ -2,11 +2,10 @@
  * Archive module — creation, listing and extraction.
  *
  * Native (Android): backed by the GeniusFilesNative plugin using
- * java.util.zip (create + list + extract of ZIP archives — .zip, .jar,
- * .apk, .aab reading). Password protection, RAR/7z/tar, split archives,
- * repair and AI suggestions are surfaced through the capability
- * descriptor so the UI can expose them as future extensions without
- * needing new wiring.
+ * java.util.zip. Only ZIP-family archives are supported: creation of
+ * .zip, reading (list + extract) of .zip, .jar, .apk and .aab. RAR, 7z
+ * and tar are NOT handled anywhere in the app and are therefore treated
+ * as ordinary files.
  *
  * Web preview: a deterministic mock keeps the UI fully explorable
  * inside Lovable — no real bytes are written.
@@ -25,21 +24,6 @@ import type { OperationSignal, ProgressEvent } from "./operations";
 import { beginJob, finishJob, updateJob } from "@/lib/jobs/journal";
 import { t } from "@/lib/i18n";
 
-/** Extensions we consider "archives" across the app. */
-export const ARCHIVE_EXTS = new Set([
-  "zip",
-  "jar",
-  "apk",
-  "aab",
-  "rar",
-  "7z",
-  "tar",
-  "gz",
-  "tgz",
-  "bz2",
-  "xz",
-]);
-
 /** Extensions we can *create* today. */
 export const CREATE_FORMATS = ["zip"] as const;
 /** Extensions we can *read* (list + extract) today. */
@@ -54,9 +38,6 @@ export type ArchiveCapabilities = {
   supportedRead: string[];
   passwordSupported: boolean;
   splitSupported: boolean;
-  /** Reserved for future modules — surfaced so the UI can preview them. */
-  repairSupported: boolean;
-  aiSuggestSupported: boolean;
 };
 
 const DEFAULT_CAPS: ArchiveCapabilities = {
@@ -64,8 +45,6 @@ const DEFAULT_CAPS: ArchiveCapabilities = {
   supportedRead: [...READ_FORMATS],
   passwordSupported: false,
   splitSupported: false,
-  repairSupported: false,
-  aiSuggestSupported: false,
 };
 
 let capCache: ArchiveCapabilities | null = null;
@@ -92,12 +71,6 @@ export async function getArchiveCapabilities(): Promise<ArchiveCapabilities> {
   }
   capCache = DEFAULT_CAPS;
   return capCache;
-}
-
-export function isArchiveEntry(entry: FileEntry): boolean {
-  if (entry.isDirectory) return false;
-  const ext = entry.ext ?? extOf(entry.name);
-  return !!ext && ARCHIVE_EXTS.has(ext);
 }
 
 export function canReadArchive(entry: FileEntry): boolean {
