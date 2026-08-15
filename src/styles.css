@@ -76,8 +76,6 @@
   --color-paper: var(--paper);
   --color-paper-ink: var(--paper-ink);
 
-
-
   /* Catégories — dérivées de la palette de marque */
   --color-cat-image: var(--cat-image);
   --color-cat-video: var(--cat-video);
@@ -194,7 +192,6 @@
   /* Feuille d'un document (PDF, signature) et son encre */
   --paper: #ffffff;
   --paper-ink: #111111;
-
 
   /* Éditeur audio — palette sombre, contrastée mais non fatigante */
   --wave-bg: #1c1f24;
