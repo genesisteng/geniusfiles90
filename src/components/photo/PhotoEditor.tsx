@@ -1164,7 +1164,9 @@ function SaveDialog({
             disabled={busy}
             onClick={() => (confirmReplace ? onSave("replace") : setConfirmReplace(true))}
             className={`w-full rounded-2xl px-4 py-3 text-[13px] font-semibold transition-transform active:scale-[0.98] disabled:opacity-50 ${
-              confirmReplace ? "bg-destructive text-white" : "bg-secondary text-foreground"
+              confirmReplace
+                ? "bg-destructive text-destructive-foreground"
+                : "bg-secondary text-foreground"
             }`}
           >
             {confirmReplace ? t("photo.save.confirmReplace") : t("photo.save.replaceOriginal")}

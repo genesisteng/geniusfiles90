@@ -20,6 +20,7 @@ import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } f
 import { Search, X } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
+import { GroupHeading } from "@/components/ui/SectionHeader";
 import { usePullToRefresh } from "@/lib/gestures/pull-refresh";
 import { useAppBack } from "@/lib/navigation/use-app-back";
 import { BACK_PRIORITY, useBackHandler } from "@/lib/navigation/back-stack";
@@ -610,11 +611,7 @@ export function AddedFilesPage() {
         <div className="-mx-4 pt-1">
           {groups.map((g) => (
             <section key={g.key} aria-label={g.label || undefined}>
-              {g.label ? (
-                <h2 className="sticky top-0 z-10 bg-background/95 px-4 py-1.5 text-[12.5px] font-semibold text-foreground/90 backdrop-blur">
-                  {g.label}
-                </h2>
-              ) : null}
+              {g.label ? <GroupHeading label={g.label} /> : null}
               {view === "list" ? (
                 <FileListView
                   entries={g.files}

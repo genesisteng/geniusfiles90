@@ -114,6 +114,8 @@ export default {
   "automations.field.archiveToExtract": "Archivo comprimido a extraer",
   "automations.field.renamePattern": "Plantilla · variables: {vars}",
   "automations.field.createIn": "Crear en",
+  "automations.field.time": "Hora",
+  "automations.field.days": "Días",
   "automations.field.folderName": "Nombre de la carpeta",
   "automations.field.folderToOrganize": "Carpeta a organizar",
   "automations.field.rule": "Regla",

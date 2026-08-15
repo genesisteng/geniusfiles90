@@ -707,7 +707,7 @@ function SortSheet({
               }`}
             >
               <span>{sortLabel(t)[s]}</span>
-              {current === s ? <span className="text-[11px]">Actif</span> : null}
+              {current === s ? <span className="text-[11px]">{t("state.active")}</span> : null}
             </button>
           </li>
         ))}

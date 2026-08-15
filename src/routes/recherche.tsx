@@ -10,13 +10,13 @@ import {
   Sparkles,
   X,
   SlidersHorizontal,
-  Loader2,
   FolderOpen,
   ChevronRight,
   Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
+import { Spinner } from "@/components/ui/states";
 import { BACK_PRIORITY, useBackHandler } from "@/lib/navigation/back-stack";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -548,7 +548,7 @@ function ResultsSection({
         </span>
         {scanning ? (
           <span className="inline-flex items-center gap-1">
-            <Loader2 className="h-3 w-3 animate-spin" />
+            <Spinner size={12} />
             {scanned > 0
               ? t("search.results.scanned", { count: scanned })
               : t("search.results.starting")}

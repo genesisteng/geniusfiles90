@@ -52,6 +52,7 @@ export default {
   "state.empty": "Gösterilecek öge yok",
   "state.emptyFolder": "Bu klasör boş",
   "state.noResults": "Sonuç yok",
+  "state.active": "Etkin",
   "state.error": "Bir sorun oluştu",
   "state.offline": "Bağlantı yok",
   "unit.file_one": "dosya",

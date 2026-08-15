@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
+import { PageHeader } from "@/components/common/PageHeader";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { BottomSheet, PrimaryButton } from "@/components/files/BottomSheet";
@@ -275,28 +276,23 @@ function OrganizationPage() {
 
   return (
     <AppShell>
-      {/* Hero */}
-      <section className="card-surface p-4">
-        <div className="flex items-start gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-xs">
-            <Sparkles className="h-5 w-5" />
-          </div>
-          <div className="flex-1">
-            <h1 className="text-base font-semibold">{t("organize.title")}</h1>
-            <p className="mt-0.5 text-[12px] leading-snug text-muted-foreground">
-              {t("organize.subtitle")}
-            </p>
-          </div>
+      <PageHeader
+        title={t("organize.title")}
+        subtitle={t("organize.subtitle")}
+        action={
           <button
             type="button"
             onClick={runScan}
             aria-label={t("organize.action.rescan")}
-            className="rounded-lg border border-border bg-surface p-2 text-muted-foreground hover:text-foreground"
+            className="gf-press flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-surface-2 text-muted-foreground hover:text-foreground"
           >
-            <RefreshCw className={`h-4 w-4 ${scanning ? "animate-spin" : ""}`} />
+            <RefreshCw className={`h-[18px] w-[18px] ${scanning ? "animate-spin" : ""}`} />
           </button>
-        </div>
-        <div className="mt-4 grid grid-cols-3 gap-2">
+        }
+      />
+
+      <section className="gf-card mt-4 p-4">
+        <div className="grid grid-cols-3 gap-2">
           <Stat
             label={t("organize.stat.reorganizable")}
             value={formatSize(report?.reorganizableBytes ?? 0)}

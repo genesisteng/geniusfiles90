@@ -786,7 +786,9 @@ function TriggerParams({
   if (trigger.kind === "scheduled_time" || trigger.kind === "daily") {
     return (
       <div>
-        <label className="mb-1 block text-[11px] font-medium text-muted-foreground">Heure</label>
+        <label className="mb-1 block text-[11px] font-medium text-muted-foreground">
+          {tr("automations.field.time")}
+        </label>
         <input
           type="time"
           value={trigger.at}
@@ -799,7 +801,9 @@ function TriggerParams({
   if (trigger.kind === "weekly") {
     return (
       <div className="space-y-2">
-        <label className="block text-[11px] font-medium text-muted-foreground">Jours</label>
+        <label className="block text-[11px] font-medium text-muted-foreground">
+          {tr("automations.field.days")}
+        </label>
         <div className="flex flex-wrap gap-1.5">
           {WEEK_DAYS.map((label, idx) => {
             const active = trigger.days.includes(idx);
@@ -824,7 +828,9 @@ function TriggerParams({
             );
           })}
         </div>
-        <label className="block text-[11px] font-medium text-muted-foreground">Heure</label>
+        <label className="block text-[11px] font-medium text-muted-foreground">
+          {tr("automations.field.time")}
+        </label>
         <input
           type="time"
           value={trigger.at}

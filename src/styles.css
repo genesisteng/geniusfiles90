@@ -42,6 +42,7 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
   --color-warning: var(--warning);
   --color-info: var(--info);
   --color-error: var(--destructive);
@@ -64,6 +65,16 @@
   --color-reader-muted: var(--reader-muted);
   --color-reader-backdrop: var(--reader-backdrop);
   --color-reader-backdrop-foreground: var(--reader-backdrop-foreground);
+
+  /* Voile des fenêtres modales + calques posés sur un média (photo, vidéo,
+     pochette, page PDF). Ces surfaces restent sombres dans tous les thèmes :
+     elles habillent un contenu, pas l'interface. */
+  --color-scrim: var(--scrim);
+  --color-media: var(--media);
+  --color-media-foreground: var(--media-foreground);
+  --color-media-muted: var(--media-muted);
+  --color-paper: var(--paper);
+  --color-paper-ink: var(--paper-ink);
 
   /* Catégories — dérivées de la palette de marque */
   --color-cat-image: var(--cat-image);
@@ -145,6 +156,7 @@
 
   /* States */
   --success: #32d583;
+  --success-foreground: #10151c;
   --warning: #fdb022;
   --destructive: #f97066;
   --destructive-foreground: #10151c;
@@ -171,6 +183,15 @@
   /* Fond derrière une page de document (PDF) et son texte */
   --reader-backdrop: #262626;
   --reader-backdrop-foreground: #f4f4f5;
+
+  /* Voile modal + calques sur média — invariants entre thèmes */
+  --scrim: #000000;
+  --media: #141414;
+  --media-foreground: #ffffff;
+  --media-muted: rgb(255 255 255 / 0.62);
+  /* Feuille d'un document (PDF, signature) et son encre */
+  --paper: #ffffff;
+  --paper-ink: #111111;
 
   /* Éditeur audio — palette sombre, contrastée mais non fatigante */
   --wave-bg: #1c1f24;
@@ -281,6 +302,7 @@ html[data-theme="light"] {
 
   /* States — teintes soutenues pour rester lisibles sur blanc */
   --success: #12894f;
+  --success-foreground: #ffffff;
   --warning: #a95d05;
   --destructive: #d92d20;
   --destructive-foreground: #ffffff;

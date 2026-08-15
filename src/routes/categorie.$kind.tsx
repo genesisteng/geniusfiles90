@@ -23,6 +23,7 @@ import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } f
 import { Search, X, FolderSearch } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
+import { GroupHeading } from "@/components/ui/SectionHeader";
 import { usePullToRefresh } from "@/lib/gestures/pull-refresh";
 import { useAppBack } from "@/lib/navigation/use-app-back";
 import { BACK_PRIORITY, useBackHandler } from "@/lib/navigation/back-stack";
@@ -921,11 +922,7 @@ export function CategoryPage({ kind }: { kind: CategoryKind }) {
           {(grouped ? groups.slice(0, groupLimit) : [{ key: "all", label: "", items: sorted }]).map(
             (g) => (
               <section key={g.key}>
-                {grouped && g.label ? (
-                  <h2 className="sticky top-0 z-10 bg-background/95 px-4 py-1.5 text-[12.5px] font-semibold text-foreground/90 backdrop-blur">
-                    {g.label}
-                  </h2>
-                ) : null}
+                {grouped && g.label ? <GroupHeading label={g.label} /> : null}
                 {view === "list" ? (
                   <FileListView
                     entries={g.items}

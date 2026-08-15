@@ -7,7 +7,7 @@
  * cohérent avec les autres.
  */
 import type { ReactNode } from "react";
-import { Loader2 } from "lucide-react";
+import { Spinner } from "@/components/ui/states";
 
 /** Espacement vertical unique entre les blocs d'un outil. */
 export function PdfToolBody({ children }: { children: ReactNode }) {
@@ -87,7 +87,7 @@ export function PdfButton({
         full ? "w-full" : ""
       }`}
     >
-      {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+      {loading ? <Spinner size={16} /> : null}
       {children}
     </button>
   );

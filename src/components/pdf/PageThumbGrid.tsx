@@ -92,7 +92,7 @@ export function PageThumbGrid({
             </button>
 
             {/* Page number + logical position when reordered */}
-            <span className="absolute left-1 top-1 rounded bg-black/60 px-1.5 py-0.5 text-[10px] font-medium text-white">
+            <span className="absolute left-1 top-1 rounded bg-scrim/60 px-1.5 py-0.5 text-[10px] font-medium text-media-foreground">
               {order ? `${idx + 1} · p.${page}` : page}
             </span>
 
@@ -109,7 +109,7 @@ export function PageThumbGrid({
                 className={`absolute bottom-1 right-1 flex h-5 w-5 items-center justify-center rounded-full border text-[10px] ${
                   isSel
                     ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-black/40 text-white"
+                    : "border-border bg-scrim/40 text-media-foreground"
                 }`}
               >
                 {isSel ? "✓" : ""}

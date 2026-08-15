@@ -531,7 +531,7 @@ function IconButton({
       type="button"
       onClick={onClick}
       aria-label={label}
-      className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm transition-transform active:scale-95"
+      className="flex h-9 w-9 items-center justify-center rounded-full bg-media-foreground/10 backdrop-blur-sm transition-transform active:scale-95"
     >
       {children}
     </button>
@@ -765,12 +765,12 @@ function VideoStage({ src, resumeKey }: { src: string; resumeKey: string }) {
           />
         </>
       ) : (
-        <p className="text-sm text-white/60">{t("viewer.media.videoUnavailable")}</p>
+        <p className="text-sm text-media-muted">{t("viewer.media.videoUnavailable")}</p>
       )}
 
       {/* Gesture value overlay */}
       {overlay ? (
-        <div className="pointer-events-none absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-full bg-black/70 px-3 py-1.5 text-[12px] backdrop-blur">
+        <div className="pointer-events-none absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-full bg-scrim/70 px-3 py-1.5 text-[12px] backdrop-blur">
           {overlay.kind === "seek"
             ? `${overlay.delta >= 0 ? "+" : ""}${overlay.delta.toFixed(1)}s`
             : `${overlay.kind === "volume" ? t("viewer.media.volume") : t("viewer.media.brightness")} · ${Math.round(overlay.value * 100)}%`}
@@ -779,19 +779,19 @@ function VideoStage({ src, resumeKey }: { src: string; resumeKey: string }) {
 
       {/* Speed / PiP / subtitles chip */}
       <div
-        className="pointer-events-auto absolute right-3 top-14 z-10 flex items-center gap-1 rounded-full bg-black/60 px-1.5 py-1 text-[11px] backdrop-blur"
+        className="pointer-events-auto absolute right-3 top-14 z-10 flex items-center gap-1 rounded-full bg-scrim/60 px-1.5 py-1 text-[11px] backdrop-blur"
         onClick={(e) => e.stopPropagation()}
       >
         <label className="flex items-center gap-1 rounded-full px-1.5 py-0.5">
-          <Gauge className="h-3.5 w-3.5 text-white/70" />
+          <Gauge className="h-3.5 w-3.5 text-media-muted" />
           <select
             value={rate}
             onChange={(e) => setRate(parseFloat(e.target.value))}
-            className="bg-transparent text-[11px] text-white outline-none"
+            className="bg-transparent text-[11px] text-media-foreground outline-none"
             aria-label={t("viewer.media.playbackSpeed")}
           >
             {rates.map((r) => (
-              <option key={r} value={r} className="bg-neutral-900">
+              <option key={r} value={r} className="bg-media">
                 {r}×
               </option>
             ))}
@@ -799,18 +799,18 @@ function VideoStage({ src, resumeKey }: { src: string; resumeKey: string }) {
         </label>
         {tracks.length ? (
           <label className="flex items-center gap-1 rounded-full px-1.5 py-0.5">
-            <Subtitles className="h-3.5 w-3.5 text-white/70" />
+            <Subtitles className="h-3.5 w-3.5 text-media-muted" />
             <select
               value={activeSubtitle ?? ""}
               onChange={(e) => setSubtitle(e.target.value || null)}
-              className="bg-transparent text-[11px] text-white outline-none"
+              className="bg-transparent text-[11px] text-media-foreground outline-none"
               aria-label={t("viewer.media.subtitles")}
             >
-              <option value="" className="bg-neutral-900">
+              <option value="" className="bg-media">
                 {t("viewer.media.off")}
               </option>
               {tracks.map((t) => (
-                <option key={t.id} value={t.id} className="bg-neutral-900">
+                <option key={t.id} value={t.id} className="bg-media">
                   {t.label}
                 </option>
               ))}
@@ -963,11 +963,11 @@ function AudioStage({
     <div className="flex h-full w-full flex-col items-center justify-center gap-5 px-6">
       <audio ref={ref} src={src} preload="metadata" />
       <div className="flex h-44 w-44 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/40 to-primary/10 shadow-lg">
-        <Volume2 className="h-16 w-16 text-white/80" />
+        <Volume2 className="h-16 w-16 text-media-foreground/80" />
       </div>
       <div className="w-full max-w-md text-center">
         <p className="truncate text-[15px] font-semibold">{entry.name}</p>
-        <p className="text-[11px] text-white/60">
+        <p className="text-[11px] text-media-muted">
           {formatSize(entry.size)}
           {entry.ext ? ` · ${entry.ext.toUpperCase()}` : ""}
           {queue.length > 1 ? ` · ${activeIndex + 1}/${queue.length}` : ""}
@@ -984,7 +984,7 @@ function AudioStage({
           className="w-full accent-primary"
           aria-label={t("viewer.media.progress")}
         />
-        <div className="flex justify-between text-[10px] text-white/60">
+        <div className="flex justify-between text-[10px] text-media-muted">
           <span>{fmtTime(pos)}</span>
           <span>{fmtTime(dur)}</span>
         </div>
@@ -1020,7 +1020,7 @@ function AudioStage({
         >
           <Shuffle className="h-3.5 w-3.5" /> {t("viewer.media.shuffle")}
         </ChipButton>
-        <label className="flex items-center gap-1 rounded-full bg-white/10 px-2 py-1 text-white/80">
+        <label className="flex items-center gap-1 rounded-full bg-media-foreground/10 px-2 py-1 text-media-foreground/80">
           <Gauge className="h-3.5 w-3.5" />
           <select
             value={rate}
@@ -1029,13 +1029,13 @@ function AudioStage({
             aria-label={t("viewer.media.speed")}
           >
             {rates.map((r) => (
-              <option key={r} value={r} className="bg-neutral-900">
+              <option key={r} value={r} className="bg-media">
                 {r}×
               </option>
             ))}
           </select>
         </label>
-        <label className="flex items-center gap-1 rounded-full bg-white/10 px-2 py-1 text-white/80">
+        <label className="flex items-center gap-1 rounded-full bg-media-foreground/10 px-2 py-1 text-media-foreground/80">
           <Timer className="h-3.5 w-3.5" />
           <select
             value={sleepMinutes ?? ""}
@@ -1043,11 +1043,11 @@ function AudioStage({
             className="bg-transparent outline-none"
             aria-label={t("viewer.media.sleepTimer")}
           >
-            <option value="" className="bg-neutral-900">
+            <option value="" className="bg-media">
               {t("viewer.media.off")}
             </option>
             {[5, 10, 15, 30, 45, 60].map((m) => (
-              <option key={m} value={m} className="bg-neutral-900">
+              <option key={m} value={m} className="bg-media">
                 {t("viewer.media.minutes", { count: m })}
               </option>
             ))}
@@ -1186,7 +1186,7 @@ function TextStage({ src, entry, parent }: { src: string; entry: FileEntry; pare
   return (
     <div className="flex h-full w-full flex-col bg-reader-surface">
       {/* Sous-barre opaque, soudée à l'en-tête : jamais superposée au texte */}
-      <div className="flex shrink-0 select-none items-center gap-2 border-b border-black/8 bg-reader-header px-2 py-1.5">
+      <div className="flex shrink-0 select-none items-center gap-2 border-b border-reader-header-foreground/10 bg-reader-header px-2 py-1.5">
         <button
           type="button"
           onClick={() => setSearchOpen((v) => !v)}
@@ -1257,7 +1257,7 @@ function TextStage({ src, entry, parent }: { src: string; entry: FileEntry; pare
             type="button"
             onClick={onSave}
             disabled={!dirty || saving}
-            className="flex h-9 shrink-0 items-center rounded-full bg-emerald-500 px-3 text-[11.5px] font-semibold text-black disabled:opacity-40 active:scale-95"
+            className="flex h-9 shrink-0 items-center rounded-full bg-success px-3 text-[11.5px] font-semibold text-success-foreground disabled:opacity-40 active:scale-95"
           >
             {saving ? "…" : t("viewer.text.save")}
           </button>
@@ -1419,7 +1419,7 @@ function FallbackStage({
   const t = useT();
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-4 px-6 text-center">
-      <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-black/5">
+      <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-reader-ink/5">
         <Download className="h-8 w-8 text-reader-muted" />
       </div>
       <div>
@@ -1444,14 +1444,14 @@ function FallbackStage({
         <button
           type="button"
           onClick={onShare}
-          className="inline-flex items-center gap-1.5 rounded-full bg-black/6 px-3 py-2 text-[12px] font-medium text-reader-ink transition-transform active:scale-95"
+          className="inline-flex items-center gap-1.5 rounded-full bg-reader-ink/6 px-3 py-2 text-[12px] font-medium text-reader-ink transition-transform active:scale-95"
         >
           <Share2 className="h-3.5 w-3.5" /> {t("viewer.fallback.share")}
         </button>
         <button
           type="button"
           onClick={onInfo}
-          className="inline-flex items-center gap-1.5 rounded-full bg-black/6 px-3 py-2 text-[12px] font-medium text-reader-ink transition-transform active:scale-95"
+          className="inline-flex items-center gap-1.5 rounded-full bg-reader-ink/6 px-3 py-2 text-[12px] font-medium text-reader-ink transition-transform active:scale-95"
         >
           <Info className="h-3.5 w-3.5" /> {t("viewer.fallback.info")}
         </button>
@@ -1481,7 +1481,9 @@ function ChipButton({
       onClick={onClick}
       aria-label={label}
       className={`inline-flex items-center gap-1 rounded-full px-2 py-1 transition-colors ${
-        active ? "bg-primary/30 text-white" : "bg-white/10 text-white/80 hover:text-white"
+        active
+          ? "bg-primary/30 text-media-foreground"
+          : "bg-media-foreground/10 text-media-foreground/80 hover:text-media-foreground"
       }`}
     >
       {children}

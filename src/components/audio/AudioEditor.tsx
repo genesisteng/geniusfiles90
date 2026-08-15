@@ -1690,7 +1690,7 @@ export function AudioEditor({
         <button
           type="button"
           onClick={() => setReplaceOpen(true)}
-          className="mt-4 w-full rounded-2xl border border-destructive/40 px-4 py-3 text-left text-[13px] text-destructive"
+          className="gf-press mt-4 w-full rounded-2xl border border-destructive/40 px-4 py-3 text-left text-[13px] text-destructive transition-colors duration-150"
         >
           {t("media.editor.replaceOriginalButton")}
         </button>
@@ -1751,7 +1751,7 @@ export function AudioEditor({
             setExitOpen(false);
             onExit();
           }}
-          className="mt-4 w-full rounded-2xl border border-border px-4 py-3 text-left text-[13px] text-destructive"
+          className="gf-press mt-4 w-full rounded-2xl border border-border px-4 py-3 text-left text-[13px] text-destructive transition-colors duration-150"
         >
           {t("media.editor.exitWithoutSaving")}
         </button>

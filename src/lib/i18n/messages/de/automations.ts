@@ -108,6 +108,8 @@ export default {
   "automations.field.archiveToExtract": "Zu extrahierendes Archiv",
   "automations.field.renamePattern": "Vorlage · Variablen: {vars}",
   "automations.field.createIn": "Erstellen in",
+  "automations.field.time": "Uhrzeit",
+  "automations.field.days": "Tage",
   "automations.field.folderName": "Ordnername",
   "automations.field.folderToOrganize": "Zu organisierender Ordner",
   "automations.field.rule": "Regel",
