@@ -107,11 +107,11 @@ export function QueueSheet({
         type="button"
         aria-label={t("media.player.queueCloseLabel")}
         onClick={onClose}
-        className="absolute inset-0 bg-black/60 animate-fade-in"
+        className="absolute inset-0 bg-scrim/60 animate-fade-in"
       />
       <div
         ref={sheetRef}
-        className="relative z-10 flex max-h-[75vh] w-full flex-col rounded-t-3xl bg-neutral-900/95 text-white shadow-2xl backdrop-blur-xl animate-slide-in-right sm:mx-auto sm:max-w-lg"
+        className="relative z-10 flex max-h-[75vh] w-full flex-col rounded-t-3xl bg-media/95 text-media-foreground shadow-2xl backdrop-blur-xl animate-slide-in-right sm:mx-auto sm:max-w-lg"
         style={{ animation: "fade-in 0.2s ease-out, scale-in 0.2s ease-out" }}
       >
         <div
@@ -121,19 +121,19 @@ export function QueueSheet({
           onPointerUp={onPointerUp}
           onPointerCancel={onPointerUp}
         >
-          <div className="mx-auto h-1 w-10 rounded-full bg-white/25" />
+          <div className="mx-auto h-1 w-10 rounded-full bg-media-foreground/25" />
         </div>
         <div className="flex items-center gap-3 px-5 pb-2">
           <button
             type="button"
             onClick={onClose}
             aria-label={t("media.player.aria.close")}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 active:scale-95"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-media-foreground/10 gf-press"
           >
             <X className="h-4 w-4" />
           </button>
           <p className="min-w-0 flex-1 truncate text-[14px] font-semibold">{title}</p>
-          <span className="rounded-full bg-white/10 px-2 py-0.5 text-[11px] text-white/70">
+          <span className="rounded-full bg-media-foreground/10 px-2 py-0.5 text-[11px] text-media-muted">
             {entries.length}
           </span>
         </div>
@@ -171,17 +171,17 @@ export function QueueSheet({
                       onClose();
                     }}
                     className={`flex h-full w-full items-center gap-3 rounded-2xl px-3 py-2 text-left transition-colors ${
-                      active ? "bg-white/10" : "hover:bg-white/5 active:bg-white/10"
+                      active ? "bg-media-foreground/10" : "hover:bg-media-foreground/5 active:bg-media-foreground/10"
                     }`}
                   >
-                    <div className="relative h-12 w-[68px] shrink-0 overflow-hidden rounded-lg bg-white/5">
+                    <div className="relative h-12 w-[68px] shrink-0 overflow-hidden rounded-lg bg-media-foreground/5">
                       <RowThumb
                         path={pathFor?.(entry) ?? null}
                         fallbackUrl={thumb}
                         title={meta.title}
                       />
                       {active ? (
-                        <span className="absolute inset-0 flex items-center justify-center bg-black/45">
+                        <span className="absolute inset-0 flex items-center justify-center bg-scrim/45">
                           {variant === "audio" ? <WaveIndicator /> : <Play className="h-4 w-4" />}
                         </span>
                       ) : null}
@@ -190,12 +190,12 @@ export function QueueSheet({
                     <div className="min-w-0 flex-1">
                       <p
                         className={`truncate text-[13.5px] font-medium ${
-                          active ? "text-primary" : "text-white"
+                          active ? "text-primary" : "text-media-foreground"
                         }`}
                       >
                         {meta.title}
                       </p>
-                      <p className="truncate text-[11.5px] text-white/55">
+                      <p className="truncate text-[11.5px] text-media-muted">
                         {meta.artist ??
                           (variant === "audio"
                             ? t("media.player.unknownArtist")
@@ -203,7 +203,7 @@ export function QueueSheet({
                       </p>
                     </div>
                     {dur ? (
-                      <span className="shrink-0 text-[11px] tabular-nums text-white/55">
+                      <span className="shrink-0 text-[11px] tabular-nums text-media-muted">
                         {fmtTime(dur)}
                       </span>
                     ) : null}
