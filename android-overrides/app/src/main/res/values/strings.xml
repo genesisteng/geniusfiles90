@@ -25,5 +25,5 @@
     <string name="widget_quick_description">Raccourcis vers les écrans clés de GeniusFiles</string>
     <string name="widget_recent_title">Fichiers récents</string>
     <string name="widget_recent_empty">Aucun fichier récent accessible</string>
-    <string name="widget_recent_description">Les derniers fichiers modifiés sur l'appareil</string>
+    <string name="widget_recent_description">Les derniers fichiers modifiés sur l\'appareil</string>
 </resources>
