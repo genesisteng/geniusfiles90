@@ -201,8 +201,8 @@ export function PostCreateActions({
       type="button"
       disabled={busy}
       onClick={onClick}
-      className={`flex w-full items-center gap-3 rounded-lg border border-border bg-surface p-3 text-left text-[13px] disabled:opacity-50 ${
-        danger ? "hover:border-red-500 hover:text-red-500" : "hover:border-primary"
+      className={`gf-press flex w-full items-center gap-3 rounded-lg border border-border bg-surface p-3 text-left text-[13px] transition-colors duration-150 disabled:opacity-50 ${
+        danger ? "hover:border-destructive hover:text-destructive" : "hover:border-primary"
       }`}
     >
       <Icon className="h-4 w-4" />
