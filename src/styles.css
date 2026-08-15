@@ -65,6 +65,16 @@
   --color-reader-backdrop: var(--reader-backdrop);
   --color-reader-backdrop-foreground: var(--reader-backdrop-foreground);
 
+  /* Voile des fenêtres modales + calques posés sur un média (photo, vidéo,
+     pochette, page PDF). Ces surfaces restent sombres dans tous les thèmes :
+     elles habillent un contenu, pas l'interface. */
+  --color-scrim: var(--scrim);
+  --color-media: var(--media);
+  --color-media-foreground: var(--media-foreground);
+  --color-media-muted: var(--media-muted);
+
+
+
   /* Catégories — dérivées de la palette de marque */
   --color-cat-image: var(--cat-image);
   --color-cat-video: var(--cat-video);
