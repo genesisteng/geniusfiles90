@@ -87,7 +87,7 @@ export function PdfButton({
         full ? "w-full" : ""
       }`}
     >
-      {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+      {loading ? <Spinner size={16} /> : null}
       {children}
     </button>
   );

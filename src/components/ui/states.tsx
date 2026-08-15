@@ -6,10 +6,24 @@
  * afin qu'aucune page ne paraisse moins soignée qu'une autre.
  */
 import type { LucideIcon } from "lucide-react";
-import { AlertTriangle, RotateCcw, SearchX } from "lucide-react";
+import { AlertTriangle, Loader2, RotateCcw, SearchX } from "lucide-react";
 import type { ReactNode } from "react";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { useT } from "@/lib/i18n";
+
+/**
+ * Indicateur de chargement en ligne — une seule rotation dans toute
+ * l'application, pour que « ça travaille » se lise toujours pareil.
+ */
+export function Spinner({ size = 16, className = "" }: { size?: number; className?: string }) {
+  return (
+    <Loader2
+      className={`animate-spin ${className}`}
+      style={{ width: size, height: size }}
+      aria-hidden
+    />
+  );
+}
 
 /** Squelette de liste — chargement élégant, sans clignotement. */
 export function ListSkeleton({ rows = 6, className = "" }: { rows?: number; className?: string }) {

@@ -548,7 +548,7 @@ function ResultsSection({
         </span>
         {scanning ? (
           <span className="inline-flex items-center gap-1">
-            <Loader2 className="h-3 w-3 animate-spin" />
+            <Spinner size={12} />
             {scanned > 0
               ? t("search.results.scanned", { count: scanned })
               : t("search.results.starting")}
