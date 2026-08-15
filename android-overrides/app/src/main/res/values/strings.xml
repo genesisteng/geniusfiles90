@@ -10,4 +10,20 @@
     <string name="title_activity_main">GeniusFiles</string>
     <string name="package_name">app.geniusfiles.mobile</string>
     <string name="custom_url_scheme">app.geniusfiles.mobile</string>
+    <!-- Widgets écran d'accueil (H10) -->
+    <string name="widget_storage_title">Stockage</string>
+    <string name="widget_storage_free_label">libres</string>
+    <string name="widget_storage_detail">%1$s utilisés sur %2$s</string>
+    <string name="widget_storage_percent">%1$d%% utilisé</string>
+    <string name="widget_storage_unavailable">Espace de stockage indisponible</string>
+    <string name="widget_storage_description">Espace libre et occupé du stockage interne</string>
+    <string name="widget_quick_title">Accès rapide</string>
+    <string name="widget_quick_browse">Parcourir</string>
+    <string name="widget_quick_search">Rechercher</string>
+    <string name="widget_quick_vault">Coffre-fort</string>
+    <string name="widget_quick_clean">Nettoyer</string>
+    <string name="widget_quick_description">Raccourcis vers les écrans clés de GeniusFiles</string>
+    <string name="widget_recent_title">Fichiers récents</string>
+    <string name="widget_recent_empty">Aucun fichier récent accessible</string>
+    <string name="widget_recent_description">Les derniers fichiers modifiés sur l'appareil</string>
 </resources>

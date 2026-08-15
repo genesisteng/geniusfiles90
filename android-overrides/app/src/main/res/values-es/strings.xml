@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Widgets écran d'accueil (H10) -->
+    <string name="widget_storage_title">Almacenamiento</string>
+    <string name="widget_storage_free_label">libres</string>
+    <string name="widget_storage_detail">%1$s usados de %2$s</string>
+    <string name="widget_storage_percent">%1$d%% usado</string>
+    <string name="widget_storage_unavailable">Almacenamiento no disponible</string>
+    <string name="widget_storage_description">Espacio libre y usado del almacenamiento interno</string>
+    <string name="widget_quick_title">Acceso rápido</string>
+    <string name="widget_quick_browse">Explorar</string>
+    <string name="widget_quick_search">Buscar</string>
+    <string name="widget_quick_vault">Caja fuerte</string>
+    <string name="widget_quick_clean">Limpiar</string>
+    <string name="widget_quick_description">Atajos a las pantallas clave de GeniusFiles</string>
+    <string name="widget_recent_title">Archivos recientes</string>
+    <string name="widget_recent_empty">Ningún archivo reciente disponible</string>
+    <string name="widget_recent_description">Los últimos archivos modificados en el dispositivo</string>
+</resources>
