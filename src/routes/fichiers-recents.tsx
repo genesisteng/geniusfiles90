@@ -611,9 +611,7 @@ export function AddedFilesPage() {
           {groups.map((g) => (
             <section key={g.key} aria-label={g.label || undefined}>
               {g.label ? (
-                <h2 className="sticky top-0 z-10 bg-background/95 px-4 py-1.5 text-[12.5px] font-semibold text-foreground/90 backdrop-blur">
-                  {g.label}
-                </h2>
+                <GroupHeading label={g.label} />
               ) : null}
               {view === "list" ? (
                 <FileListView

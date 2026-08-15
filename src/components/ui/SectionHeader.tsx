@@ -19,3 +19,16 @@ export function SectionHeader({
     </div>
   );
 }
+
+/**
+ * Titre de groupe collant — utilisé par les listes groupées (catégories,
+ * fichiers récents). Un seul rendu partout : même taille, même fond, même
+ * flou, pour que deux écrans groupés ne se distinguent jamais.
+ */
+export function GroupHeading({ label }: { label: string }) {
+  return (
+    <h2 className="sticky top-0 z-10 bg-background/95 px-4 py-1.5 text-[12.5px] font-semibold text-foreground/90 backdrop-blur">
+      {label}
+    </h2>
+  );
+}
