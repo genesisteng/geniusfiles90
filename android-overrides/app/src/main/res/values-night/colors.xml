@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="splash_background">#191919</color>
+    <!-- Widgets (H10) : nuit. -->
+    <color name="widget_surface">#232323</color>
+    <color name="widget_tile">#2A2A2A</color>
+    <color name="widget_border">#323232</color>
+    <color name="widget_track">#3D3D3D</color>
+    <color name="widget_accent">#4DA3FF</color>
+    <color name="widget_text">#F4F4F5</color>
+    <color name="widget_text_muted">#B4B4B8</color>
 </resources>
