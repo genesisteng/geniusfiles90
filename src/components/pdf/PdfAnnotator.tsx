@@ -399,7 +399,7 @@ export function PdfAnnotator({
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
         onClick={() => setSelected(null)}
-        className="relative max-h-[55vh] overflow-auto rounded-lg border border-border bg-neutral-200 p-2 dark:bg-neutral-800"
+        className="relative max-h-[55vh] overflow-auto rounded-lg border border-border bg-surface-2 p-2"
         style={{ touchAction: "none" }}
       >
         <div className="relative mx-auto" style={{ width: pageSize.w || "auto" }}>
@@ -461,7 +461,7 @@ export function PdfAnnotator({
               onClick={() => setCurrentPage(p.page)}
               className={`relative shrink-0 snap-start overflow-hidden rounded border ${
                 active ? "border-primary ring-2 ring-primary/40" : "border-border"
-              } bg-white`}
+              } bg-paper`}
               style={{ width: 72, height: 96 }}
             >
               {t ? (
@@ -471,7 +471,7 @@ export function PdfAnnotator({
                   …
                 </div>
               )}
-              <span className="absolute bottom-0 left-0 right-0 bg-black/60 py-0.5 text-center text-[10px] text-white">
+              <span className="absolute bottom-0 left-0 right-0 bg-scrim/60 py-0.5 text-center text-[10px] text-media-foreground">
                 {p.page}
                 {overlayCount ? ` · ${overlayCount}` : ""}
               </span>
@@ -569,12 +569,12 @@ function ElementView({
           {/* Resize handle (bottom-right) */}
           <div
             onPointerDown={onBeginResize}
-            className="absolute -bottom-1.5 -right-1.5 h-3 w-3 cursor-se-resize rounded-sm border border-primary bg-white"
+            className="absolute -bottom-1.5 -right-1.5 h-3 w-3 cursor-se-resize rounded-sm border border-primary bg-paper"
           />
           {/* Rotate handle (top-center) */}
           <div
             onPointerDown={onBeginRotate}
-            className="absolute -top-6 left-1/2 flex h-4 w-4 -translate-x-1/2 cursor-grab items-center justify-center rounded-full border border-primary bg-white"
+            className="absolute -top-6 left-1/2 flex h-4 w-4 -translate-x-1/2 cursor-grab items-center justify-center rounded-full border border-primary bg-paper"
           >
             <RotateCw className="h-2.5 w-2.5 text-primary" />
           </div>
@@ -851,7 +851,7 @@ export function SignaturePad({
       ref={ref}
       width={600}
       height={height}
-      className="w-full touch-none rounded-lg border border-border bg-white"
+      className="w-full touch-none rounded-lg border border-border bg-paper"
     />
   );
 }

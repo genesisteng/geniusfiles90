@@ -88,13 +88,13 @@ export function VaultPreview({
           type="button"
           aria-label={t("action.deleteForever")}
           onClick={() => onDelete(item)}
-          className="rounded-full border border-red-500/30 bg-red-500/10 p-1.5 text-red-400 hover:bg-red-500/20"
+          className="rounded-full border border-destructive/30 bg-destructive/10 p-1.5 text-destructive hover:bg-destructive/20"
         >
           <Trash2 className="h-4 w-4" />
         </button>
       </header>
 
-      <div className="flex flex-1 items-center justify-center overflow-hidden bg-black/40 p-2">
+      <div className="flex flex-1 items-center justify-center overflow-hidden bg-media p-2">
         <PreviewBody item={item} url={url} />
       </div>
     </div>
@@ -131,7 +131,7 @@ function PreviewBody({ item, url }: { item: VaultItem; url: string }) {
         </div>
       );
     case "pdf":
-      return <iframe src={url} title={item.name} className="h-full w-full rounded bg-white" />;
+      return <iframe src={url} title={item.name} className="h-full w-full rounded bg-paper" />;
     case "text":
     case "code":
       return <TextPreview absolute={item.vaultAbsolutePath ?? ""} />;

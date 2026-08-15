@@ -73,6 +73,8 @@
   --color-media: var(--media);
   --color-media-foreground: var(--media-foreground);
   --color-media-muted: var(--media-muted);
+  --color-paper: var(--paper);
+  --color-paper-ink: var(--paper-ink);
 
 
 
@@ -189,6 +191,9 @@
   --media: #141414;
   --media-foreground: #ffffff;
   --media-muted: rgb(255 255 255 / 0.62);
+  /* Feuille d'un document (PDF, signature) et son encre */
+  --paper: #ffffff;
+  --paper-ink: #111111;
 
 
   /* Éditeur audio — palette sombre, contrastée mais non fatigante */
