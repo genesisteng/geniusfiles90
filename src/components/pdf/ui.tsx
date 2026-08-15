@@ -7,7 +7,7 @@
  * cohérent avec les autres.
  */
 import type { ReactNode } from "react";
-import { Loader2 } from "lucide-react";
+import { Spinner } from "@/components/ui/states";
 
 /** Espacement vertical unique entre les blocs d'un outil. */
 export function PdfToolBody({ children }: { children: ReactNode }) {

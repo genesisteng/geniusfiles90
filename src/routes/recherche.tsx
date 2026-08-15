@@ -10,13 +10,13 @@ import {
   Sparkles,
   X,
   SlidersHorizontal,
-  Loader2,
   FolderOpen,
   ChevronRight,
   Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
+import { Spinner } from "@/components/ui/states";
 import { BACK_PRIORITY, useBackHandler } from "@/lib/navigation/back-stack";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { EmptyState } from "@/components/ui/EmptyState";
