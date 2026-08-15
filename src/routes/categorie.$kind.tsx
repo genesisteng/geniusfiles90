@@ -922,9 +922,7 @@ export function CategoryPage({ kind }: { kind: CategoryKind }) {
           {(grouped ? groups.slice(0, groupLimit) : [{ key: "all", label: "", items: sorted }]).map(
             (g) => (
               <section key={g.key}>
-                {grouped && g.label ? (
-                  <GroupHeading label={g.label} />
-                ) : null}
+                {grouped && g.label ? <GroupHeading label={g.label} /> : null}
                 {view === "list" ? (
                   <FileListView
                     entries={g.items}

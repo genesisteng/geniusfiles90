@@ -1481,7 +1481,9 @@ function ChipButton({
       onClick={onClick}
       aria-label={label}
       className={`inline-flex items-center gap-1 rounded-full px-2 py-1 transition-colors ${
-        active ? "bg-primary/30 text-media-foreground" : "bg-media-foreground/10 text-media-foreground/80 hover:text-media-foreground"
+        active
+          ? "bg-primary/30 text-media-foreground"
+          : "bg-media-foreground/10 text-media-foreground/80 hover:text-media-foreground"
       }`}
     >
       {children}

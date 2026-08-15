@@ -171,7 +171,9 @@ export function QueueSheet({
                       onClose();
                     }}
                     className={`flex h-full w-full items-center gap-3 rounded-2xl px-3 py-2 text-left transition-colors ${
-                      active ? "bg-media-foreground/10" : "hover:bg-media-foreground/5 active:bg-media-foreground/10"
+                      active
+                        ? "bg-media-foreground/10"
+                        : "hover:bg-media-foreground/5 active:bg-media-foreground/10"
                     }`}
                   >
                     <div className="relative h-12 w-[68px] shrink-0 overflow-hidden rounded-lg bg-media-foreground/5">

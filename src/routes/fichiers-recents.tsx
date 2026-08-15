@@ -611,9 +611,7 @@ export function AddedFilesPage() {
         <div className="-mx-4 pt-1">
           {groups.map((g) => (
             <section key={g.key} aria-label={g.label || undefined}>
-              {g.label ? (
-                <GroupHeading label={g.label} />
-              ) : null}
+              {g.label ? <GroupHeading label={g.label} /> : null}
               {view === "list" ? (
                 <FileListView
                   entries={g.files}
