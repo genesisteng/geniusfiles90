@@ -21,10 +21,10 @@ export function ArtworkFallback({ title, className = "" }: { title: string; clas
       aria-hidden
     >
       <span className="absolute inset-0 opacity-30 mix-blend-overlay [background-image:radial-gradient(circle_at_30%_30%,white,transparent_60%)]" />
-      <span className="text-white/90 font-semibold" style={{ fontSize: "min(38%, 6rem)" }}>
+      <span className="text-media-foreground/90 font-semibold" style={{ fontSize: "min(38%, 6rem)" }}>
         {initial}
       </span>
-      <Music2 className="absolute bottom-3 right-3 h-5 w-5 text-white/60" />
+      <Music2 className="absolute bottom-3 right-3 h-4 w-4 text-media-muted" />
     </div>
   );
 }

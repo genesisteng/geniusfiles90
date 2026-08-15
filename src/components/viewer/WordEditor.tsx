@@ -375,7 +375,7 @@ function Confirm({
   actions: { label: string; primary?: boolean; onSelect: () => void | Promise<void> }[];
 }) {
   return (
-    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/45 p-6">
+    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-background/60 backdrop-blur-[6px] p-6">
       <div className="w-full max-w-[340px] rounded-3xl bg-popover p-5 text-popover-foreground shadow-elevated">
         <h2 className="text-[15px] font-semibold">{title}</h2>
         <p className="mt-1.5 text-[12.5px] text-popover-foreground/70">{body}</p>

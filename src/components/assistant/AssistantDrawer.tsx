@@ -118,7 +118,7 @@ export function AssistantDrawer({
           type="button"
           aria-label={t("assistant.drawer.closeAria")}
           onClick={onClose}
-          className="absolute inset-0 bg-black/45 transition-opacity duration-200"
+          className="absolute inset-0 bg-background/60 backdrop-blur-[6px] transition-opacity duration-200"
           style={{ opacity: visible ? 1 : 0 }}
         />
         <aside
