@@ -20,6 +20,7 @@ import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } f
 import { Search, X } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
+import { GroupHeading } from "@/components/ui/SectionHeader";
 import { usePullToRefresh } from "@/lib/gestures/pull-refresh";
 import { useAppBack } from "@/lib/navigation/use-app-back";
 import { BACK_PRIORITY, useBackHandler } from "@/lib/navigation/back-stack";
