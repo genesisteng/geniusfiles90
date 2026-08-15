@@ -2153,4 +2153,109 @@ class GeniusFilesNativePlugin : Plugin() {
         res.put("value", value.toDouble())
         call.resolve(res)
     }
+
+    // ── H10 · Intégration système : raccourcis, widgets, deep links ──────
+
+    /**
+     * Raccourcis dynamiques du lanceur (appui long sur l'icône). Ignoré
+     * silencieusement sous Android 7.1 où l'API n'existe pas.
+     */
+    @PluginMethod
+    fun registerShortcuts(call: PluginCall) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
+            call.resolve(JSObject().apply { put("registered", 0) })
+            return
+        }
+        val specs = call.getArray("shortcuts")
+        if (specs == null) {
+            call.reject("shortcuts required")
+            return
+        }
+        val ctx = context
+        val manager = ctx.getSystemService(android.content.pm.ShortcutManager::class.java)
+        if (manager == null) {
+            call.resolve(JSObject().apply { put("registered", 0) })
+            return
+        }
+        val infos = ArrayList<android.content.pm.ShortcutInfo>()
+        val max = manager.maxShortcutCountPerActivity.coerceAtLeast(1)
+        for (i in 0 until specs.length()) {
+            if (infos.size >= max) break
+            val obj = try {
+                JSObject.fromJSONObject(specs.getJSONObject(i))
+            } catch (_: Throwable) {
+                continue
+            }
+            val id = obj.getString("id") ?: continue
+            val label = obj.getString("label") ?: id
+            val longLabel = obj.getString("longLabel") ?: label
+            val route = obj.getString("route")
+            val intent = WidgetSupport.launchIntent(ctx, route)
+            infos.add(
+                android.content.pm.ShortcutInfo.Builder(ctx, id)
+                    .setShortLabel(label)
+                    .setLongLabel(longLabel)
+                    .setIcon(
+                        android.graphics.drawable.Icon.createWithResource(
+                            ctx,
+                            ctx.applicationInfo.icon,
+                        ),
+                    )
+                    .setIntent(intent)
+                    .build(),
+            )
+        }
+        try {
+            manager.dynamicShortcuts = infos
+        } catch (t: Throwable) {
+            call.reject(t.message ?: "shortcuts error")
+            return
+        }
+        call.resolve(JSObject().apply { put("registered", infos.size) })
+    }
+
+    /**
+     * Déclenche un rafraîchissement des widgets. Le texte fourni par la
+     * WebView n'est jamais mémorisé : chaque widget remesure ses propres
+     * données, ce qui interdit tout affichage périmé.
+     */
+    @PluginMethod
+    fun updateWidgetSummary(call: PluginCall) {
+        try {
+            WidgetSupport.refreshAll(context)
+        } catch (_: Throwable) {
+            /* aucun widget posé — sans conséquence */
+        }
+        call.resolve(JSObject().apply { put("refreshed", true) })
+    }
+
+    /**
+     * Intent qui a ouvert (ou réveillé) l'application : route de raccourci /
+     * de widget, éventuellement le fichier visé. Consommé une seule fois.
+     */
+    @PluginMethod
+    fun getLaunchIntent(call: PluginCall) {
+        val res = JSObject()
+        val act = activity
+        val intent = act?.intent
+        if (intent == null) {
+            call.resolve(res)
+            return
+        }
+        val route = intent.getStringExtra(WidgetSupport.EXTRA_ROUTE)
+        val uri = intent.getStringExtra(WidgetSupport.EXTRA_URI)
+        val path = intent.getStringExtra("gf_path")
+        val source = intent.getStringExtra(WidgetSupport.EXTRA_SOURCE)
+        // Consommation : un retour dans l'app ne doit pas rejouer la navigation.
+        intent.removeExtra(WidgetSupport.EXTRA_ROUTE)
+        intent.removeExtra(WidgetSupport.EXTRA_URI)
+        intent.removeExtra("gf_path")
+        intent.removeExtra(WidgetSupport.EXTRA_SOURCE)
+        if (!route.isNullOrEmpty()) res.put("route", route)
+        if (!uri.isNullOrEmpty()) res.put("uri", uri)
+        if (!path.isNullOrEmpty()) res.put("path", path)
+        if (!source.isNullOrEmpty()) res.put("source", source)
+        intent.action?.let { res.put("action", it) }
+        call.resolve(res)
+    }
 }
