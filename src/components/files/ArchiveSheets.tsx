@@ -215,7 +215,7 @@ export function ArchiveCreateSheet({
           <button
             type="button"
             onClick={() => setPickerOpen(true)}
-            className="card-surface flex w-full items-center gap-2 px-2.5 py-2 text-left"
+            className="card-surface gf-press flex w-full items-center gap-2 px-2.5 py-2 text-left transition-colors duration-150 hover:border-primary/40"
           >
             <FolderOutput className="h-4 w-4 text-primary" />
             <span className="flex-1 truncate text-[12px] text-foreground">
@@ -583,7 +583,7 @@ export function ArchiveExtractSheet({
           <button
             type="button"
             onClick={() => setPickerOpen(true)}
-            className="card-surface flex w-full items-center gap-2 px-2.5 py-2 text-left"
+            className="card-surface gf-press flex w-full items-center gap-2 px-2.5 py-2 text-left transition-colors duration-150 hover:border-primary/40"
           >
             <FolderOutput className="h-4 w-4 text-primary" />
             <span className="flex-1 truncate text-[12px]">
