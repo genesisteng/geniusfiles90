@@ -87,6 +87,24 @@ class MainActivity : BridgeActivity() {
         // arrive ici et non dans onCreate.
         setIntent(intent)
         GeniusFilesIntentPlugin.offer(this, intent)
+        // Un appui sur un widget alors que l'app tourne déjà : la WebView est
+        // prévenue pour consommer la nouvelle route (aucun rechargement).
+        notifyWebLaunchIntent()
+    }
+
+    /** Réveille le consommateur JS de l'intent de lancement. */
+    private fun notifyWebLaunchIntent() {
+        try {
+            val webView = bridge?.webView ?: return
+            webView.post {
+                webView.evaluateJavascript(
+                    "window.dispatchEvent(new CustomEvent('gf:launch-intent'))",
+                    null,
+                )
+            }
+        } catch (_: Throwable) {
+            /* pont pas encore prêt — onCreate a déjà mémorisé l'intent */
+        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

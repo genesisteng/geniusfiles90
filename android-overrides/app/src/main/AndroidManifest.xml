@@ -231,5 +231,51 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
+        <!--
+          Widgets écran d'accueil (H10). Les trois providers sont exportés
+          (le lanceur système doit pouvoir les diffuser) mais ne reçoivent que
+          les diffusions AppWidget standard ; aucune donnée sensible n'y passe.
+        -->
+        <receiver
+            android:name="app.geniusfiles.mobile.StorageWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_storage_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_storage_info" />
+        </receiver>
+
+        <receiver
+            android:name="app.geniusfiles.mobile.QuickAccessWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_quick_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_quick_access_info" />
+        </receiver>
+
+        <receiver
+            android:name="app.geniusfiles.mobile.RecentFilesWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_recent_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_recent_info" />
+        </receiver>
+
+        <!-- Fournit les lignes du widget « Fichiers récents ». -->
+        <service
+            android:name="app.geniusfiles.mobile.RecentFilesWidgetService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 </manifest>

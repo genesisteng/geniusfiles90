@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Widgets écran d'accueil (H10) -->
+    <string name="widget_storage_title">Depolama</string>
+    <string name="widget_storage_free_label">boş</string>
+    <string name="widget_storage_detail">%2$s alanın %1$s kısmı kullanıldı</string>
+    <string name="widget_storage_percent">%%%1$d kullanıldı</string>
+    <string name="widget_storage_unavailable">Depolama alanı kullanılamıyor</string>
+    <string name="widget_storage_description">Dahili depolamada boş ve kullanılan alan</string>
+    <string name="widget_quick_title">Hızlı erişim</string>
+    <string name="widget_quick_browse">Gözat</string>
+    <string name="widget_quick_search">Ara</string>
+    <string name="widget_quick_vault">Kasa</string>
+    <string name="widget_quick_clean">Temizle</string>
+    <string name="widget_quick_description">GeniusFiles ana ekranlarına kısayollar</string>
+    <string name="widget_recent_title">Son dosyalar</string>
+    <string name="widget_recent_empty">Erişilebilir son dosya yok</string>
+    <string name="widget_recent_description">Cihazda en son değiştirilen dosyalar</string>
+</resources>
