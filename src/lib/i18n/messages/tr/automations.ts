@@ -107,6 +107,8 @@ export default {
   "automations.field.archiveToExtract": "Çıkarılacak arşiv",
   "automations.field.renamePattern": "Şablon · değişkenler: {vars}",
   "automations.field.createIn": "Şurada oluştur",
+  "automations.field.time": "Saat",
+  "automations.field.days": "Günler",
   "automations.field.folderName": "Klasör adı",
   "automations.field.folderToOrganize": "Düzenlenecek klasör",
   "automations.field.rule": "Kural",

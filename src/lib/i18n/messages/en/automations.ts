@@ -114,6 +114,8 @@ export default {
   "automations.field.archiveToExtract": "Archive to extract",
   "automations.field.renamePattern": "Template · variables: {vars}",
   "automations.field.createIn": "Create in",
+  "automations.field.time": "Time",
+  "automations.field.days": "Days",
   "automations.field.folderName": "Folder name",
   "automations.field.folderToOrganize": "Folder to organize",
   "automations.field.rule": "Rule",

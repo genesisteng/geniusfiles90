@@ -59,6 +59,7 @@ export default {
   "state.empty": "Rien à afficher",
   "state.emptyFolder": "Ce dossier est vide",
   "state.noResults": "Aucun résultat",
+  "state.active": "Actif",
   "state.error": "Une erreur est survenue",
   "state.offline": "Aucune connexion",
 

@@ -107,6 +107,8 @@ export default {
   "automations.field.archiveToExtract": "Archivio da estrarre",
   "automations.field.renamePattern": "Modello · variabili: {vars}",
   "automations.field.createIn": "Crea in",
+  "automations.field.time": "Ora",
+  "automations.field.days": "Giorni",
   "automations.field.folderName": "Nome cartella",
   "automations.field.folderToOrganize": "Cartella da organizzare",
   "automations.field.rule": "Regola",
