@@ -5,7 +5,9 @@
  *   - registerDefaultShortcuts(): pushes dynamic App Shortcuts (long-press
  *     on the launcher icon → Recherche / IA / Nettoyeur). Called once
  *     per cold start.
- *   - updateWidgetSummary(text): refreshes the home-screen widget line.
+ *   - updateWidgetSummary(text): demande au natif de rafraîchir les widgets
+ *     d'écran d'accueil (Stockage / Accès rapide / Fichiers récents). Chaque
+ *     widget remesure ses propres données : rien de périmé n'est affiché.
  *   - consumeLaunchIntent(): returns the intent that opened / resumed
  *     the app (shortcut route, incoming VIEW / SEND uri). Consumed once.
  *
@@ -30,6 +32,10 @@ export type LaunchIntent = {
   uri?: string;
   uris?: string[];
   mime?: string;
+  /** Chemin réel du fichier visé (widget « Fichiers récents »). */
+  path?: string;
+  /** `widget` quand l'ouverture vient d'un widget d'écran d'accueil. */
+  source?: string;
 };
 
 function plugin(): Plugin | null {
@@ -82,7 +88,7 @@ export async function consumeLaunchIntent(): Promise<LaunchIntent | null> {
   if (!p?.getLaunchIntent) return null;
   try {
     const ret = await p.getLaunchIntent();
-    if (!ret || (!ret.route && !ret.uri && !ret.uris)) return null;
+    if (!ret || (!ret.route && !ret.uri && !ret.uris && !ret.path)) return null;
     return ret;
   } catch {
     return null;

@@ -51,7 +51,7 @@ export function useSystemIntegration(): void {
     // Lot 5 — reclaim yesterday's thumbnails / extraction scratch on idle.
     scheduleIdleSweep();
 
-    (async () => {
+    const handleLaunchIntent = async () => {
       const intent = await consumeLaunchIntent();
       if (cancelled || !intent) return;
 
@@ -61,25 +61,50 @@ export function useSystemIntegration(): void {
         } catch {
           /* unknown route — ignore */
         }
+        // Widget « Fichiers récents » : la route porte aussi le fichier visé.
+        if (intent.uri || intent.path) {
+          window.dispatchEvent(
+            new CustomEvent("gf:open-external-uri", {
+              detail: {
+                uri: intent.uri,
+                path: intent.path,
+                mime: intent.mime,
+                action: intent.action,
+              },
+            }),
+          );
+        }
         return;
       }
 
-      if (intent.uri) {
+      if (intent.uri || intent.path) {
         window.dispatchEvent(
           new CustomEvent("gf:open-external-uri", {
-            detail: { uri: intent.uri, mime: intent.mime, action: intent.action },
+            detail: {
+              uri: intent.uri,
+              path: intent.path,
+              mime: intent.mime,
+              action: intent.action,
+            },
           }),
         );
-        toast.info(t("system.native.openedFromOtherApp"));
+        if (!intent.source) toast.info(t("system.native.openedFromOtherApp"));
       } else if (intent.uris?.length) {
         window.dispatchEvent(
           new CustomEvent("gf:open-external-uri", {
             detail: { uris: intent.uris, mime: intent.mime, action: intent.action },
           }),
         );
-        toast.info(`${intent.uris.length} fichiers reçus`);
+        toast.info(t("system.native.openedFromOtherApp"));
       }
-    })();
+    };
+
+    void handleLaunchIntent();
+    // L'app déjà ouverte reçoit les appuis suivants sur un widget / raccourci.
+    const onRelaunch = () => {
+      void handleLaunchIntent();
+    };
+    window.addEventListener("gf:launch-intent", onRelaunch);
 
     // Initial widget refresh + refresh on any filesystem change (throttled).
     void pushWidgetSummary();
@@ -95,6 +120,7 @@ export function useSystemIntegration(): void {
 
     return () => {
       cancelled = true;
+      window.removeEventListener("gf:launch-intent", onRelaunch);
       window.removeEventListener("gf:storage-changed", onChange);
       if (pending) clearTimeout(pending);
     };
