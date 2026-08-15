@@ -182,6 +182,13 @@
   --reader-backdrop: #262626;
   --reader-backdrop-foreground: #f4f4f5;
 
+  /* Voile modal + calques sur média — invariants entre thèmes */
+  --scrim: #000000;
+  --media: #141414;
+  --media-foreground: #ffffff;
+  --media-muted: rgb(255 255 255 / 0.62);
+
+
   /* Éditeur audio — palette sombre, contrastée mais non fatigante */
   --wave-bg: #1c1f24;
   --wave-lane: #22262c;
