@@ -860,7 +860,7 @@ function ImagesToPdfSheet({ onClose }: { onClose: () => void }) {
           <iframe
             src={previewUrl}
             title={t("pdf.apercuPdf")}
-            className="h-[60vh] w-full rounded-lg border border-border bg-black"
+            className="h-[60vh] w-full rounded-lg border border-border bg-media"
           />
         </BottomSheet>
       ) : null}
