@@ -42,6 +42,7 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
   --color-warning: var(--warning);
   --color-info: var(--info);
   --color-error: var(--destructive);
@@ -155,6 +156,7 @@
 
   /* States */
   --success: #32d583;
+  --success-foreground: #10151c;
   --warning: #fdb022;
   --destructive: #f97066;
   --destructive-foreground: #10151c;
@@ -298,6 +300,7 @@ html[data-theme="light"] {
 
   /* States — teintes soutenues pour rester lisibles sur blanc */
   --success: #12894f;
+  --success-foreground: #ffffff;
   --warning: #a95d05;
   --destructive: #d92d20;
   --destructive-foreground: #ffffff;
