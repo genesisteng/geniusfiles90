@@ -1186,7 +1186,7 @@ function TextStage({ src, entry, parent }: { src: string; entry: FileEntry; pare
   return (
     <div className="flex h-full w-full flex-col bg-reader-surface">
       {/* Sous-barre opaque, soudée à l'en-tête : jamais superposée au texte */}
-      <div className="flex shrink-0 select-none items-center gap-2 border-b border-reader-ink/10 bg-reader-header px-2 py-1.5">
+      <div className="flex shrink-0 select-none items-center gap-2 border-b border-reader-header-foreground/10 bg-reader-header px-2 py-1.5">
         <button
           type="button"
           onClick={() => setSearchOpen((v) => !v)}
